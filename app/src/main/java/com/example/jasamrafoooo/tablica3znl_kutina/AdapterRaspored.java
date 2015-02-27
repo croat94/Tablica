@@ -31,12 +31,14 @@ class AdapterRaspored extends ArrayAdapter<Kolo> {
         String away = getItem(position).getGost();
         String score = getItem(position).getRezultat();
         String date = getItem(position).getDatum();
+        String time = getItem(position).getVrijeme();
 
         TextView kolo = (TextView) customView.findViewById(R.id.kolo);
         TextView domacin = (TextView) customView.findViewById(R.id.domacin);
         TextView rezultat = (TextView) customView.findViewById(R.id.rezultat);
         TextView gost = (TextView) customView.findViewById(R.id.gost);
         TextView datum = (TextView) customView.findViewById(R.id.datum);
+        TextView vrijeme = (TextView) customView.findViewById(R.id.vrijeme);
         slikaDomacin = (ImageView) customView.findViewById(R.id.domacinSlika);
         slikaGost = (ImageView) customView.findViewById(R.id.gostSlika);
 
@@ -45,6 +47,7 @@ class AdapterRaspored extends ArrayAdapter<Kolo> {
         gost.setText(away);
         rezultat.setText(score);
         datum.setText(date + '.');
+        vrijeme.setText(time);
 
         String imeResursaZaGrbDomacina = PostavljanjeGrbova.postaviGrbove(home);
         String imeResursaZaGrbGosta = PostavljanjeGrbova.postaviGrbove(away);
@@ -63,8 +66,6 @@ class AdapterRaspored extends ArrayAdapter<Kolo> {
         Inflater inflater = new Inflater();
         if (num == 0)
             return new View(getContext());
-            //return inflater.inflate(R.layout.null_item, null);
-
 
         return customView;
     }

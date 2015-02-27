@@ -30,11 +30,7 @@ import java.io.IOException;
 public class Tablica extends Activity {
 
     public String URL;
-    public static final String URLM = "http://www.nk-sokol.hr/component/option,com_joomleague/func,showResultsRank/p,70%20/Itemid,529/";
-    public static final String URLP = "http://www.nk-sokol.hr/component/option,com_joomleague/func,showResultsRank/p,71/Itemid,514/";
-    public static final String URLD = "http://www.nk-sokol.hr/component/option,com_joomleague/func,showResultsRank/p,72%20/Itemid,535/";
-    public static final String URLT = "http://www.nk-sokol.hr/component/option,com_joomleague/func,showResultsRank/p,73%20/Itemid,538/";
-    public int broj;
+    public int maxBrojKlubova = 20;
     ProgressDialog progress;
     public ListAdapter mojAdapter;
     public String[] mojipodatci = new String[9];
@@ -48,6 +44,14 @@ public class Tablica extends Activity {
     public boolean prethodnoPozvanPosljednje = false;
 
     @Override
+    public void onBackPressed() {
+        Intent i = new Intent(Tablica.this, SplashScreen.class);
+        i.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
+        startActivity(i);
+        finish();
+    }
+
+    @Override
     protected void onCreate(Bundle savedInstanceState) {
         Handler handler = new Handler();
         super.onCreate(savedInstanceState);
@@ -57,14 +61,9 @@ public class Tablica extends Activity {
 
         ListView predlozak = (ListView) findViewById(R.id.predlozak);
 
-
-        URL = URLM;
-        broj = 16;
-
         Bundle extras = getIntent().getExtras();
         if (extras != null) {
             URL = extras.getString("newUrl");
-            broj = extras.getInt("newNumberOfTeams");
         }
 
 
@@ -73,6 +72,8 @@ public class Tablica extends Activity {
         buttonPosljednje1.setBackgroundResource(R.drawable.not_clicked_button);
         buttonPosljednje1.setEnabled(true);
 
+
+        //omogući slideanje lijevo-desno između tablice i posljednjeg kola
         predlozak.setOnTouchListener(new OnSwipeTouchListener(Tablica.this){
 
             public void onSwipeLeft() {
@@ -87,14 +88,16 @@ public class Tablica extends Activity {
 
         });
 
-        konacanPoredak = new Momcad[broj];
 
-        glavniPosao(URL, broj);
+
+        konacanPoredak = new Momcad[maxBrojKlubova];
+
+        glavniPosao(URL, maxBrojKlubova);
 
 
     }
 
-    public void glavniPosao(String URL, int broj){
+    public void glavniPosao(String URL, int maxBrojKlubova){
 
         progress = ProgressDialog.show(this, "Dohvaćanje podataka",
                 "Pričekajte...", true);
@@ -103,7 +106,7 @@ public class Tablica extends Activity {
         mojAdapter = new CustomAdapter(this, konacanPoredak);
 
         //inicijalizacija svih objekata
-        for (int k = 0;k<broj;k++)
+        for (int k = 0;k<maxBrojKlubova;k++)
             konacanPoredak[k] = new Momcad();
 
         boolean spojen = isNetworkAvailable();
@@ -203,7 +206,7 @@ public class Tablica extends Activity {
                             alert.setIcon(android.R.drawable.ic_dialog_alert);
                             alert.setButton2("Pokušaj ponovno", new DialogInterface.OnClickListener() {
                                 public void onClick(DialogInterface dialog, int which) {
-                                    glavniPosao(URL, broj);
+                                    glavniPosao(URL, maxBrojKlubova);
                                 }
                             }
                             );
@@ -229,7 +232,7 @@ public class Tablica extends Activity {
                         @Override
                         public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
                             String imeKluba = "";
-                            for (int n = 0; n<broj; n++){
+                            for (int n = 0; n<maxBrojKlubova; n++){
                                 if(position == n){
                                     if (n!=0)
                                         imeKluba = konacanPoredak[position].getImeMomcadi();

@@ -11,6 +11,7 @@ import android.widget.ImageView;
 import android.widget.TextView;
 
 import java.lang.reflect.Field;
+import java.util.zip.Inflater;
 
 class CustomAdapter extends ArrayAdapter<Momcad>{
 
@@ -66,6 +67,10 @@ class CustomAdapter extends ArrayAdapter<Momcad>{
             int id = getResId(imeResursaZaGrb);
             slika.setImageResource(id);
         }
+
+        Inflater inflater = new Inflater();
+        if (name.equals("E"))
+            return new View(getContext());
 
         return customView;
     }

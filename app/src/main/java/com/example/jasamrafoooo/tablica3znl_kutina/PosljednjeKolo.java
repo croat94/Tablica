@@ -33,6 +33,14 @@ public class PosljednjeKolo extends Activity {
     public int i=0;
 
     @Override
+    public void onBackPressed() {
+        Intent i = new Intent(PosljednjeKolo.this, SplashScreen.class);
+        i.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
+        startActivity(i);
+        finish();
+    }
+
+    @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_posljednje_kolo);

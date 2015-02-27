@@ -7,6 +7,7 @@ public class Kolo {
     private String gost;
     private String rezultat;
     private String datum;
+    private String vrijeme;
 
     public Kolo(){
         kolo = 0;
@@ -14,14 +15,16 @@ public class Kolo {
         gost = "E";
         rezultat = "E";
         datum = "E";
+        vrijeme = "E";
     }
 
-    public Kolo(int num, String home, String away, String score, String date) {
+    public Kolo(int num, String home, String away, String score, String date, String time) {
         kolo = num;
         domacin = home;
         gost = away;
         rezultat = score;
         datum = date;
+        vrijeme = time;
     }
 
     public int getKolo() {
@@ -42,5 +45,9 @@ public class Kolo {
 
     public String getDatum() {
         return datum;
+    }
+
+    public String getVrijeme() {
+        return vrijeme;
     }
 }

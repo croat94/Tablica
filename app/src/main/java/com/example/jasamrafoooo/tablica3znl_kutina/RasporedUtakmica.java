@@ -127,7 +127,7 @@ public class RasporedUtakmica extends Activity {
                             j = 0;
                             pronasaoPodatke = false;
                             konacanRaspored[brojKola-1] = new Kolo(
-                                    brojKola, mojipodatci[2], mojipodatci[4], mojipodatci[5], mojipodatci[0]
+                                    brojKola, mojipodatci[2], mojipodatci[4], mojipodatci[5], mojipodatci[0], mojipodatci[1]
                             );
                         }
                     }

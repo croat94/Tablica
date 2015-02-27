@@ -59,6 +59,7 @@ class PosljednjeAdapter extends ArrayAdapter<Posljednje> {
         //return inflater.inflate(R.layout.null_item, null);
 
 
+
         return customView;
     }
 

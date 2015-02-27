@@ -81,7 +81,6 @@
             android:layout_alignParentBottom="true"
             android:layout_marginLeft="145dp"
             android:paddingBottom="2dp"
-            android:paddingRight="4dp"
             android:text="21.09.2015."
             android:textAppearance="?android:attr/textAppearanceSmall"
             android:textColor="#ff909090"
@@ -100,6 +99,18 @@
             android:layout_height="25dp"
             android:layout_alignParentRight="true"
             android:layout_centerVertical="true" />
+
+        <TextView
+            android:id="@+id/vrijeme"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="17:30"
+            android:textAppearance="?android:attr/textAppearanceSmall"
+            android:textColor="#ff909090"
+            android:textSize="11dp"
+            android:layout_alignParentTop="true"
+            android:layout_marginLeft="159dp"
+            android:paddingTop="2dp" />
 
 
     </RelativeLayout>
