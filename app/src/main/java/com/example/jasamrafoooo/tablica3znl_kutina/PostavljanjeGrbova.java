@@ -42,25 +42,62 @@ public class PostavljanjeGrbova{
 
             //-------------1.ŽNL---------------------------
 
+            case "Mladost P.":
+                return "mladost_p";
             case "Moslavac":
                 return "moslavac_burned";
             case "Sokol":
                 return "sokol_burned";
             case "Mladost G.":
                 return "mladost_gg_burned";
+            case "BSK":
+                return "bsk_burned";
+            case "Frankopan":
+                return "frankopan_burned";
+            case "Metalac":
+                return "metalac_burned";
+            case "Radnik":
+                return "radnik_burned";
+            case "Slavonac":
+                return "slavonac_burned";
+            case "Sloga M.":
+                return "sloga_m_burned";
+            case "Topusko":
+                return "topusko_burned";
+            case "TŠK 1932":
+                return "tsk_1932_burned";
+            case "Zrinski":
+                return "zrinski_burned";
+
+            //fali jos Podovi
+
 
             //-------------2.ŽNL---------------------------
 
             case "Dinamo (Os)":
                 return "dinamo_osekovo_burned";
             case "Metalac M.":
-                return "metalac_burned";
+                return "metalac_m_burned";
             case "Mladost R.":
                 return "mladost_r_burned";
             case "Strijelac":
                 return "strijelac_burned";
+            case "Pešćenica":
+                return "pescenica_burned";
+            case "Sloga H.":
+                return "sloga_h_burned";
+            case "Sokol R.":
+                return "sokol_r_burned";
+            case "Stari Grad":
+                return "stari_grad_burned";
+            case "Strug":
+                return "strug_burned";
+            case "Voloder":
+                return "voloder_burned";
             case "Lokomotiva":
                 return "lokomotiva_burned";
+            case "Jasenovac":
+                return "jasenovac_burned";
 
             //-------------3.ŽNL---------------------------
             case "Šartovac":
@@ -77,6 +114,16 @@ public class PostavljanjeGrbova{
                 return "seliste_burned";
             case "Vatrogasac":
                 return "vatrogasac_burned";
+            case "Ekonomik":
+                return "ekonomik_burned";
+            case "Garić":
+                return "garic_burned";
+            case "Sloga P.":
+                return "sloga_p_burned";
+            case "Dinamo J.":
+                return "dinamo_j_burned";
+
+            //fale jelengrad i naftaplin
 
         }
 
