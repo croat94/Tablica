@@ -1,0 +1,48 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:orientation="vertical" android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="#dce8f6">
+
+    <RelativeLayout
+        android:layout_width="fill_parent"
+        android:layout_height="wrap_content"
+        android:background="#cc094158">
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="50dp"
+            android:text="Raspored utakmica - "
+            android:textColor="#ffffff"
+            android:textSize="18dp"
+            android:gravity="center_vertical"
+            android:id="@+id/tekst"
+            android:paddingLeft="4dp" />
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:textAppearance="?android:attr/textAppearanceLarge"
+            android:text="Large Text"
+            android:id="@+id/imeEkipe"
+            android:layout_centerVertical="true"
+            android:layout_toRightOf="@+id/tekst"
+            android:textSize="18dp" />
+
+        <ImageView
+            android:layout_width="25dp"
+            android:layout_height="25dp"
+            android:id="@+id/slikaKluba"
+            android:layout_centerVertical="true"
+            android:layout_toRightOf="@+id/imeEkipe"
+            android:layout_toEndOf="@+id/imeEkipe" />
+    </RelativeLayout>
+
+    <ListView
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:id="@+id/predlozak_za_raspored"
+        android:background="#ff5680ed">
+    </ListView>
+
+
+</LinearLayout>

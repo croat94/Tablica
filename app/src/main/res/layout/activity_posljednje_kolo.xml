@@ -1,0 +1,49 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:orientation="vertical" android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="#006699">
+
+    <LinearLayout
+        android:layout_width="fill_parent"
+        android:layout_height="wrap_content">
+
+        <Button
+            android:layout_width="fill_parent"
+            android:layout_height="50dp"
+            android:text="Tablica"
+            android:id="@+id/buttonTablica2"
+            android:layout_alignParentTop="true"
+            android:layout_alignParentLeft="true"
+            android:layout_alignParentStart="true"
+            android:textColor="#ffffff"
+            android:background="@drawable/clicked_button"
+            android:onClick="clickedButtonTablica"
+            android:layout_weight="1"
+            android:textSize="18dp" />
+
+        <Button
+            android:layout_width="fill_parent"
+            android:layout_height="50dp"
+            android:text="Posljednje kolo"
+            android:id="@+id/buttonPosljednje2"
+            android:textColor="#ffffff"
+            android:background="@drawable/not_clicked_button"
+            android:onClick="clickedButtonPosljednje"
+            android:layout_alignParentTop="true"
+            android:layout_alignParentRight="true"
+            android:layout_alignParentEnd="true"
+            android:layout_weight="1"
+            android:textSize="18dp" />
+
+    </LinearLayout>
+
+    <ListView
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:id="@+id/predlozak_za_posljednje_kolo"
+        android:background="@drawable/splash_background">
+    </ListView>
+
+
+</LinearLayout>

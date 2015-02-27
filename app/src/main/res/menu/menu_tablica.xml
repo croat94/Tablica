@@ -1,0 +1,26 @@
+<menu xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools" tools:context=".Tablica">
+
+    <item
+        android:id="@+id/mznl"
+        android:title="MŽNL - Zagreb"
+        android:orderInCategory="1"
+        app:showAsAction="always" />
+    <item
+        android:id="@+id/pznl"
+        android:title="1. ŽNL - NSSMŽ"
+        android:orderInCategory="2"
+        app:showAsAction="always" />
+    <item
+        android:id="@+id/dznl"
+        android:title="2. ŽNL - NSSMŽ"
+        android:orderInCategory="3"
+        app:showAsAction="always" />
+    <item
+        android:id="@+id/tznl"
+        android:title="3. ŽNL - NS KT"
+        android:orderInCategory="4"
+        app:showAsAction="always" />
+
+</menu>
