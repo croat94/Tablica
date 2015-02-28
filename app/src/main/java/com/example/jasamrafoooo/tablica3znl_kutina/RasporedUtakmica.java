@@ -76,6 +76,14 @@ public class RasporedUtakmica extends Activity {
     public void pokreni(){
         progress = ProgressDialog.show(this, "Dohvaćanje podataka",
                 "Pričekajte...", true);
+        // omogući prekidanje progress dialoga
+        progress.setCancelable(true);
+        progress.setOnCancelListener(new DialogInterface.OnCancelListener(){
+            @Override
+            public void onCancel(DialogInterface dialog){
+                finish();
+            }});
+
         mojAdapter = new AdapterRaspored(this, konacanRaspored);
         new FetchWebsiteData().execute();
     }
@@ -113,7 +121,6 @@ public class RasporedUtakmica extends Activity {
                 Elements podatciRaspored = docRaspored.select("td[align]");
                 for (Element podatakRaspored: podatciRaspored){
                     String tekstPodatka = podatakRaspored.text();
-                    Log.i("TAGAGAGA", tekstPodatka);
                     //makni višak praznih znakova sa kraja
                     tekstPodatka = tekstPodatka.replaceAll("\\s+$", "");
 

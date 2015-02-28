@@ -101,7 +101,13 @@ public class Tablica extends Activity {
 
         progress = ProgressDialog.show(this, "Dohvaćanje podataka",
                 "Pričekajte...", true);
-
+        // omogući prekidanje progress dialoga
+        progress.setCancelable(true);
+        progress.setOnCancelListener(new DialogInterface.OnCancelListener(){
+            @Override
+            public void onCancel(DialogInterface dialog){
+                finish();
+            }});
 
         mojAdapter = new CustomAdapter(this, konacanPoredak);
 
@@ -148,7 +154,6 @@ public class Tablica extends Activity {
                         String tekstPodatka = podatak.text();
                         //makni višak praznih znakova sa kraja
                         tekstPodatka = tekstPodatka.replaceAll("\\s+$", "");
-                        //Log.i("MOJ TAG", "-" + tekstPodatka + "-");
 
                         if ((tekstPodatka.indexOf('(')) == 0 && ( (tekstPodatka.indexOf(')')) == 2 || (tekstPodatka.indexOf(')') ) == 3)) {
                             flag = true;

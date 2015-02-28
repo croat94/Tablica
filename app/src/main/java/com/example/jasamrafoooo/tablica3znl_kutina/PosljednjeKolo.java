@@ -70,10 +70,10 @@ public class PosljednjeKolo extends Activity {
 
         });
 
-        konacanRaspored = new Posljednje[30];
+        konacanRaspored = new Posljednje[15];
 
         //inicijalizacija svih objekata
-        for (int k = 0;k<30;k++)
+        for (int k = 0;k<15;k++)
             konacanRaspored[k] = new Posljednje();
 
         pokreni();
@@ -83,6 +83,14 @@ public class PosljednjeKolo extends Activity {
     public void pokreni(){
         progress = ProgressDialog.show(this, "Dohvaćanje podataka",
                 "Pričekajte...", true);
+        // omogući prekidanje progress dialoga
+        progress.setCancelable(true);
+        progress.setOnCancelListener(new DialogInterface.OnCancelListener(){
+            @Override
+            public void onCancel(DialogInterface dialog){
+                finish();
+            }});
+
         mojAdapter = new PosljednjeAdapter(this, konacanRaspored);
         new FetchWebsiteData().execute();
     }
@@ -96,7 +104,6 @@ public class PosljednjeKolo extends Activity {
                 Elements podatciRaspored = document.select("td[nowrap=nowrap]");
                 for (Element podatakRaspored: podatciRaspored){
                     String tekstPodatka = podatakRaspored.text();
-                    //Log.i("TAGAGAGA", tekstPodatka);
                     //makni višak praznih znakova sa kraja
                     tekstPodatka = tekstPodatka.replaceAll("\\s+$", "");
 
@@ -108,8 +115,6 @@ public class PosljednjeKolo extends Activity {
                         else {
                             j = 0;
                             pronasaoPodatke = false;
-                            for (int n = 0; n<6;n++)
-                                Log.i("MOJ TAG", String.valueOf(n) + "-->" + mojipodatci[n]);
                             konacanRaspored[i-1] = new Posljednje(
                                     mojipodatci[1], mojipodatci[4], mojipodatci[5]
                             );
@@ -145,6 +150,7 @@ public class PosljednjeKolo extends Activity {
                         try {
                             AlertDialog alert = new AlertDialog.Builder(PosljednjeKolo.this).create();
                             alert.setCancelable(false);
+
 
                             alert.setTitle("Slaba Internetska veza!");
                             alert.setMessage("Provjerite Internet vezu i pokušajte ponovno!");

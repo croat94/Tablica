@@ -6,7 +6,7 @@
     <string name="action_settings">Settings</string>
     <string name="title_activity_raspored_utakmica">RasporedUtakmica</string>
     <string name="raspored_naslov">Raspored utakmica</string>
-    <string name="title_activity_splash_screen">SplashScreen</string>
+    <string name="title_activity_splash_screen">Tablica</string>
     <string name="title_activity_posljednje_kolo">PosljednjeKolo</string>
 
 </resources>

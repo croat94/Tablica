@@ -10,7 +10,7 @@
         android:layout_width="match_parent"
         android:layout_height="55dp"
             tools:context=".Tablica"
-            android:background="#ffffff">
+            android:background="@drawable/listview_background">
 
         <TextView
             android:id="@+id/kolo"
@@ -20,7 +20,7 @@
             android:layout_alignParentStart="true"
             android:layout_alignParentTop="true"
             android:layout_gravity="center"
-            android:background="#ff527ced"
+            android:background="#ff4941a8"
             android:gravity="center"
             android:text="10"
             android:textAppearance="?android:attr/textAppearanceLarge"
