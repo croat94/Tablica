@@ -78,6 +78,7 @@ public class RasporedUtakmica extends Activity {
                 "Pričekajte...", true);
         // omogući prekidanje progress dialoga
         progress.setCancelable(true);
+        progress.setCanceledOnTouchOutside(false);
         progress.setOnCancelListener(new DialogInterface.OnCancelListener(){
             @Override
             public void onCancel(DialogInterface dialog){
