@@ -30,11 +30,18 @@ class PosljednjeAdapter extends ArrayAdapter<Posljednje> {
         String away = getItem(position).getGost();
         String score = getItem(position).getRezultat();
 
+        //makni rezultat s poluvremena
+        if (score.contains("(")){
+            int index = score.indexOf("(");
+            score = score.substring(0, index);
+        }
+
         TextView domacin = (TextView) customView.findViewById(R.id.domacin);
         TextView rezultat = (TextView) customView.findViewById(R.id.rezultat);
         TextView gost = (TextView) customView.findViewById(R.id.gost);
         domacinSlika = (ImageView) customView.findViewById(R.id.domacinSlika);
         gostSlika = (ImageView) customView.findViewById(R.id.gostSlika);
+
 
         domacin.setText(home);
         gost.setText(away);

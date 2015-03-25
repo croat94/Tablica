@@ -6,14 +6,18 @@ android {
 
     defaultConfig {
         applicationId "com.example.jasamrafoooo.tablica3znl_kutina"
-        minSdkVersion 8
+        minSdkVersion 9
         targetSdkVersion 21
         versionCode 1
         versionName "1.0"
     }
     buildTypes {
+        debug {
+            minifyEnabled true
+            proguardFiles getDefaultProguardFile('proguard-android.txt'), 'proguard-rules.pro'
+        }
         release {
-            minifyEnabled false
+            minifyEnabled true
             proguardFiles getDefaultProguardFile('proguard-android.txt'), 'proguard-rules.pro'
         }
     }
@@ -21,6 +25,8 @@ android {
 
 dependencies {
     compile fileTree(dir: 'libs', include: ['*.jar'])
-    compile 'com.android.support:appcompat-v7:21.0.3'
     compile files('libs/jsoup-1.8.1.jar')
+    compile 'com.android.support:appcompat-v7:21.0.3'
+    compile 'com.android.support:support-v4:21.0.3'
+    compile 'com.google.android.gms:play-services-ads:6.5.87'
 }

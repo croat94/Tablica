@@ -7,11 +7,13 @@ import android.content.DialogInterface;
 import android.content.Intent;
 import android.os.AsyncTask;
 import android.os.Bundle;
-import android.util.Log;
 import android.view.View;
 import android.widget.Button;
 import android.widget.ListAdapter;
 import android.widget.ListView;
+
+import com.google.android.gms.ads.AdRequest;
+import com.google.android.gms.ads.AdView;
 
 import org.jsoup.Jsoup;
 import org.jsoup.nodes.Document;
@@ -45,10 +47,19 @@ public class PosljednjeKolo extends Activity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_posljednje_kolo);
 
+        //System.setProperty("http.keepAlive", "false");
+
         Button buttonTablica2 = (Button) findViewById(R.id.buttonTablica2);
         Button buttonPosljednje2 = (Button) findViewById(R.id.buttonPosljednje2);
 
         ListView predlozak_za_posljednje_kolo = (ListView) findViewById(R.id.predlozak_za_posljednje_kolo);
+
+        AdView adView = (AdView)this.findViewById(R.id.adView3);
+        AdRequest adRequest = new AdRequest.Builder()
+                .addTestDevice(AdRequest.DEVICE_ID_EMULATOR)
+                .addTestDevice("TEST_DEVICE_ID")
+                .build();
+        adView.loadAd(adRequest);
 
         Bundle extras = getIntent().getExtras();
         if (extras != null) {
@@ -153,7 +164,7 @@ public class PosljednjeKolo extends Activity {
                             alert.setCancelable(false);
 
 
-                            alert.setTitle("Slaba Internetska veza!");
+                            alert.setTitle("Problem pri dohvaćanju podataka");
                             alert.setMessage("Provjerite Internet vezu i pokušajte ponovno!");
                             alert.setIcon(android.R.drawable.ic_dialog_alert);
                             alert.setButton2("Pokušaj ponovno", new DialogInterface.OnClickListener() {

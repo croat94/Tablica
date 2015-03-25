@@ -37,7 +37,7 @@
 
             <TextView
             android:id="@+id/momcad"
-            android:layout_width="119dp"
+            android:layout_width="117dp"
             android:layout_height="wrap_content"
             android:layout_toRightOf="@+id/kolo"
                 android:paddingLeft="4dp"
@@ -116,7 +116,7 @@
 
         <TextView
             android:id="@+id/golRazlika"
-            android:layout_width="20dp"
+            android:layout_width="22dp"
             android:layout_height="wrap_content"
             android:layout_toRightOf="@+id/rezultat"
             android:gravity="center_horizontal"

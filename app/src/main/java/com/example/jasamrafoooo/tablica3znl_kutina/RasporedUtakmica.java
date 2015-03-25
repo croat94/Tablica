@@ -8,7 +8,6 @@ import android.content.Intent;
 import android.os.AsyncTask;
 import android.support.v7.app.ActionBarActivity;
 import android.os.Bundle;
-import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
@@ -16,6 +15,9 @@ import android.widget.ImageView;
 import android.widget.ListAdapter;
 import android.widget.ListView;
 import android.widget.TextView;
+
+import com.google.android.gms.ads.AdRequest;
+import com.google.android.gms.ads.AdView;
 
 import org.jsoup.Jsoup;
 import org.jsoup.nodes.Document;
@@ -46,8 +48,17 @@ public class RasporedUtakmica extends Activity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_raspored_utakmica);
 
+        //System.setProperty("http.keepAlive", "false");
+
         TextView imeEkipe = (TextView) findViewById(R.id.imeEkipe);
         slikaKluba = (ImageView) findViewById(R.id.slikaKluba);
+
+        AdView adView = (AdView)this.findViewById(R.id.adView4);
+        AdRequest adRequest = new AdRequest.Builder()
+                .addTestDevice(AdRequest.DEVICE_ID_EMULATOR)
+                .addTestDevice("TEST_DEVICE_ID")
+                .build();
+        adView.loadAd(adRequest);
 
         Bundle extras = getIntent().getExtras();
         if (extras != null) {
@@ -135,7 +146,8 @@ public class RasporedUtakmica extends Activity {
                             j = 0;
                             pronasaoPodatke = false;
                             konacanRaspored[brojKola-1] = new Kolo(
-                                    brojKola, mojipodatci[2], mojipodatci[4], mojipodatci[5], mojipodatci[0], mojipodatci[1]
+                                    brojKola, mojipodatci[2], mojipodatci[4],
+                                    mojipodatci[5], mojipodatci[0], mojipodatci[1]
                             );
                         }
                     }
@@ -173,7 +185,7 @@ public class RasporedUtakmica extends Activity {
                             AlertDialog alert = new AlertDialog.Builder(RasporedUtakmica.this).create();
                             alert.setCancelable(false);
 
-                            alert.setTitle("Slaba Internetska veza!");
+                            alert.setTitle("Problem pri dohvaćanju podataka");
                             alert.setMessage("Provjerite Internet vezu i pokušajte ponovno!");
                             alert.setIcon(android.R.drawable.ic_dialog_alert);
                             alert.setButton2("Pokušaj ponovno", new DialogInterface.OnClickListener() {

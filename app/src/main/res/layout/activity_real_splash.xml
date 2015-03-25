@@ -1,0 +1,52 @@
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools" android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    tools:context="com.example.jasamrafoooo.tablica3znl_kutina.RealSplash"
+    android:background="#ffffff">
+
+    <ImageView
+        android:layout_width="120dp"
+        android:layout_height="120dp"
+        android:id="@+id/imageView"
+        android:src="@drawable/grbsartovca_burned"
+        android:layout_above="@+id/textView2"
+        android:layout_centerHorizontal="true" />
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:textAppearance="?android:attr/textAppearanceSmall"
+        android:text="Glavni sponzor"
+        android:id="@+id/sponzor"
+        android:textSize="20dp"
+        android:layout_above="@+id/imageView"
+        android:layout_centerHorizontal="true"
+        android:textColor="#000000"
+        android:typeface="serif" />
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:textAppearance="?android:attr/textAppearanceSmall"
+        android:text="\u00A9 Copyright by Rafo"
+        android:id="@+id/textView2"
+        android:layout_alignParentBottom="true"
+        android:layout_centerHorizontal="true"
+        android:textColor="#000000"
+        android:typeface="serif" />
+
+    <ProgressBar
+        android:id="@+id/customProgress"
+        style="@style/CustomProgressBar"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:indeterminate="false" />
+
+    <ImageView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:id="@+id/imageView2"
+        android:src="@drawable/logoo"
+        android:layout_alignParentTop="true"
+        android:layout_alignLeft="@+id/customProgress"
+        android:layout_alignStart="@+id/customProgress" />
+
+</RelativeLayout>

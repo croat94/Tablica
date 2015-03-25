@@ -2,7 +2,7 @@
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:orientation="vertical" android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:background="#dce8f6">
+    android:background="@drawable/splash_background">
 
     <RelativeLayout
         android:layout_width="fill_parent"
@@ -40,9 +40,18 @@
     <ListView
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:id="@+id/predlozak_za_raspored"
-        android:background="@drawable/splash_background">
+        android:layout_weight="1"
+        android:id="@+id/predlozak_za_raspored">
     </ListView>
+
+    <com.google.android.gms.ads.AdView
+        xmlns:ads="http://schemas.android.com/apk/res-auto"
+        android:id="@+id/adView4"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        ads:adUnitId="ca-app-pub-2920422408168999/9679602468"
+        ads:adSize="BANNER"
+        android:layout_alignParentBottom="true"/>
 
 
 </LinearLayout>

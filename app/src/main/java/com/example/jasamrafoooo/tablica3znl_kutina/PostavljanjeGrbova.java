@@ -7,6 +7,9 @@ public class PostavljanjeGrbova{
     public static String postaviGrbove(String imeKluba) {
 
         switch (imeKluba) {
+
+            //-------------MŽNL---------------------------
+
             case "Banovac":
                 return "banovac_burned";
             case "Vinogradar":
@@ -68,8 +71,8 @@ public class PostavljanjeGrbova{
                 return "tsk_1932_burned";
             case "Zrinski":
                 return "zrinski_burned";
-
-            //fali jos Podovi
+            case "Podovi":
+                return "podovi_burned";
 
 
             //-------------2.ŽNL---------------------------
@@ -122,8 +125,11 @@ public class PostavljanjeGrbova{
                 return "sloga_p_burned";
             case "Dinamo J.":
                 return "dinamo_j_burned";
+            case "Jelengrad":
+                return "jelengrad_burned";
+            case "Naftaplin":
+                return "naftaplin_burned";
 
-            //fale jelengrad i naftaplin
 
         }
 

@@ -2,7 +2,7 @@
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:orientation="vertical" android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:background="#006699">
+    android:background="@drawable/splash_background">
 
     <LinearLayout
         android:layout_width="fill_parent"
@@ -40,10 +40,19 @@
 
     <ListView
         android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:id="@+id/predlozak_za_posljednje_kolo"
-        android:background="@drawable/splash_background">
+        android:layout_height="fill_parent"
+        android:layout_weight="1"
+        android:id="@+id/predlozak_za_posljednje_kolo">
     </ListView>
+
+    <com.google.android.gms.ads.AdView
+        xmlns:ads="http://schemas.android.com/apk/res-auto"
+        android:id="@+id/adView3"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        ads:adUnitId="ca-app-pub-2920422408168999/9040474068"
+        ads:adSize="BANNER"
+        android:layout_alignParentBottom="true"/>
 
 
 </LinearLayout>

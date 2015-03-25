@@ -24,6 +24,9 @@ import android.widget.ListAdapter;
 import android.widget.ListView;
 import android.widget.TextView;
 
+import com.google.android.gms.ads.AdRequest;
+import com.google.android.gms.ads.AdView;
+
 import java.io.IOException;
 
 
@@ -60,6 +63,13 @@ public class Tablica extends Activity {
         Button buttonPosljednje1 = (Button) findViewById(R.id.buttonPosljednje1);
 
         ListView predlozak = (ListView) findViewById(R.id.predlozak);
+
+        AdView adView = (AdView)this.findViewById(R.id.adView2);
+        AdRequest adRequest = new AdRequest.Builder()
+                .addTestDevice(AdRequest.DEVICE_ID_EMULATOR)
+                .addTestDevice("TEST_DEVICE_ID")
+                .build();
+        adView.loadAd(adRequest);
 
         Bundle extras = getIntent().getExtras();
         if (extras != null) {
@@ -211,10 +221,10 @@ public class Tablica extends Activity {
                             alert.setMessage("Provjerite Internet vezu i pokušajte ponovno!");
                             alert.setIcon(android.R.drawable.ic_dialog_alert);
                             alert.setButton2("Pokušaj ponovno", new DialogInterface.OnClickListener() {
-                                public void onClick(DialogInterface dialog, int which) {
-                                    glavniPosao(URL, maxBrojKlubova);
-                                }
-                            }
+                                        public void onClick(DialogInterface dialog, int which) {
+                                            glavniPosao(URL, maxBrojKlubova);
+                                        }
+                                    }
                             );
                             alert.setButton("Izađi", new DialogInterface.OnClickListener() {
                                         public void onClick(DialogInterface dialog, int which) {
@@ -267,13 +277,13 @@ public class Tablica extends Activity {
         return activeNetworkInfo != null && activeNetworkInfo.isConnected();
     }
 
-   public void clickedButtonPosljednje(View view) {
-       Intent i = new Intent(getApplicationContext(), PosljednjeKolo.class);
-       i.putExtra("newUrl", URL);
-       if (prethodnoPozvanPosljednje)
-           i.setFlags(Intent.FLAG_ACTIVITY_REORDER_TO_FRONT);
-       else
-           prethodnoPozvanPosljednje = true;
-       startActivity(i);
-   }
+    public void clickedButtonPosljednje(View view) {
+        Intent i = new Intent(getApplicationContext(), PosljednjeKolo.class);
+        i.putExtra("newUrl", URL);
+        if (prethodnoPozvanPosljednje)
+            i.setFlags(Intent.FLAG_ACTIVITY_REORDER_TO_FRONT);
+        else
+            prethodnoPozvanPosljednje = true;
+        startActivity(i);
+    }
 }
