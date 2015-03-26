@@ -56,8 +56,7 @@ public class PosljednjeKolo extends Activity {
 
         AdView adView = (AdView)this.findViewById(R.id.adView3);
         AdRequest adRequest = new AdRequest.Builder()
-                .addTestDevice(AdRequest.DEVICE_ID_EMULATOR)
-                .addTestDevice("TEST_DEVICE_ID")
+                .addTestDevice("705A531EF2DFC7439759DDD27F57A110")
                 .build();
         adView.loadAd(adRequest);
 

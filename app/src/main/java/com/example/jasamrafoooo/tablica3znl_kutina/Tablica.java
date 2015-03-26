@@ -62,14 +62,13 @@ public class Tablica extends Activity {
         Button buttonTablica1 = (Button) findViewById(R.id.buttonTablica1);
         Button buttonPosljednje1 = (Button) findViewById(R.id.buttonPosljednje1);
 
-        ListView predlozak = (ListView) findViewById(R.id.predlozak);
-
         AdView adView = (AdView)this.findViewById(R.id.adView2);
         AdRequest adRequest = new AdRequest.Builder()
-                .addTestDevice(AdRequest.DEVICE_ID_EMULATOR)
-                .addTestDevice("TEST_DEVICE_ID")
+                .addTestDevice("705A531EF2DFC7439759DDD27F57A110")
                 .build();
         adView.loadAd(adRequest);
+
+        ListView predlozak = (ListView) findViewById(R.id.predlozak);
 
         Bundle extras = getIntent().getExtras();
         if (extras != null) {

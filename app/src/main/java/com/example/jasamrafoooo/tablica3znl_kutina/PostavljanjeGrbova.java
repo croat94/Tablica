@@ -104,7 +104,7 @@ public class PostavljanjeGrbova{
 
             //-------------3.ŽNL---------------------------
             case "Šartovac":
-                return "sartovac_burned";
+                return "grbsartovca_burned";
             case "Brinjani":
                 return "brinjani";
             case "Dinamo Kt.":

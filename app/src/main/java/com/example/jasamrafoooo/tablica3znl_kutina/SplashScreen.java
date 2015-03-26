@@ -1,12 +1,15 @@
 package com.example.jasamrafoooo.tablica3znl_kutina;
 
 import android.app.Activity;
+import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
 import android.view.View;
 
 import com.google.android.gms.ads.AdRequest;
 import com.google.android.gms.ads.AdView;
+
+import java.io.File;
 
 
 public class SplashScreen extends Activity {
@@ -23,8 +26,7 @@ public class SplashScreen extends Activity {
 
         AdView adView = (AdView)this.findViewById(R.id.adView);
         AdRequest adRequest = new AdRequest.Builder()
-                .addTestDevice(AdRequest.DEVICE_ID_EMULATOR)
-                .addTestDevice("TEST_DEVICE_ID")
+                .addTestDevice("705A531EF2DFC7439759DDD27F57A110")
                 .build();
         adView.loadAd(adRequest);
     }
@@ -50,4 +52,41 @@ public class SplashScreen extends Activity {
         i.putExtra("newUrl",URLT);
         startActivity(i);
     }
+
+    @Override
+    protected void onDestroy() {
+        //obriši cache na izlazu iz aplikacije
+        super.onDestroy();
+        try {
+            trimCache(this);
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+    }
+
+    public static void trimCache(Context context) {
+        try {
+            File dir = context.getCacheDir();
+            if (dir != null && dir.isDirectory()) {
+                deleteDir(dir);
+            }
+        } catch (Exception e) {
+        }
+    }
+
+    public static boolean deleteDir(File dir) {
+        if (dir != null && dir.isDirectory()) {
+            String[] children = dir.list();
+            for (int i = 0; i < children.length; i++) {
+                boolean success = deleteDir(new File(dir, children[i]));
+                if (!success) {
+                    return false;
+                }
+            }
+        }
+
+        // The directory is now empty so delete it
+        return dir.delete();
+    }
+
 }
