@@ -4,13 +4,8 @@ import android.app.Activity;
 import android.app.AlertDialog;
 import android.app.ProgressDialog;
 import android.content.DialogInterface;
-import android.content.Intent;
 import android.os.AsyncTask;
-import android.support.v7.app.ActionBarActivity;
 import android.os.Bundle;
-import android.view.Menu;
-import android.view.MenuItem;
-import android.view.View;
 import android.widget.ImageView;
 import android.widget.ListAdapter;
 import android.widget.ListView;
@@ -42,6 +37,7 @@ public class RasporedUtakmica extends Activity {
     ProgressDialog progress;
     public String privremena=" ";
     public ImageView slikaKluba;
+    public int odredivanjeSlobodnogKola = 0;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -64,23 +60,13 @@ public class RasporedUtakmica extends Activity {
             imeKluba = extras.getString("team");
             URL = extras.getString("URL");
         }
-
         imeEkipe.setText(imeKluba);
         postaviSliku();
-
-
-        konacanRaspored = new Kolo[30];
-
+        konacanRaspored = new Kolo[35];
         //inicijalizacija svih objekata
-        for (int k = 0;k<30;k++)
+        for (int k = 0;k<35;k++)
             konacanRaspored[k] = new Kolo();
-
         pokreni();
-
-        //mojAdapter = new AdapterRaspored(this, konacanRaspored);
-
-        //new FetchWebsiteData().execute();
-
     }
 
     public void pokreni(){
@@ -95,14 +81,14 @@ public class RasporedUtakmica extends Activity {
                 finish();
             }});
 
-        mojAdapter = new AdapterRaspored(this, konacanRaspored);
         new FetchWebsiteData().execute();
     }
 
-    private class FetchWebsiteData extends AsyncTask<Void, Void, Void> {
+    private class FetchWebsiteData extends AsyncTask<Void, Void, BrojacKlubova> {
 
         @Override
-        protected Void doInBackground(Void... params) {
+        protected BrojacKlubova doInBackground(Void... params) {
+            BrojacKlubova brojacKlubova = new BrojacKlubova();
             try {
                 // Connect to website
                 Document document = Jsoup.connect(URL).get();
@@ -126,7 +112,6 @@ public class RasporedUtakmica extends Activity {
                         }
                     }
                 }
-
                 //spoji se na novi link i preuzmi podatke
                 Document docRaspored =  Jsoup.connect(rasporedURL).get();
                 Elements podatciRaspored = docRaspored.select("td[align]");
@@ -154,6 +139,11 @@ public class RasporedUtakmica extends Activity {
                     if( tekstPodatka.length()>5 && (tekstPodatka.charAt(2) == '.' && tekstPodatka.charAt(5) == '.')){
                         j = 1;
                         brojKola = Integer.valueOf(privremena);
+                        if (brojKola > odredivanjeSlobodnogKola + 1){
+                            konacanRaspored[odredivanjeSlobodnogKola] = new Kolo(
+                                    brojKola-1, "E", "E","E", "E", "E");
+                        }
+                        odredivanjeSlobodnogKola = brojKola;
                         mojipodatci[0] = tekstPodatka;
                         pronasaoPodatke = true;
                     }
@@ -161,16 +151,17 @@ public class RasporedUtakmica extends Activity {
                     privremena = tekstPodatka;
 
                 }
-
+                brojacKlubova.brojKlubova = brojKola; //koristi se brojacklubova, ali to samo sluzi da se prenese broj kola
             } catch (IOException e) {
                 e.printStackTrace();
             }
-            return null;
+            return brojacKlubova;
         }
 
         @Override
-        protected void onPostExecute(Void result) {
+        protected void onPostExecute(BrojacKlubova brojacKlubova) {
             progress.dismiss();
+            mojAdapter = new AdapterRaspored(getApplicationContext(), konacanRaspored, brojacKlubova.brojKlubova);
             ListView lista = (ListView) findViewById(R.id.predlozak_za_raspored);
             lista.setAdapter(mojAdapter);
 

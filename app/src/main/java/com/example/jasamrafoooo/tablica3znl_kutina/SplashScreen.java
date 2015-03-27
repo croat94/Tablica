@@ -53,9 +53,9 @@ public class SplashScreen extends Activity {
         startActivity(i);
     }
 
+    //obriši cache na izlazu iz aplikacije
     @Override
     protected void onDestroy() {
-        //obriši cache na izlazu iz aplikacije
         super.onDestroy();
         try {
             trimCache(this);

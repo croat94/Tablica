@@ -1,8 +1,7 @@
 package com.example.jasamrafoooo.tablica3znl_kutina;
 
 import android.content.Context;
-import android.content.res.Resources;
-import android.graphics.drawable.Drawable;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -11,71 +10,83 @@ import android.widget.ImageView;
 import android.widget.TextView;
 
 import java.lang.reflect.Field;
-import java.util.zip.Inflater;
 
-class CustomAdapter extends ArrayAdapter<Momcad>{
+public class CustomAdapter extends ArrayAdapter<Momcad>{
 
-    public ImageView slika;
+    protected Context mContext;
+    public int ukupanBrojKlubova;
 
     //constructor
-    CustomAdapter(Context context, Momcad[] foods) {
-        super(context, R.layout.predlozak, foods);
+    public CustomAdapter(Context context, Momcad[] values, int num) {
+        super(context, R.layout.predlozak, values);
+        mContext = context;
+        ukupanBrojKlubova = num;
+    }
+
+    @Override
+    public int getCount() {
+        return ukupanBrojKlubova;
     }
 
     @Override
     public View getView(int position, View convertView, ViewGroup parent) {
-        LayoutInflater buckysInflater = LayoutInflater.from(getContext());
-        View customView = buckysInflater.inflate(R.layout.predlozak, parent, false);
 
-        String place = getItem(position).getPozicija();
-        String name = getItem(position).getImeMomcadi();
-        String played = getItem(position).getOdigranoUtakmica();
-        String win = getItem(position).getPobjede();
-        String draw = getItem(position).getNerijeseno();
-        String lose = getItem(position).getIzgubljeno();
-        String goals = getItem(position).getGolovi();
-        String diff = getItem(position).getGolRazlika();
-        String points = getItem(position).getBodovi();
+        ViewHolder holder;
+        if (convertView == null){
+            convertView = LayoutInflater.from(mContext).inflate(R.layout.predlozak, null);
+            holder = new ViewHolder();
+            holder.imeMomcadi = (TextView) convertView.findViewById(R.id.momcad);
+            holder.pozicija = (TextView) convertView.findViewById(R.id.kolo);
+            holder.odigranoUtakmica = (TextView) convertView.findViewById(R.id.golGost);
+            holder.pobjede = (TextView) convertView.findViewById(R.id.pobjede);
+            holder.nerijeseno = (TextView) convertView.findViewById(R.id.nerijeseno);
+            holder.izgubljeno = (TextView) convertView.findViewById(R.id.izgubljeno);
+            holder.golovi = (TextView) convertView.findViewById(R.id.rezultat);
+            holder.golRazlika = (TextView) convertView.findViewById(R.id.golRazlika);
+            holder.bodovi = (TextView) convertView.findViewById(R.id.bodovi);
+            holder.slika = (ImageView) convertView.findViewById(R.id.slika);
+            convertView.setTag(holder);
+        }else{
+            holder = (ViewHolder) convertView.getTag();
+        }
 
+        Momcad momcad = getItem(position);
 
+        holder.imeMomcadi.setText(momcad.getImeMomcadi());
+        holder.pozicija.setText(momcad.getPozicija());
+        holder.odigranoUtakmica.setText(momcad.getOdigranoUtakmica());
+        holder.pobjede.setText(momcad.getPobjede());
+        holder.nerijeseno.setText(momcad.getNerijeseno());
+        holder.izgubljeno.setText(momcad.getIzgubljeno());
+        holder.golovi.setText(momcad.getGolovi());
+        holder.golRazlika.setText(momcad.getGolRazlika());
+        holder.bodovi.setText(momcad.getBodovi());
 
-        TextView momcad = (TextView) customView.findViewById(R.id.momcad);
-        TextView pozicija = (TextView) customView.findViewById(R.id.kolo);
-        TextView odigranoUtakmica = (TextView) customView.findViewById(R.id.golGost);
-        TextView pobjede = (TextView) customView.findViewById(R.id.pobjede);
-        TextView nerijeseno = (TextView) customView.findViewById(R.id.nerijeseno);
-        TextView izgubljeno = (TextView) customView.findViewById(R.id.izgubljeno);
-        TextView golovi = (TextView) customView.findViewById(R.id.rezultat);
-        TextView golRazlika = (TextView) customView.findViewById(R.id.golRazlika);
-        TextView bodovi = (TextView) customView.findViewById(R.id.bodovi);
-        slika = (ImageView) customView.findViewById(R.id.slika);
-
-
-        momcad.setText(name);
-        pozicija.setText(place);
-        odigranoUtakmica.setText(played);
-        pobjede.setText(win);
-        nerijeseno.setText(draw);
-        izgubljeno.setText(lose);
-        golovi.setText(goals);
-        golRazlika.setText(diff);
-        bodovi.setText(points);
-
-        String imeResursaZaGrb = PostavljanjeGrbova.postaviGrbove(name);
+        String imeResursaZaGrb = PostavljanjeGrbova.postaviGrbove(momcad.getImeMomcadi());
 
         if (!imeResursaZaGrb.equals("-")) {
             int id = getResId(imeResursaZaGrb);
-            slika.setImageResource(id);
+            holder.slika.setImageResource(id);
         }
 
-        Inflater inflater = new Inflater();
-        if (name.equals("E"))
+        if (momcad.getImeMomcadi().equals("E"))
             return new View(getContext());
 
-        return customView;
+        return convertView;
     }
 
-
+    static class ViewHolder{
+        TextView imeMomcadi;
+        TextView pozicija;
+        TextView odigranoUtakmica;
+        TextView pobjede;
+        TextView nerijeseno;
+        TextView izgubljeno;
+        TextView golovi;
+        TextView golRazlika;
+        TextView bodovi;
+        ImageView slika;
+    }
 
     public int getResId(String variableName) {
 
@@ -88,4 +99,5 @@ class CustomAdapter extends ArrayAdapter<Momcad>{
             return -1;
         }
     }
+
 }

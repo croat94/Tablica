@@ -14,9 +14,7 @@ import android.content.Intent;
 import android.net.ConnectivityManager;
 import android.net.NetworkInfo;
 import android.os.AsyncTask;
-import android.os.Handler;
 import android.os.Bundle;
-import android.view.MotionEvent;
 import android.view.View;
 import android.widget.AdapterView;
 import android.widget.Button;
@@ -38,11 +36,11 @@ public class Tablica extends Activity {
     public ListAdapter mojAdapter;
     public String[] mojipodatci = new String[9];
     public int i = 0;
+    public int n;
     public int j;
     public boolean flag = false;
     public boolean prvi = true;
     public Momcad[] konacanPoredak;
-    public String rasporedURL;
     TextView txtView;
     public boolean prethodnoPozvanPosljednje = false;
 
@@ -56,7 +54,6 @@ public class Tablica extends Activity {
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
-        Handler handler = new Handler();
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_tablica);
         Button buttonTablica1 = (Button) findViewById(R.id.buttonTablica1);
@@ -74,7 +71,6 @@ public class Tablica extends Activity {
         if (extras != null) {
             URL = extras.getString("newUrl");
         }
-
 
         buttonTablica1.setBackgroundResource(R.drawable.clicked_button);
         buttonTablica1.setEnabled(false);
@@ -96,14 +92,8 @@ public class Tablica extends Activity {
             }
 
         });
-
-
-
         konacanPoredak = new Momcad[maxBrojKlubova];
-
         glavniPosao(URL, maxBrojKlubova);
-
-
     }
 
     public void glavniPosao(String URL, int maxBrojKlubova){
@@ -118,46 +108,26 @@ public class Tablica extends Activity {
             public void onCancel(DialogInterface dialog){
                 finish();
             }});
-
-        mojAdapter = new CustomAdapter(this, konacanPoredak);
-
         //inicijalizacija svih objekata
         for (int k = 0;k<maxBrojKlubova;k++)
             konacanPoredak[k] = new Momcad();
 
         boolean spojen = isNetworkAvailable();
         if (!spojen){
-            try {
-                AlertDialog alertDialog = new AlertDialog.Builder(this).create();
-                alertDialog.setCancelable(false);
-
-                alertDialog.setTitle("Info");
-                alertDialog.setMessage("Provjerite Internet vezu!");
-                alertDialog.setIcon(android.R.drawable.ic_dialog_alert);
-                alertDialog.setButton("OK", new DialogInterface.OnClickListener() {
-                    public void onClick(DialogInterface dialog, int which) {
-                        finish();
-                    }
-                });
-
-                alertDialog.show();
-            }
-            catch(Exception e){}
+            internetNeRadiAlertDialog();
         }
         else
             new FetchWebsiteData().execute();
-
-
     }
 
-    private class FetchWebsiteData extends AsyncTask<Void, Void, Void> {
+    private class FetchWebsiteData extends AsyncTask<Void, Void, BrojacKlubova> {
 
         @Override
-        protected Void doInBackground(Void... params) {
+        protected BrojacKlubova doInBackground(Void... params) {
+            BrojacKlubova brojacKlubova = new BrojacKlubova();
             try {
                 // Connect to website
                 Document document = Jsoup.connect(URL).get();
-
                 Elements podatci = document.select("td[valign=top]");
                 for (Element podatak : podatci) {
                     if (!flag) {
@@ -165,7 +135,8 @@ public class Tablica extends Activity {
                         //makni višak praznih znakova sa kraja
                         tekstPodatka = tekstPodatka.replaceAll("\\s+$", "");
 
-                        if ((tekstPodatka.indexOf('(')) == 0 && ( (tekstPodatka.indexOf(')')) == 2 || (tekstPodatka.indexOf(')') ) == 3)) {
+                        if ((tekstPodatka.indexOf('(')) == 0 && ( (tekstPodatka.indexOf(')')) == 2
+                                || (tekstPodatka.indexOf(')') ) == 3)) {
                             flag = true;
                             j = 1;
                             i++;
@@ -189,73 +160,38 @@ public class Tablica extends Activity {
                                     );
                             }
                         }
-
                     }
                     else
                         flag = false;
                 }
+                brojacKlubova.brojKlubova = i;
             } catch (IOException e) {
                 e.printStackTrace();
             }
-            return null;
+            return brojacKlubova;
         }
 
         @Override
-        protected void onPostExecute(Void result) {
+        protected void onPostExecute(BrojacKlubova brojacKlubova) {
+            mojAdapter = new CustomAdapter(getApplicationContext(), konacanPoredak, brojacKlubova.brojKlubova);
             txtView = (TextView) findViewById(R.id.momcad);
             progress.dismiss();
             ListView lista = (ListView) findViewById(R.id.predlozak);
             lista.setAdapter(mojAdapter);
             if(konacanPoredak[1].getBodovi().equals("E")){
-
                 runOnUiThread(new Runnable() {
                     @Override
                     public void run() {
-
-                        try {
-                            AlertDialog alert = new AlertDialog.Builder(Tablica.this).create();
-                            alert.setCancelable(false);
-
-                            alert.setTitle("Slaba Internetska veza!");
-                            alert.setMessage("Provjerite Internet vezu i pokušajte ponovno!");
-                            alert.setIcon(android.R.drawable.ic_dialog_alert);
-                            alert.setButton2("Pokušaj ponovno", new DialogInterface.OnClickListener() {
-                                        public void onClick(DialogInterface dialog, int which) {
-                                            glavniPosao(URL, maxBrojKlubova);
-                                        }
-                                    }
-                            );
-                            alert.setButton("Izađi", new DialogInterface.OnClickListener() {
-                                        public void onClick(DialogInterface dialog, int which) {
-                                            finish();
-                                        }
-                                    }
-                            );
-
-
-                            alert.show();
-                        }
-                        catch(Exception e){}
-
+                        neuspjesanDohvatAlertDialog();
                     }
                 });
             }
-
             //prikaži dosadašnje utakmice odabranog kluba
             lista.setOnItemClickListener(
                     new AdapterView.OnItemClickListener(){
                         @Override
                         public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
-                            String imeKluba = "";
-                            for (int n = 0; n<maxBrojKlubova; n++){
-                                if(position == n){
-                                    if (n!=0)
-                                        imeKluba = konacanPoredak[position].getImeMomcadi();
-                                    else
-                                        imeKluba = konacanPoredak[0].getImeMomcadi();
-                                }
-                            }
-
+                            String imeKluba = dohvatiImeMomcadi(position);
                             Intent i = new Intent(Tablica.this, RasporedUtakmica.class);
                             i.putExtra("team", imeKluba);
                             i.putExtra("URL", URL);
@@ -263,9 +199,7 @@ public class Tablica extends Activity {
                         }
                     }
             );
-
         }
-
     }
 
     //provjeri je li spojen na internet
@@ -284,5 +218,62 @@ public class Tablica extends Activity {
         else
             prethodnoPozvanPosljednje = true;
         startActivity(i);
+    }
+
+    public void internetNeRadiAlertDialog(){
+        try {
+            AlertDialog alertDialog = new AlertDialog.Builder(this).create();
+            alertDialog.setCancelable(false);
+
+            alertDialog.setTitle("Info");
+            alertDialog.setMessage("Provjerite Internet vezu!");
+            alertDialog.setIcon(android.R.drawable.ic_dialog_alert);
+            alertDialog.setButton("OK", new DialogInterface.OnClickListener() {
+                public void onClick(DialogInterface dialog, int which) {
+                    finish();
+                }
+            });
+
+            alertDialog.show();
+        }
+        catch(Exception e){}
+    }
+
+    public void neuspjesanDohvatAlertDialog(){
+        try {
+            AlertDialog alert = new AlertDialog.Builder(Tablica.this).create();
+            alert.setCancelable(false);
+
+            alert.setTitle("Slaba Internetska veza!");
+            alert.setMessage("Provjerite Internet vezu i pokušajte ponovno!");
+            alert.setIcon(android.R.drawable.ic_dialog_alert);
+            alert.setButton2("Pokušaj ponovno", new DialogInterface.OnClickListener() {
+                        public void onClick(DialogInterface dialog, int which) {
+                            glavniPosao(URL, maxBrojKlubova);
+                        }
+                    }
+            );
+            alert.setButton("Izađi", new DialogInterface.OnClickListener() {
+                        public void onClick(DialogInterface dialog, int which) {
+                            finish();
+                        }
+                    }
+            );
+            alert.show();
+        }
+        catch(Exception e){}
+    }
+
+    public String dohvatiImeMomcadi(int position){
+        String imeKluba = "";
+        for (int n = 0; n<maxBrojKlubova; n++){
+            if(position == n){
+                if (n!=0)
+                    imeKluba = konacanPoredak[position].getImeMomcadi();
+                else
+                    imeKluba = konacanPoredak[0].getImeMomcadi();
+            }
+        }
+        return imeKluba;
     }
 }

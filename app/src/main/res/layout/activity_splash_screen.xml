@@ -1,71 +1,68 @@
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:tools="http://schemas.android.com/tools" android:layout_width="match_parent"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context="com.example.jasamrafoooo.tablica3znl_kutina.SplashScreen"
-    android:background="@drawable/splash_background">
+    android:background="#fff5f1f6"
+    tools:context="com.example.jasamrafoooo.tablica3znl_kutina.SplashScreen">
 
 
-        <Button
-            android:layout_width="200dp"
-            android:layout_height="70dp"
-            android:text="3. ŽNL - NS Kutina"
-            android:id="@+id/buttonTznl"
-            android:onClick="clickedTznl"
-            android:layout_below="@+id/buttonDznl"
-            android:layout_centerHorizontal="true"
-            android:textSize="17dp" />
-
-        <Button
-            android:layout_width="200dp"
-            android:layout_height="70dp"
-            android:text="2. ŽNL - NSSMŽ"
-            android:id="@+id/buttonDznl"
-            android:onClick="clickedDznl"
-            android:layout_below="@+id/buttonPznl"
-            android:layout_centerHorizontal="true"
-            android:textSize="17dp" />
-
-        <Button
-            android:layout_width="200dp"
-            android:layout_height="70dp"
-            android:text="1. ŽNL - NSSMŽ"
-            android:id="@+id/buttonPznl"
-            android:onClick="clickedPznl"
-            android:layout_below="@+id/buttonMznl"
-            android:layout_centerHorizontal="true"
-            android:textSize="17dp" />
-
-        <Button
-            android:layout_width="200dp"
-            android:layout_height="70dp"
-            android:text="MŽNL - Središte Zagreb"
-            android:id="@+id/buttonMznl"
-            android:onClick="clickedMznl"
-            android:layout_below="@+id/textView3"
-            android:layout_marginTop="31dp"
-            android:layout_centerHorizontal="true"
-            android:textSize="17dp" />
-
-    <TextView
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:textAppearance="?android:attr/textAppearanceLarge"
-        android:text="Odaberite Ligu"
-        android:id="@+id/textView3"
-        android:layout_alignParentTop="true"
+    <Button
+        android:id="@+id/buttonTznl"
+        android:layout_width="200dp"
+        android:layout_height="70dp"
+        android:layout_below="@+id/buttonDznl"
         android:layout_centerHorizontal="true"
-        android:textSize="35dp"
-        android:typeface="serif"
-        android:paddingTop="15dp" />
+        android:onClick="clickedTznl"
+        android:text="3. ŽNL - NS Kutina"
+        android:textSize="17dp" />
 
-    <com.google.android.gms.ads.AdView
-        xmlns:ads="http://schemas.android.com/apk/res-auto"
+    <Button
+        android:id="@+id/buttonDznl"
+        android:layout_width="200dp"
+        android:layout_height="70dp"
+        android:layout_below="@+id/buttonPznl"
+        android:layout_centerHorizontal="true"
+        android:onClick="clickedDznl"
+        android:text="2. ŽNL - NSSMŽ"
+        android:textSize="17dp" />
+
+    <Button
+        android:id="@+id/buttonPznl"
+        android:layout_width="200dp"
+        android:layout_height="70dp"
+        android:layout_below="@+id/buttonMznl"
+        android:layout_centerHorizontal="true"
+        android:onClick="clickedPznl"
+        android:text="1. ŽNL - NSSMŽ"
+        android:textSize="17dp" />
+
+    <Button
+        android:id="@+id/buttonMznl"
+        android:layout_width="200dp"
+        android:layout_height="70dp"
+        android:layout_below="@+id/imageView3"
+        android:layout_centerHorizontal="true"
+        android:layout_marginTop="10dp"
+        android:onClick="clickedMznl"
+        android:text="MŽNL - Središte Zagreb"
+        android:textSize="17dp" />
+
+    <com.google.android.gms.ads.AdView xmlns:ads="http://schemas.android.com/apk/res-auto"
         android:id="@+id/adView"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        ads:adUnitId="ca-app-pub-2920422408168999/7064213263"
+        android:layout_alignParentBottom="true"
         ads:adSize="BANNER"
-        android:layout_alignParentBottom="true" />
+        ads:adUnitId="ca-app-pub-2920422408168999/7064213263" />
+
+    <ImageView
+        android:id="@+id/imageView3"
+        android:layout_width="wrap_content"
+        android:layout_height="70dp"
+        android:layout_alignParentTop="true"
+        android:layout_centerHorizontal="true"
+        android:layout_marginTop="10dp"
+        android:src="@drawable/logoo" />
 
 
 </RelativeLayout>
