@@ -47,7 +47,7 @@ public class PosljednjeKolo extends Activity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_posljednje_kolo);
 
-        //System.setProperty("http.keepAlive", "false");
+        System.setProperty("http.keepAlive", "false");
 
         Button buttonTablica2 = (Button) findViewById(R.id.buttonTablica2);
         Button buttonPosljednje2 = (Button) findViewById(R.id.buttonPosljednje2);

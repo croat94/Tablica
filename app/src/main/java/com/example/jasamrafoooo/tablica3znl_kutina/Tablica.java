@@ -36,7 +36,6 @@ public class Tablica extends Activity {
     public ListAdapter mojAdapter;
     public String[] mojipodatci = new String[9];
     public int i = 0;
-    public int n;
     public int j;
     public boolean flag = false;
     public boolean prvi = true;
@@ -56,9 +55,12 @@ public class Tablica extends Activity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_tablica);
+
+        System.setProperty("http.keepAlive", "false");
+
         Button buttonTablica1 = (Button) findViewById(R.id.buttonTablica1);
         Button buttonPosljednje1 = (Button) findViewById(R.id.buttonPosljednje1);
-
+        //postavi reklamu
         AdView adView = (AdView)this.findViewById(R.id.adView2);
         AdRequest adRequest = new AdRequest.Builder()
                 .addTestDevice("705A531EF2DFC7439759DDD27F57A110")
@@ -80,7 +82,6 @@ public class Tablica extends Activity {
 
         //omogući slideanje lijevo-desno između tablice i posljednjeg kola
         predlozak.setOnTouchListener(new OnSwipeTouchListener(Tablica.this){
-
             public void onSwipeLeft() {
                 Intent i = new Intent(getApplicationContext(), PosljednjeKolo.class);
                 i.putExtra("newUrl", URL);
@@ -90,7 +91,6 @@ public class Tablica extends Activity {
                     prethodnoPozvanPosljednje = true;
                 startActivity(i);
             }
-
         });
         konacanPoredak = new Momcad[maxBrojKlubova];
         glavniPosao(URL, maxBrojKlubova);
@@ -134,32 +134,7 @@ public class Tablica extends Activity {
                         String tekstPodatka = podatak.text();
                         //makni višak praznih znakova sa kraja
                         tekstPodatka = tekstPodatka.replaceAll("\\s+$", "");
-
-                        if ((tekstPodatka.indexOf('(')) == 0 && ( (tekstPodatka.indexOf(')')) == 2
-                                || (tekstPodatka.indexOf(')') ) == 3)) {
-                            flag = true;
-                            j = 1;
-                            i++;
-                            mojipodatci[0] = String.valueOf(i);
-                        }
-
-                        else if (j != 9) {
-                            //ubaci podatke o momcadi u polje
-                            mojipodatci[j] = tekstPodatka;
-                            j++;
-
-                            //kada doznaš sve podatke, napravi novi objekt za tu momcad
-                            if (j == 9) {
-                                if (prvi)
-                                    prvi = false;
-                                else
-                                    konacanPoredak[i-1] = new Momcad(
-                                            mojipodatci[0], mojipodatci[1], mojipodatci[2],
-                                            mojipodatci[3], mojipodatci[4], mojipodatci[5],
-                                            mojipodatci[6], mojipodatci[7], mojipodatci[8]
-                                    );
-                            }
-                        }
+                        obradiPodatke(tekstPodatka);
                     }
                     else
                         flag = false;
@@ -173,7 +148,8 @@ public class Tablica extends Activity {
 
         @Override
         protected void onPostExecute(BrojacKlubova brojacKlubova) {
-            mojAdapter = new CustomAdapter(getApplicationContext(), konacanPoredak, brojacKlubova.brojKlubova);
+            mojAdapter = new CustomAdapter(getApplicationContext(),
+                    konacanPoredak, brojacKlubova.brojKlubova);
             txtView = (TextView) findViewById(R.id.momcad);
             progress.dismiss();
             ListView lista = (ListView) findViewById(R.id.predlozak);
@@ -191,11 +167,7 @@ public class Tablica extends Activity {
                     new AdapterView.OnItemClickListener(){
                         @Override
                         public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
-                            String imeKluba = dohvatiImeMomcadi(position);
-                            Intent i = new Intent(Tablica.this, RasporedUtakmica.class);
-                            i.putExtra("team", imeKluba);
-                            i.putExtra("URL", URL);
-                            startActivity(i);
+                            prikaziRasporedKluba(position);
                         }
                     }
             );
@@ -264,7 +236,7 @@ public class Tablica extends Activity {
         catch(Exception e){}
     }
 
-    public String dohvatiImeMomcadi(int position){
+    public void prikaziRasporedKluba(int position){
         String imeKluba = "";
         for (int n = 0; n<maxBrojKlubova; n++){
             if(position == n){
@@ -274,6 +246,38 @@ public class Tablica extends Activity {
                     imeKluba = konacanPoredak[0].getImeMomcadi();
             }
         }
-        return imeKluba;
+        Intent i = new Intent(Tablica.this, RasporedUtakmica.class);
+        i.putExtra("team", imeKluba);
+        i.putExtra("URL", URL);
+        startActivity(i);
+    }
+
+    public void obradiPodatke(String tekstPodatka){
+
+        if ((tekstPodatka.indexOf('(')) == 0 && ( (tekstPodatka.indexOf(')')) == 2
+                || (tekstPodatka.indexOf(')') ) == 3)) {
+            flag = true;
+            j = 1;
+            i++;
+            mojipodatci[0] = String.valueOf(i);
+        }
+
+        else if (j != 9) {
+            //ubaci podatke o momcadi u polje
+            mojipodatci[j] = tekstPodatka;
+            j++;
+
+            //kada doznaš sve podatke, napravi novi objekt za tu momcad
+            if (j == 9) {
+                if (prvi)
+                    prvi = false;
+                else
+                    konacanPoredak[i-1] = new Momcad(
+                            mojipodatci[0], mojipodatci[1], mojipodatci[2],
+                            mojipodatci[3], mojipodatci[4], mojipodatci[5],
+                            mojipodatci[6], mojipodatci[7], mojipodatci[8]
+                    );
+            }
+        }
     }
 }
