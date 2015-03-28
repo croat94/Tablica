@@ -253,7 +253,6 @@ public class Tablica extends Activity {
     }
 
     public void obradiPodatke(String tekstPodatka){
-
         if ((tekstPodatka.indexOf('(')) == 0 && ( (tekstPodatka.indexOf(')')) == 2
                 || (tekstPodatka.indexOf(')') ) == 3)) {
             flag = true;
@@ -261,12 +260,10 @@ public class Tablica extends Activity {
             i++;
             mojipodatci[0] = String.valueOf(i);
         }
-
         else if (j != 9) {
             //ubaci podatke o momcadi u polje
             mojipodatci[j] = tekstPodatka;
             j++;
-
             //kada doznaš sve podatke, napravi novi objekt za tu momcad
             if (j == 9) {
                 if (prvi)

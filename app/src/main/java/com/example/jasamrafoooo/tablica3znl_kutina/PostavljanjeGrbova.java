@@ -118,7 +118,7 @@ public class PostavljanjeGrbova{
             case "Vatrogasac":
                 return "vatrogasac_burned";
             case "Ekonomik":
-                return "ekonomik_burned";
+                return "ekonomik2_burned";
             case "Garić":
                 return "garic_burned";
             case "Sloga P.":

@@ -6,6 +6,7 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ArrayAdapter;
 import android.widget.ImageView;
+import android.widget.RelativeLayout;
 import android.widget.TextView;
 
 import java.lang.reflect.Field;
@@ -42,6 +43,7 @@ class AdapterRaspored extends ArrayAdapter<Kolo> {
             holder.vrijeme = (TextView) convertView.findViewById(R.id.vrijeme);
             holder.slikaDomacin = (ImageView) convertView.findViewById(R.id.domacinSlika);
             holder.slikaGost = (ImageView) convertView.findViewById(R.id.gostSlika);
+            holder.slobodnoKolo = (TextView) convertView.findViewById(R.id.slobodnoKolo);
             convertView.setTag(holder);
         }
         else{
@@ -65,6 +67,7 @@ class AdapterRaspored extends ArrayAdapter<Kolo> {
             holder.rezultat.setText(score);
             holder.datum.setText(date + '.');
             holder.vrijeme.setText(time);
+            holder.slobodnoKolo.setText("");
 
             String imeResursaZaGrbDomacina = PostavljanjeGrbova.postaviGrbove(home);
             String imeResursaZaGrbGosta = PostavljanjeGrbova.postaviGrbove(away);
@@ -80,10 +83,11 @@ class AdapterRaspored extends ArrayAdapter<Kolo> {
             }
         }
         else{
+            holder.slobodnoKolo.setText("   Slobodno kolo");
             holder.kolo.setText(String.valueOf(num));
             holder.domacin.setText("");
             holder.gost.setText("");
-            holder.rezultat.setText("/");
+            holder.rezultat.setText("");
             holder.datum.setText("");
             holder.vrijeme.setText("");
             holder.slikaDomacin.setImageResource(0);
@@ -100,6 +104,7 @@ class AdapterRaspored extends ArrayAdapter<Kolo> {
         TextView gost;
         TextView datum;
         TextView vrijeme;
+        TextView slobodnoKolo;
         ImageView slikaDomacin;
         ImageView slikaGost;
     }
