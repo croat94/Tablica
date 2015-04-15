@@ -5,7 +5,7 @@ android {
     buildToolsVersion "21.1.2"
 
     defaultConfig {
-        applicationId "com.example.jasamrafoooo.tablica3znl_kutina"
+        applicationId "com.jasamrafoooo.tablica3znl_kutina"
         minSdkVersion 9
         targetSdkVersion 21
         versionCode 1

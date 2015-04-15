@@ -1,27 +1,9 @@
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools" android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context="com.example.jasamrafoooo.tablica3znl_kutina.RealSplash"
+    tools:context="com.rafo.jasamrafoooo.znl_rezultati.RealSplash"
     android:background="#ffffff">
 
-    <ImageView
-        android:layout_width="120dp"
-        android:layout_height="120dp"
-        android:id="@+id/imageView"
-        android:src="@drawable/sponzori"
-        android:layout_above="@+id/textView2"
-        android:layout_centerHorizontal="true" />
-    <TextView
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:textAppearance="?android:attr/textAppearanceSmall"
-        android:text="Glavni sponzor"
-        android:id="@+id/sponzor"
-        android:textSize="20dp"
-        android:layout_above="@+id/imageView"
-        android:layout_centerHorizontal="true"
-        android:textColor="#000000"
-        android:typeface="serif" />
     <TextView
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
@@ -45,8 +27,25 @@
         android:layout_height="wrap_content"
         android:id="@+id/imageView2"
         android:src="@drawable/logoo"
-        android:layout_alignParentTop="true"
-        android:layout_alignLeft="@+id/customProgress"
-        android:layout_alignStart="@+id/customProgress" />
+        android:layout_below="@+id/customProgress" />
+
+    <ImageView
+        android:layout_width="wrap_content"
+        android:layout_height="120dp"
+        android:id="@+id/imageView"
+        android:layout_above="@+id/textView2"
+        android:layout_centerHorizontal="true"
+        android:src="@drawable/sponzori" />
+
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:textAppearance="?android:attr/textAppearanceMedium"
+        android:text="Glavni sponzor"
+        android:id="@+id/textView"
+        android:layout_above="@+id/imageView"
+        android:layout_centerHorizontal="true"
+        android:textColor="#000000"
+        android:typeface="serif" />
 
 </RelativeLayout>

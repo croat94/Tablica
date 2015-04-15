@@ -2,11 +2,12 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:background="#fff5f1f6"
-    tools:context="com.example.jasamrafoooo.tablica3znl_kutina.SplashScreen">
+    android:background="#ffd7d7d8"
+    tools:context="com.rafo.jasamrafoooo.znl_rezultati.SplashScreen">
 
 
     <Button
+        android:background="@drawable/apptheme_btn_default_holo_light"
         android:id="@+id/buttonTznl"
         android:layout_width="200dp"
         android:layout_height="70dp"
@@ -17,6 +18,7 @@
         android:textSize="17dp" />
 
     <Button
+        android:background="@drawable/apptheme_btn_default_holo_light"
         android:id="@+id/buttonDznl"
         android:layout_width="200dp"
         android:layout_height="70dp"
@@ -27,6 +29,7 @@
         android:textSize="17dp" />
 
     <Button
+        android:background="@drawable/apptheme_btn_default_holo_light"
         android:id="@+id/buttonPznl"
         android:layout_width="200dp"
         android:layout_height="70dp"
@@ -37,6 +40,7 @@
         android:textSize="17dp" />
 
     <Button
+        android:background="@drawable/apptheme_btn_default_holo_light"
         android:id="@+id/buttonMznl"
         android:layout_width="200dp"
         android:layout_height="70dp"
