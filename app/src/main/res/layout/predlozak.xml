@@ -3,14 +3,14 @@
     android:orientation="vertical"
     android:layout_width="fill_parent"
     android:layout_height="fill_parent"
-    android:background="#ff5680ed">
+    android:background="#ffffff">
 
         <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
         xmlns:tools="http://schemas.android.com/tools"
         android:layout_width="match_parent"
         android:layout_height="55dp"
             tools:context=".Tablica"
-            android:background="@drawable/listview_background">
+            android:background="#ffffff">
 
         <TextView
             android:id="@+id/kolo"
@@ -103,11 +103,11 @@
 
         <TextView
             android:id="@+id/rezultat"
-            android:layout_width="37dp"
+            android:layout_width="40dp"
             android:layout_height="wrap_content"
             android:layout_toRightOf="@+id/izgubljeno"
             android:gravity="center_horizontal"
-            android:text="125:34"
+            android:text="140:16"
             android:textAppearance="?android:attr/textAppearanceLarge"
             android:textSize="12sp"
             android:nestedScrollingEnabled="true"
@@ -120,7 +120,7 @@
             android:layout_height="wrap_content"
             android:layout_toRightOf="@+id/rezultat"
             android:gravity="center_horizontal"
-            android:text="80"
+            android:text="124"
             android:textAppearance="?android:attr/textAppearanceLarge"
             android:textSize="12sp"
             android:nestedScrollingEnabled="true"

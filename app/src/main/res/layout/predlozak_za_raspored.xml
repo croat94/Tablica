@@ -2,14 +2,14 @@
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="fill_parent"
     android:layout_height="fill_parent"
-    android:background="#ff5680ed"
+    android:background="#ffffff"
     android:orientation="vertical">
 
     <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
         xmlns:tools="http://schemas.android.com/tools"
         android:layout_width="match_parent"
         android:layout_height="55dp"
-        android:background="@drawable/listview_background"
+        android:background="#ffffff"
         tools:context=".Tablica"
         android:layout_alignParentTop="true"
         android:layout_alignParentLeft="true"

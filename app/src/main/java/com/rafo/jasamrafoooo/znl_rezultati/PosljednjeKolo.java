@@ -7,6 +7,7 @@ import android.content.DialogInterface;
 import android.content.Intent;
 import android.os.AsyncTask;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.View;
 import android.widget.Button;
 import android.widget.ListAdapter;
@@ -118,7 +119,6 @@ public class PosljednjeKolo extends Activity {
                     String tekstPodatka = podatakRaspored.text();
                     //makni višak praznih znakova sa kraja
                     tekstPodatka = tekstPodatka.replaceAll("\\s+$", "");
-
                     if (pronasaoPodatke){
                         if (j<6) {
                             mojipodatci[j] = tekstPodatka;
@@ -133,7 +133,7 @@ public class PosljednjeKolo extends Activity {
                         }
                     }
 
-                    if( tekstPodatka.length() > 2 &&tekstPodatka.charAt(2) == ':'){
+                    else if( tekstPodatka.length() > 2 &&tekstPodatka.charAt(2) == ':'){
                         j = 0;
                         i++;
                         pronasaoPodatke = true;
