@@ -14,19 +14,20 @@
 
         <TextView
             android:id="@+id/kolo"
-            android:layout_width="23dp"
+            android:layout_width="25dp"
             android:layout_height="fill_parent"
             android:layout_alignParentLeft="true"
             android:layout_alignParentStart="true"
             android:layout_alignParentTop="true"
             android:layout_gravity="center"
-            android:background="#ff4941a8"
+            android:background="#006699"
             android:gravity="center"
             android:text="10"
             android:textAppearance="?android:attr/textAppearanceLarge"
             android:textSize="17sp"
             android:autoText="false"
-            android:textColor="#ffffff" />
+            android:textColor="#ffffff"
+            android:textStyle="bold"/>
 
 
             <ImageView
@@ -40,14 +41,13 @@
             android:layout_width="117dp"
             android:layout_height="wrap_content"
             android:layout_toRightOf="@+id/kolo"
-                android:paddingLeft="4dp"
+            android:paddingLeft="4dp"
             android:text="NK Šartovac"
-            android:textAppearance="?android:attr/textAppearanceLarge"
             android:textSize="15dp"
             android:layout_weight="1"
             android:typeface="sans"
             android:layout_gravity="center_vertical"
-                android:textColor="#000000" />
+            android:textColor="#000000"/>
 
         <TextView
             android:id="@+id/golGost"
@@ -56,7 +56,6 @@
             android:layout_toRightOf="@+id/momcad"
             android:gravity="center_horizontal"
             android:text="10"
-            android:textAppearance="?android:attr/textAppearanceLarge"
             android:textSize="12sp"
             android:nestedScrollingEnabled="true"
             android:layout_gravity="center"
@@ -69,7 +68,6 @@
             android:layout_toRightOf="@+id/golGost"
             android:gravity="center_horizontal"
             android:text="7"
-            android:textAppearance="?android:attr/textAppearanceLarge"
             android:textSize="12sp"
             android:nestedScrollingEnabled="true"
             android:layout_gravity="center"
@@ -82,7 +80,6 @@
             android:layout_toRightOf="@+id/pobjede"
             android:gravity="center_horizontal"
             android:text="3"
-            android:textAppearance="?android:attr/textAppearanceLarge"
             android:textSize="12sp"
             android:nestedScrollingEnabled="true"
             android:layout_gravity="center"
@@ -95,7 +92,6 @@
             android:layout_toRightOf="@+id/nerijeseno"
             android:gravity="center_horizontal"
             android:text="0"
-            android:textAppearance="?android:attr/textAppearanceLarge"
             android:textSize="12sp"
             android:nestedScrollingEnabled="true"
             android:layout_gravity="center"
@@ -108,7 +104,6 @@
             android:layout_toRightOf="@+id/izgubljeno"
             android:gravity="center_horizontal"
             android:text="140:16"
-            android:textAppearance="?android:attr/textAppearanceLarge"
             android:textSize="12sp"
             android:nestedScrollingEnabled="true"
             android:layout_gravity="center"
@@ -121,7 +116,6 @@
             android:layout_toRightOf="@+id/rezultat"
             android:gravity="center_horizontal"
             android:text="124"
-            android:textAppearance="?android:attr/textAppearanceLarge"
             android:textSize="12sp"
             android:nestedScrollingEnabled="true"
             android:layout_gravity="center"
@@ -134,7 +128,6 @@
             android:layout_toRightOf="@+id/golRazlika"
             android:gravity="center"
             android:text="24"
-            android:textAppearance="?android:attr/textAppearanceLarge"
             android:textSize="20sp"
             android:layout_gravity="center_vertical|right"
             android:textColor="#000000" />

@@ -2,7 +2,7 @@
     xmlns:tools="http://schemas.android.com/tools" android:layout_width="match_parent"
     android:layout_height="match_parent"
     tools:context="com.rafo.jasamrafoooo.znl_rezultati.RealSplash"
-    android:background="#ffffff">
+    android:background="#006699">
 
     <TextView
         android:layout_width="wrap_content"
@@ -12,40 +12,24 @@
         android:id="@+id/textView2"
         android:layout_alignParentBottom="true"
         android:layout_centerHorizontal="true"
-        android:textColor="#000000"
+        android:textColor="#ffffff"
         android:typeface="serif" />
-
-    <ProgressBar
-        android:id="@+id/customProgress"
-        style="@style/CustomProgressBar"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:indeterminate="false" />
-
-    <ImageView
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:id="@+id/imageView2"
-        android:src="@drawable/logoo"
-        android:layout_below="@+id/customProgress" />
 
     <ImageView
         android:layout_width="wrap_content"
         android:layout_height="120dp"
-        android:id="@+id/imageView"
+        android:id="@+id/slikaSponzor"
         android:layout_above="@+id/textView2"
-        android:layout_centerHorizontal="true"
-        android:src="@drawable/sponzori" />
+        android:layout_centerHorizontal="true" />
 
     <TextView
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:textAppearance="?android:attr/textAppearanceMedium"
-        android:text="Glavni sponzor"
-        android:id="@+id/textView"
-        android:layout_above="@+id/imageView"
+        android:textAppearance="?android:attr/textAppearanceLarge"
+        android:id="@+id/textViewLoading"
+        android:layout_centerVertical="true"
         android:layout_centerHorizontal="true"
-        android:textColor="#000000"
-        android:typeface="serif" />
+        android:textSize="100sp" />
+
 
 </RelativeLayout>

@@ -2,54 +2,58 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:background="#ffd7d7d8"
+    android:background="#006699"
     tools:context="com.rafo.jasamrafoooo.znl_rezultati.SplashScreen">
 
 
     <Button
-        android:background="@drawable/apptheme_btn_default_holo_light"
         android:id="@+id/buttonTznl"
-        android:layout_width="200dp"
+        android:layout_width="wrap_content"
         android:layout_height="70dp"
         android:layout_below="@+id/buttonDznl"
         android:layout_centerHorizontal="true"
         android:onClick="clickedTznl"
         android:text="3. ŽNL - NS Kutina"
-        android:textSize="17dp" />
+        android:textSize="30sp"
+        android:background="#00000000"
+        android:textColor="#ffffff" />
 
     <Button
-        android:background="@drawable/apptheme_btn_default_holo_light"
         android:id="@+id/buttonDznl"
-        android:layout_width="200dp"
+        android:layout_width="wrap_content"
         android:layout_height="70dp"
         android:layout_below="@+id/buttonPznl"
         android:layout_centerHorizontal="true"
         android:onClick="clickedDznl"
         android:text="2. ŽNL - NSSMŽ"
-        android:textSize="17dp" />
+        android:textSize="30sp"
+        android:background="#00000000"
+        android:textColor="#ffffff" />
 
     <Button
-        android:background="@drawable/apptheme_btn_default_holo_light"
         android:id="@+id/buttonPznl"
-        android:layout_width="200dp"
+        android:layout_width="wrap_content"
         android:layout_height="70dp"
         android:layout_below="@+id/buttonMznl"
         android:layout_centerHorizontal="true"
         android:onClick="clickedPznl"
         android:text="1. ŽNL - NSSMŽ"
-        android:textSize="17dp" />
+        android:textSize="30sp"
+        android:background="#00000000"
+        android:textColor="#ffffff" />
 
     <Button
-        android:background="@drawable/apptheme_btn_default_holo_light"
         android:id="@+id/buttonMznl"
-        android:layout_width="200dp"
+        android:layout_width="wrap_content"
         android:layout_height="70dp"
-        android:layout_below="@+id/imageView3"
+        android:layout_below="@+id/logoSlika"
         android:layout_centerHorizontal="true"
         android:layout_marginTop="10dp"
         android:onClick="clickedMznl"
         android:text="MŽNL - Središte Zagreb"
-        android:textSize="17dp" />
+        android:textSize="30sp"
+        android:background="#00000000"
+        android:textColor="#ffffff" />
 
     <com.google.android.gms.ads.AdView xmlns:ads="http://schemas.android.com/apk/res-auto"
         android:id="@+id/adView"
@@ -60,13 +64,12 @@
         ads:adUnitId="ca-app-pub-2920422408168999/7064213263" />
 
     <ImageView
-        android:id="@+id/imageView3"
+        android:id="@+id/logoSlika"
         android:layout_width="wrap_content"
         android:layout_height="70dp"
         android:layout_alignParentTop="true"
         android:layout_centerHorizontal="true"
-        android:layout_marginTop="10dp"
-        android:src="@drawable/logoo" />
+        android:layout_marginTop="10dp" />
 
 
 </RelativeLayout>

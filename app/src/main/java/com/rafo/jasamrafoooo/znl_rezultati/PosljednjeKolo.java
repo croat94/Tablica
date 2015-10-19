@@ -5,13 +5,17 @@ import android.app.AlertDialog;
 import android.app.ProgressDialog;
 import android.content.DialogInterface;
 import android.content.Intent;
+import android.graphics.Color;
 import android.os.AsyncTask;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.View;
+import android.widget.AdapterView;
+import android.widget.ArrayAdapter;
 import android.widget.Button;
 import android.widget.ListAdapter;
 import android.widget.ListView;
+import android.widget.Spinner;
 
 import com.google.android.gms.ads.AdRequest;
 import com.google.android.gms.ads.AdView;
@@ -22,11 +26,15 @@ import org.jsoup.nodes.Element;
 import org.jsoup.select.Elements;
 
 import java.io.IOException;
+import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.List;
 
 
 public class PosljednjeKolo extends Activity {
 
-    private static String URL;
+    private static String originalURL;
+    public String URL;
     public Posljednje[] konacanRaspored;
     ProgressDialog progress;
     public ListAdapter mojAdapter;
@@ -34,6 +42,11 @@ public class PosljednjeKolo extends Activity {
     public String[] mojipodatci = new String[6];
     public int j=0;
     public int i=0;
+    public int brojPrikazanogKola;
+    public int brojPosljednjegKola;
+    public Spinner spinnerKolo;
+    public Button buttonProsloKolo;
+    public Button buttonSljedeceKolo;
 
     @Override
     public void onBackPressed() {
@@ -50,8 +63,27 @@ public class PosljednjeKolo extends Activity {
 
         System.setProperty("http.keepAlive", "false");
 
+        spinnerKolo = (Spinner) findViewById(R.id.spinnerKolo);
+        spinnerKolo.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
+            @Override
+            public void onItemSelected(AdapterView<?> parentView, View selectedItemView, int position, long id) {
+                URL = originalURL + "/r," + spinnerKolo.getSelectedItem().toString();
+                Log.i("MOJ TAG URL", URL);
+                if (brojPrikazanogKola != spinnerKolo.getSelectedItem())
+                    pokreni();
+            }
+
+            @Override
+            public void onNothingSelected(AdapterView<?> parentView) {
+                // your code here
+            }
+
+        });
+
         Button buttonTablica2 = (Button) findViewById(R.id.buttonTablica2);
         Button buttonPosljednje2 = (Button) findViewById(R.id.buttonPosljednje2);
+        buttonProsloKolo = (Button) findViewById(R.id.buttonProsloKolo);
+        buttonSljedeceKolo = (Button) findViewById(R.id.buttonSljedeceKolo);
 
         ListView predlozak_za_posljednje_kolo = (ListView) findViewById(R.id.predlozak_za_posljednje_kolo);
 
@@ -63,13 +95,14 @@ public class PosljednjeKolo extends Activity {
 
         Bundle extras = getIntent().getExtras();
         if (extras != null) {
-            URL = extras.getString("newUrl");
+            originalURL = extras.getString("newUrl");
+            URL = originalURL;
         }
 
-        buttonTablica2.setBackgroundResource(R.drawable.not_clicked_button);
+        buttonTablica2.setBackgroundResource(R.drawable.not_active);
         buttonTablica2.setEnabled(true);
-        buttonPosljednje2.setBackgroundResource(R.drawable.clicked_button);
-        buttonPosljednje2.setEnabled(false);
+        buttonPosljednje2.setBackgroundResource(R.drawable.active);
+       // buttonPosljednje2.setEnabled(false);
 
         predlozak_za_posljednje_kolo.setOnTouchListener(new OnSwipeTouchListener(PosljednjeKolo.this){
 
@@ -81,11 +114,11 @@ public class PosljednjeKolo extends Activity {
 
         });
 
-        konacanRaspored = new Posljednje[15];
+        //konacanRaspored = new Posljednje[15];
 
         //inicijalizacija svih objekata
-        for (int k = 0;k<15;k++)
-            konacanRaspored[k] = new Posljednje();
+        //for (int k = 0;k<15;k++)
+          //  konacanRaspored[k] = new Posljednje();
 
         pokreni();
 
@@ -102,8 +135,15 @@ public class PosljednjeKolo extends Activity {
             public void onCancel(DialogInterface dialog){
                 finish();
             }});
+        konacanRaspored = null;
+        konacanRaspored = new Posljednje[15];
 
-
+        buttonProsloKolo.setEnabled(true);
+        buttonSljedeceKolo.setEnabled(true);
+        //inicijalizacija svih objekata
+        for (int k = 0;k<15;k++)
+            konacanRaspored[k] = new Posljednje();
+        i = 0;
         new FetchWebsiteData().execute();
     }
     private class FetchWebsiteData extends AsyncTask<Void, Void, BrojacKlubova> {
@@ -114,6 +154,33 @@ public class PosljednjeKolo extends Activity {
             try {
                 // Connect to website
                 Document document = Jsoup.connect(URL).get();
+
+                Elements podatciOKolu = document.select("option");
+                for (Element podatakOKolu: podatciOKolu){
+                    String pomText = podatakOKolu.text();
+                    pomText = pomText.replaceAll("\\s+$", "");
+                    if (pomText.substring(0,1).matches("0"))
+                        pomText = pomText.substring(1,2);
+                    Log.i("MOJ TAG 2", "---------" + pomText + "---------");
+                    brojPosljednjegKola = Integer.parseInt(pomText);
+                }
+
+                podatciOKolu = document.select("td[class=contentheading]");
+                int pomocnaVarijabla = 0;
+                for (Element podatakOKolu: podatciOKolu){
+                    if (pomocnaVarijabla == 0){
+                        String pomText = podatakOKolu.text();
+                        pomText = pomText.substring(10,12);
+                        if (pomText.contains("."))
+                            pomText = pomText.substring(0,1);
+                        Log.i("MOJ TAG", "---------" + pomText + "---------");
+                        brojPrikazanogKola = Integer.parseInt(pomText);
+                    }
+                    pomocnaVarijabla = 1;
+                }
+
+
+
                 Elements podatciRaspored = document.select("td[nowrap=nowrap]");
                 for (Element podatakRaspored: podatciRaspored){
                     String tekstPodatka = podatakRaspored.text();
@@ -153,6 +220,8 @@ public class PosljednjeKolo extends Activity {
             mojAdapter = new PosljednjeAdapter(getApplicationContext(), konacanRaspored, brojacKlubova.brojKlubova);
             ListView lista = (ListView) findViewById(R.id.predlozak_za_posljednje_kolo);
             lista.setAdapter(mojAdapter);
+            dodajSvaKolaUListu(brojPosljednjegKola);
+            provjeriJeLiPrvoIliZadnje();
 
             if(konacanRaspored[0].getDomacin().equals("E")){
 
@@ -198,6 +267,38 @@ public class PosljednjeKolo extends Activity {
         //i.putExtra("newUrl", URL);
         i.setFlags(Intent.FLAG_ACTIVITY_REORDER_TO_FRONT);
         startActivity(i);
+    }
+
+    public void dodajSvaKolaUListu (int maxBrojKola){
+        ArrayList<Integer> lista = new ArrayList<Integer>(maxBrojKola);
+        for (int brojac = 0; brojac < maxBrojKola; brojac++){
+            lista.add(brojac+1);
+        }
+        ArrayAdapter<Integer> adapter = new ArrayAdapter<Integer>(this,android.R.layout.simple_spinner_item, lista);
+        spinnerKolo.setAdapter(adapter);
+        spinnerKolo.setSelection(brojPrikazanogKola - 1);
+    }
+
+    public void onClickButtonProsloKolo(View view){
+        spinnerKolo.setSelection(brojPrikazanogKola - 1 - 1);
+    }
+
+    public void onClickButtonSljedeceKolo(View view){
+        spinnerKolo.setSelection(brojPrikazanogKola - 1 + 1);
+    }
+
+    public void clickedButtonPosljednje (View view){
+        URL = originalURL;
+        pokreni();
+    }
+
+    public void provjeriJeLiPrvoIliZadnje(){
+        if (spinnerKolo.getSelectedItem() == 1){
+            buttonProsloKolo.setEnabled(false);
+        }
+        else if (spinnerKolo.getSelectedItem() == brojPosljednjegKola){
+            buttonSljedeceKolo.setEnabled(false);
+        }
     }
 
     @Override

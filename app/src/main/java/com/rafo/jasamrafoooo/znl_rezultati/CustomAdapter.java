@@ -1,6 +1,9 @@
 package com.rafo.jasamrafoooo.znl_rezultati;
 
 import android.content.Context;
+import android.graphics.Bitmap;
+import android.graphics.BitmapFactory;
+import android.util.Base64;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -15,7 +18,6 @@ public class CustomAdapter extends ArrayAdapter<Momcad>{
     protected Context mContext;
     public int ukupanBrojKlubova;
 
-    //constructor
     public CustomAdapter(Context context, Momcad[] values, int num) {
         super(context, R.layout.predlozak, values);
         mContext = context;
@@ -64,8 +66,14 @@ public class CustomAdapter extends ArrayAdapter<Momcad>{
         String imeResursaZaGrb = PostavljanjeGrbova.postaviGrbove(momcad.getImeMomcadi());
 
         if (!imeResursaZaGrb.equals("-")) {
-            int id = getResId(imeResursaZaGrb);
-            holder.slika.setImageResource(id);
+            /*int id = getResId(imeResursaZaGrb);
+            holder.slika.setImageResource(id);*/
+            byte[] decodedString = Base64.decode(imeResursaZaGrb, Base64.DEFAULT);
+            Bitmap decodedByte = BitmapFactory.decodeByteArray(decodedString, 0, decodedString.length);
+            holder.slika.setImageBitmap(decodedByte);
+
+        }else{
+            holder.slika.setImageBitmap(null);
         }
 
         if (momcad.getImeMomcadi().equals("E"))

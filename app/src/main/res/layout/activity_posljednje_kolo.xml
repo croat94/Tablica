@@ -17,7 +17,6 @@
             android:layout_alignParentLeft="true"
             android:layout_alignParentStart="true"
             android:textColor="#ffffff"
-            android:background="@drawable/clicked_button"
             android:onClick="clickedButtonTablica"
             android:layout_weight="1"
             android:textSize="18dp" />
@@ -28,7 +27,6 @@
             android:text="Posljednje kolo"
             android:id="@+id/buttonPosljednje2"
             android:textColor="#ffffff"
-            android:background="@drawable/not_clicked_button"
             android:onClick="clickedButtonPosljednje"
             android:layout_alignParentTop="true"
             android:layout_alignParentRight="true"
@@ -42,8 +40,42 @@
         android:layout_width="match_parent"
         android:layout_height="fill_parent"
         android:layout_weight="1"
-        android:id="@+id/predlozak_za_posljednje_kolo">
+        android:id="@+id/predlozak_za_posljednje_kolo"
+        android:divider="#006699"
+        android:dividerHeight="1px">
     </ListView>
+
+    <LinearLayout
+        android:orientation="horizontal"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content">
+
+        <Button
+            android:layout_width="50dp"
+            android:layout_height="wrap_content"
+            android:text="-"
+            android:id="@+id/buttonProsloKolo"
+            android:textSize="25sp"
+            android:onClick="onClickButtonProsloKolo"
+            android:layout_gravity="center" />
+
+        <Spinner
+            android:layout_width="fill_parent"
+            android:layout_height="match_parent"
+            android:id="@+id/spinnerKolo"
+            android:layout_weight="1"
+            android:spinnerMode="dialog"
+            android:textColor="#000000"/>
+
+        <Button
+            android:layout_width="50dp"
+            android:layout_height="wrap_content"
+            android:text="+"
+            android:id="@+id/buttonSljedeceKolo"
+            android:textSize="25sp"
+            android:onClick="onClickButtonSljedeceKolo"
+            android:layout_gravity="center" />
+    </LinearLayout>
 
     <com.google.android.gms.ads.AdView
         xmlns:ads="http://schemas.android.com/apk/res-auto"
@@ -56,3 +88,5 @@
 
 
 </LinearLayout>
+
+    

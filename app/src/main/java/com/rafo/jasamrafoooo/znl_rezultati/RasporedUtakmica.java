@@ -4,8 +4,11 @@ import android.app.Activity;
 import android.app.AlertDialog;
 import android.app.ProgressDialog;
 import android.content.DialogInterface;
+import android.graphics.Bitmap;
+import android.graphics.BitmapFactory;
 import android.os.AsyncTask;
 import android.os.Bundle;
+import android.util.Base64;
 import android.widget.ImageView;
 import android.widget.ListAdapter;
 import android.widget.ListView;
@@ -127,8 +130,9 @@ public class RasporedUtakmica extends Activity {
         String imeResursaZaGrb = PostavljanjeGrbova.postaviGrbove(imeKluba);
 
         if (!imeResursaZaGrb.equals("-")) {
-            int id = getResId(imeResursaZaGrb);
-            slikaKluba.setImageResource(id);
+            byte[] decodedString = Base64.decode(imeResursaZaGrb, Base64.DEFAULT);
+            Bitmap decodedByte = BitmapFactory.decodeByteArray(decodedString, 0, decodedString.length);
+            slikaKluba.setImageBitmap(decodedByte);
         }
     }
 

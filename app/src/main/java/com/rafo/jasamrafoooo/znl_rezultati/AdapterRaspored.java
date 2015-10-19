@@ -1,6 +1,9 @@
 package com.rafo.jasamrafoooo.znl_rezultati;
 
 import android.content.Context;
+import android.graphics.Bitmap;
+import android.graphics.BitmapFactory;
+import android.util.Base64;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -73,13 +76,19 @@ class AdapterRaspored extends ArrayAdapter<Kolo> {
             String imeResursaZaGrbGosta = PostavljanjeGrbova.postaviGrbove(away);
 
             if (!imeResursaZaGrbDomacina.equals("-")) {
-                int id = getResId(imeResursaZaGrbDomacina);
-                holder.slikaDomacin.setImageResource(id);
+                byte[] decodedString = Base64.decode(imeResursaZaGrbDomacina, Base64.DEFAULT);
+                Bitmap decodedByte = BitmapFactory.decodeByteArray(decodedString, 0, decodedString.length);
+                holder.slikaDomacin.setImageBitmap(decodedByte);
+            }else{
+                holder.slikaDomacin.setImageBitmap(null);
             }
 
             if (!imeResursaZaGrbGosta.equals("-")) {
-                int id = getResId(imeResursaZaGrbGosta);
-                holder.slikaGost.setImageResource(id);
+                byte[] decodedString = Base64.decode(imeResursaZaGrbGosta, Base64.DEFAULT);
+                Bitmap decodedByte = BitmapFactory.decodeByteArray(decodedString, 0, decodedString.length);
+                holder.slikaGost.setImageBitmap(decodedByte);
+            }else{
+                holder.slikaGost.setImageBitmap(null);
             }
         }
         else{
@@ -90,8 +99,8 @@ class AdapterRaspored extends ArrayAdapter<Kolo> {
             holder.rezultat.setText("");
             holder.datum.setText("");
             holder.vrijeme.setText("");
-            holder.slikaDomacin.setImageResource(0);
-            holder.slikaGost.setImageResource(0);
+            holder.slikaDomacin.setImageBitmap(null);
+            holder.slikaGost.setImageBitmap(null);
         }
 
         return convertView;

@@ -1,6 +1,9 @@
 package com.rafo.jasamrafoooo.znl_rezultati;
 
 import android.content.Context;
+import android.graphics.Bitmap;
+import android.graphics.BitmapFactory;
+import android.util.Base64;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -63,14 +66,21 @@ class PosljednjeAdapter extends ArrayAdapter<Posljednje> {
         String imeResursaZaGrbGosta = PostavljanjeGrbova.postaviGrbove(away);
 
         if (!imeResursaZaGrbDomacina.equals("-")) {
-            int id = getResId(imeResursaZaGrbDomacina);
-            holder.domacinSlika.setImageResource(id);
+            byte[] decodedString = Base64.decode(imeResursaZaGrbDomacina, Base64.DEFAULT);
+            Bitmap decodedByte = BitmapFactory.decodeByteArray(decodedString, 0, decodedString.length);
+            holder.domacinSlika.setImageBitmap(decodedByte);
+        }else{
+            holder.domacinSlika.setImageBitmap(null);
         }
 
         if (!imeResursaZaGrbGosta.equals("-")) {
-            int id = getResId(imeResursaZaGrbGosta);
-            holder.gostSlika.setImageResource(id);
+            byte[] decodedString = Base64.decode(imeResursaZaGrbGosta, Base64.DEFAULT);
+            Bitmap decodedByte = BitmapFactory.decodeByteArray(decodedString, 0, decodedString.length);
+            holder.gostSlika.setImageBitmap(decodedByte);
+        }else{
+            holder.gostSlika.setImageBitmap(null);
         }
+
         return convertView;
     }
 

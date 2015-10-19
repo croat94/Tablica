@@ -3,34 +3,70 @@ package com.rafo.jasamrafoooo.znl_rezultati;
 import android.app.Activity;
 import android.content.Context;
 import android.content.Intent;
+import android.graphics.Bitmap;
+import android.graphics.BitmapFactory;
+import android.graphics.Typeface;
+import android.os.AsyncTask;
 import android.os.Bundle;
+import android.util.Base64;
+import android.util.Log;
 import android.view.View;
+import android.widget.AdapterView;
+import android.widget.Button;
+import android.widget.ImageView;
+import android.widget.ListView;
+import android.widget.TextView;
 
 import com.google.android.gms.ads.AdRequest;
 import com.google.android.gms.ads.AdView;
 
+import org.jsoup.Jsoup;
+import org.jsoup.nodes.Document;
+import org.jsoup.nodes.Element;
+import org.jsoup.select.Elements;
+
 import java.io.File;
+import java.io.IOException;
 
 
 public class SplashScreen extends Activity {
 
-    public static final String URLM = "http://www.nk-sokol.hr/component/option,com_joomleague/func,showResultsRank/p,70%20/Itemid,529/";
-    public static final String URLP = "http://www.nk-sokol.hr/component/option,com_joomleague/func,showResultsRank/p,71/Itemid,514/";
-    public static final String URLD = "http://www.nk-sokol.hr/component/option,com_joomleague/func,showResultsRank/p,72%20/Itemid,535/";
-    public static final String URLT = "http://www.nk-sokol.hr/component/option,com_joomleague/func,showResultsRank/p,73%20/Itemid,538/";
+
+    public static final String linkNaURLove = "http://znlrezultati.simplesite.com/";
+    public boolean readLinks = false;
+
+    public String URLM = "http://www.nk-sokol.hr/component/option,com_joomleague/func,showResultsRank/p,87%20/Itemid,529/";
+    public String URLP = "http://www.nk-sokol.hr/component/option,com_joomleague/func,showResultsRank/p,91%20/Itemid,574/";
+    public String URLD = "http://www.nk-sokol.hr/component/option,com_joomleague/func,showResultsRank/p,89%20/Itemid,578/";
+    public String URLT = "http://www.nk-sokol.hr/component/option,com_joomleague/func,showResultsRank/p,90%20/Itemid,582/";
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_splash_screen);
-
+        Typeface manifestTypeface= Typeface.createFromAsset(this.getAssets(), "fonts/track.ttf");
         AdView adView = (AdView)this.findViewById(R.id.adView);
         AdRequest adRequest = new AdRequest.Builder()
                 .addTestDevice("705A531EF2DFC7439759DDD27F57A110")
                 .build();
         adView.loadAd(adRequest);
-    }
+        ImageView logoSlika = (ImageView) findViewById(R.id.logoSlika);
+        String imeResursaZaGrb = PostavljanjeGrbova.postaviGrbove("logo");
+        Button buttonTznl = (Button) findViewById(R.id.buttonTznl);
+        Button buttonDznl = (Button) findViewById(R.id.buttonDznl);
+        Button buttonPznl = (Button) findViewById(R.id.buttonMznl);
+        Button buttonMznl = (Button) findViewById(R.id.buttonPznl);
+        buttonTznl.setTypeface(manifestTypeface);
+        buttonDznl.setTypeface(manifestTypeface);
+        buttonPznl.setTypeface(manifestTypeface);
+        buttonMznl.setTypeface(manifestTypeface);
 
+        if (!imeResursaZaGrb.equals("-")) {
+            byte[] decodedString = Base64.decode(imeResursaZaGrb, Base64.DEFAULT);
+            Bitmap decodedByte = BitmapFactory.decodeByteArray(decodedString, 0, decodedString.length);
+            logoSlika.setImageBitmap(decodedByte);
+        }
+    }
 
     public void clickedMznl(View view){
         Intent i = new Intent(SplashScreen.this, Tablica.class);

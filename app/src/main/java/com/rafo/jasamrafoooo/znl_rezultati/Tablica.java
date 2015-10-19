@@ -11,6 +11,7 @@ import android.app.ProgressDialog;
 import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
+import android.graphics.Color;
 import android.net.ConnectivityManager;
 import android.net.NetworkInfo;
 import android.os.AsyncTask;
@@ -56,6 +57,7 @@ public class Tablica extends Activity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_tablica);
 
+
         System.setProperty("http.keepAlive", "false");
 
         Button buttonTablica1 = (Button) findViewById(R.id.buttonTablica1);
@@ -74,9 +76,9 @@ public class Tablica extends Activity {
             URL = extras.getString("newUrl");
         }
 
-        buttonTablica1.setBackgroundResource(R.drawable.clicked_button);
+        buttonTablica1.setBackgroundResource(R.drawable.active);
         buttonTablica1.setEnabled(false);
-        buttonPosljednje1.setBackgroundResource(R.drawable.not_clicked_button);
+        buttonPosljednje1.setBackgroundResource(R.drawable.not_active);
         buttonPosljednje1.setEnabled(true);
 
 

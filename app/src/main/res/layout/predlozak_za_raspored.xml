@@ -15,102 +15,6 @@
         android:layout_alignParentLeft="true"
         android:layout_alignParentStart="true">
 
-        <TextView
-            android:id="@+id/kolo"
-            android:layout_width="25dp"
-            android:layout_height="fill_parent"
-            android:layout_alignParentLeft="true"
-            android:layout_alignParentStart="true"
-            android:layout_alignParentTop="true"
-            android:layout_gravity="center"
-            android:autoText="false"
-            android:background="#ff4941a8"
-            android:gravity="center"
-            android:text="10"
-            android:textAppearance="?android:attr/textAppearanceLarge"
-            android:textColor="#ffffff"
-            android:textSize="17sp" />
-
-
-        <TextView
-            android:id="@+id/domacin"
-            android:layout_width="95dp"
-            android:layout_height="wrap_content"
-            android:layout_centerVertical="true"
-            android:layout_gravity="center_vertical"
-            android:layout_toRightOf="@+id/domacinSlika"
-            android:paddingLeft="4dp"
-            android:text="NK Šartovac"
-            android:textAppearance="?android:attr/textAppearanceLarge"
-            android:textColor="#000000"
-            android:textSize="15dp"
-            android:typeface="sans" />
-
-        <TextView
-            android:id="@+id/rezultat"
-            android:layout_width="55dp"
-            android:layout_height="wrap_content"
-            android:layout_centerVertical="true"
-            android:layout_toRightOf="@+id/domacin"
-            android:gravity="center"
-            android:nestedScrollingEnabled="true"
-            android:text="15:12"
-            android:textAppearance="?android:attr/textAppearanceLarge"
-            android:textColor="#000000"
-            android:textSize="18dp" />
-
-        <TextView
-            android:id="@+id/gost"
-            android:layout_width="95dp"
-            android:layout_height="wrap_content"
-            android:layout_centerVertical="true"
-            android:layout_gravity="center"
-            android:layout_toLeftOf="@+id/gostSlika"
-            android:gravity="right"
-            android:paddingRight="4dp"
-            android:text="NK Šartovac"
-            android:textAppearance="?android:attr/textAppearanceLarge"
-            android:textColor="#000000"
-            android:textSize="15dp"
-            android:typeface="sans" />
-
-        <TextView
-            android:id="@+id/datum"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_alignParentBottom="true"
-            android:layout_marginLeft="145dp"
-            android:paddingBottom="2dp"
-            android:text="21.09.2015."
-            android:textAppearance="?android:attr/textAppearanceSmall"
-            android:textColor="#ff909090"
-            android:textSize="11dp" />
-
-        <ImageView
-            android:id="@+id/domacinSlika"
-            android:layout_width="25dp"
-            android:layout_height="25dp"
-            android:layout_centerVertical="true"
-            android:layout_toRightOf="@+id/kolo" />
-
-        <ImageView
-            android:id="@+id/gostSlika"
-            android:layout_width="25dp"
-            android:layout_height="25dp"
-            android:layout_alignParentRight="true"
-            android:layout_centerVertical="true" />
-
-        <TextView
-            android:id="@+id/vrijeme"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:text="17:30"
-            android:textAppearance="?android:attr/textAppearanceSmall"
-            android:textColor="#ff909090"
-            android:textSize="11dp"
-            android:layout_alignParentTop="true"
-            android:layout_marginLeft="159dp"
-            android:paddingTop="2dp" />
 
         <TextView
             android:layout_width="fill_parent"
@@ -120,11 +24,118 @@
             android:id="@+id/slobodnoKolo"
             android:textColor="#000000"
             android:layout_alignParentTop="true"
-            android:layout_alignRight="@+id/gostSlika"
-            android:layout_alignEnd="@+id/gostSlika"
             android:gravity="center" />
 
 
     </RelativeLayout>
+
+    <LinearLayout
+        android:orientation="horizontal"
+        android:layout_width="fill_parent"
+        android:layout_height="65dp"
+        android:background="#ffffff">
+
+        <TextView
+            android:id="@+id/kolo"
+            android:layout_width="25dp"
+            android:layout_height="fill_parent"
+            android:layout_alignParentLeft="true"
+            android:layout_alignParentStart="true"
+            android:layout_alignParentTop="true"
+            android:layout_gravity="center"
+            android:autoText="false"
+            android:background="#006699"
+            android:gravity="center"
+            android:text="10"
+            android:textAppearance="?android:attr/textAppearanceLarge"
+            android:textColor="#ffffff"
+            android:textSize="17sp" />
+
+        <ImageView
+            android:id="@+id/domacinSlika"
+            android:layout_width="25dp"
+            android:layout_height="25dp"
+            android:layout_gravity="center" />
+
+        <TextView
+            android:id="@+id/domacin"
+            android:layout_width="fill_parent"
+            android:layout_height="wrap_content"
+            android:layout_centerVertical="true"
+            android:layout_gravity="center_vertical"
+            android:paddingLeft="4dp"
+            android:text="NK Šartovac"
+            android:textColor="#000000"
+            android:textSize="15dp"
+            android:typeface="sans"
+            android:layout_weight="1" />
+
+        <LinearLayout
+            android:orientation="vertical"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center">
+
+            <TextView
+                android:id="@+id/vrijeme"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="17:30"
+                android:textAppearance="?android:attr/textAppearanceSmall"
+                android:textColor="#ffaeaeae"
+                android:textSize="11dp"
+                android:layout_alignParentTop="true"
+                android:paddingTop="2dp"
+                android:layout_gravity="center" />
+
+            <TextView
+                android:id="@+id/rezultat"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_centerVertical="true"
+                android:nestedScrollingEnabled="false"
+                android:text="15:12"
+                android:textColor="#000000"
+                android:textSize="18dp"
+                android:layout_gravity="center" />
+
+            <TextView
+                android:id="@+id/datum"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_alignParentBottom="true"
+                android:paddingBottom="2dp"
+                android:text="21.09.2015."
+                android:textAppearance="?android:attr/textAppearanceSmall"
+                android:textColor="#ffaeaeae"
+                android:textSize="11dp"
+                android:layout_gravity="center" />
+
+        </LinearLayout>
+
+        <TextView
+            android:id="@+id/gost"
+            android:layout_width="fill_parent"
+            android:layout_height="wrap_content"
+            android:layout_centerVertical="true"
+            android:layout_gravity="center"
+            android:layout_toLeftOf="@+id/gostSlika"
+            android:gravity="right"
+            android:paddingRight="4dp"
+            android:text="NK Šartovac"
+            android:textColor="#000000"
+            android:textSize="15dp"
+            android:typeface="sans"
+            android:layout_weight="1"/>
+
+        <ImageView
+            android:id="@+id/gostSlika"
+            android:layout_width="25dp"
+            android:layout_height="25dp"
+            android:layout_alignParentRight="true"
+            android:layout_centerVertical="true"
+            android:layout_gravity="center" />
+
+    </LinearLayout>
 
 </RelativeLayout>
