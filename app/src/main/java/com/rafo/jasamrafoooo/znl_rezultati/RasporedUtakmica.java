@@ -16,13 +16,15 @@ import android.widget.TextView;
 
 import com.google.android.gms.ads.AdRequest;
 import com.google.android.gms.ads.AdView;
+
 import org.jsoup.Jsoup;
 import org.jsoup.nodes.Document;
 import org.jsoup.nodes.Element;
 import org.jsoup.select.Elements;
 
 import java.io.IOException;
-import java.lang.reflect.Field;
+import java.util.ArrayList;
+import java.util.List;
 
 
 public class RasporedUtakmica extends Activity {
@@ -32,65 +34,53 @@ public class RasporedUtakmica extends Activity {
     public ListAdapter mojAdapter;
     public String rasporedURL;
     public String[] mojipodatci = new String[6];
-    public int j=0;
+    public int j = 0;
     public int brojKola = 0;
     public boolean pronasaoPodatke = false;
-    public Kolo[] konacanRaspored;
     ProgressDialog progress;
-    public String privremena=" ";
+    public String privremena = " ";
     public ImageView slikaKluba;
     public int odredivanjeSlobodnogKola = 0;
+    private List<Kolo> matches = new ArrayList<Kolo>();
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_raspored_utakmica);
-
-        System.setProperty("http.keepAlive", "false");
-
-        TextView imeEkipe = (TextView) findViewById(R.id.imeEkipe);
-        slikaKluba = (ImageView) findViewById(R.id.slikaKluba);
-
-        AdView adView = (AdView)this.findViewById(R.id.adView4);
-        AdRequest adRequest = new AdRequest.Builder()
-                .addTestDevice("705A531EF2DFC7439759DDD27F57A110")
-                .build();
-        adView.loadAd(adRequest);
-
         Bundle extras = getIntent().getExtras();
         if (extras != null) {
             imeKluba = extras.getString("team");
             URL = extras.getString("URL");
         }
+        System.setProperty("http.keepAlive", "false");
+        TextView imeEkipe = (TextView) findViewById(R.id.imeEkipe);
+        slikaKluba = (ImageView) findViewById(R.id.slikaKluba);
+        setUpAd();
         imeEkipe.setText(imeKluba);
         postaviSliku();
-        konacanRaspored = new Kolo[35];
-        //inicijalizacija svih objekata
-        for (int k = 0;k<35;k++)
-            konacanRaspored[k] = new Kolo();
         pokreni();
     }
 
-    public void pokreni(){
+    public void pokreni() {
         progress = ProgressDialog.show(this, "Dohvaćanje podataka",
                 "Pričekajte...", true);
         // omogući prekidanje progress dialoga
         progress.setCancelable(true);
         progress.setCanceledOnTouchOutside(false);
-        progress.setOnCancelListener(new DialogInterface.OnCancelListener(){
+        progress.setOnCancelListener(new DialogInterface.OnCancelListener() {
             @Override
-            public void onCancel(DialogInterface dialog){
+            public void onCancel(DialogInterface dialog) {
                 finish();
-            }});
+            }
+        });
 
         new FetchWebsiteData().execute();
     }
 
-    private class FetchWebsiteData extends AsyncTask<Void, Void, BrojacKlubova> {
+    private class FetchWebsiteData extends AsyncTask<Void, Void, Void> {
 
         @Override
-        protected BrojacKlubova doInBackground(Void... params) {
-            BrojacKlubova brojacKlubova = new BrojacKlubova();
+        protected Void doInBackground(Void... params) {
             try {
                 // Connect to website
                 Document document = Jsoup.connect(URL).get();
@@ -98,24 +88,23 @@ public class RasporedUtakmica extends Activity {
                 Elements podatci = document.select("td[valign=top]");
                 rasporedURL = dohvatiLinkZaRaspored(podatci);
                 //spoji se na novi link i preuzmi podatke
-                Document docRaspored =  Jsoup.connect(rasporedURL).get();
+                Document docRaspored = Jsoup.connect(rasporedURL).get();
                 Elements podatciRaspored = docRaspored.select("td[align]");
                 obradiPodatke(podatciRaspored);
-                brojacKlubova.brojKlubova = brojKola; //koristi se brojacKlubova, ali to samo sluzi da se odredi broj kola
             } catch (IOException e) {
                 e.printStackTrace();
             }
-            return brojacKlubova;
+            return null;
         }
 
         @Override
-        protected void onPostExecute(BrojacKlubova brojacKlubova) {
+        protected void onPostExecute(Void aVoid) {
             progress.dismiss();
-            mojAdapter = new AdapterRaspored(getApplicationContext(), konacanRaspored, brojacKlubova.brojKlubova);
-            ListView lista = (ListView) findViewById(R.id.predlozak_za_raspored);
-            lista.setAdapter(mojAdapter);
-
-            if(konacanRaspored[0].getDatum().equals("E") && konacanRaspored[1].getDatum().equals("E")){
+            if (matches.size() > 0) {
+                mojAdapter = new RasporedAdapter(getApplicationContext(), matches);
+                ListView lista = (ListView) findViewById(R.id.predlozak_za_raspored);
+                lista.setAdapter(mojAdapter);
+            }else{
                 runOnUiThread(new Runnable() {
                     @Override
                     public void run() {
@@ -126,37 +115,65 @@ public class RasporedUtakmica extends Activity {
         }
     }
 
-    public void postaviSliku(){
-        String imeResursaZaGrb = PostavljanjeGrbova.postaviGrbove(imeKluba);
+    public void obradiPodatke(Elements podatciRaspored) {
 
-        if (!imeResursaZaGrb.equals("-")) {
-            byte[] decodedString = Base64.decode(imeResursaZaGrb, Base64.DEFAULT);
-            Bitmap decodedByte = BitmapFactory.decodeByteArray(decodedString, 0, decodedString.length);
-            slikaKluba.setImageBitmap(decodedByte);
+        for (Element podatakRaspored : podatciRaspored) {
+            String tekstPodatka = podatakRaspored.text();
+            //makni višak praznih znakova sa kraja
+            tekstPodatka = tekstPodatka.replaceAll("\\s+$", "");
+            //kada nađeš datum, tada znaš da slijede podatci
+            if (pronasaoPodatke) {
+                if (j < 6) {
+                    mojipodatci[j] = tekstPodatka;
+                    j++;
+                } else {
+                    j = 0;
+                    pronasaoPodatke = false;
+                    matches.add(new Kolo(
+                            brojKola, mojipodatci[2], mojipodatci[4],
+                            mojipodatci[5], mojipodatci[0], mojipodatci[1]
+                    ));
+                }
+            }
+
+            if (tekstPodatka.length() > 5 && (tekstPodatka.charAt(2) == '.' && tekstPodatka.charAt(5) == '.')) {
+                //ovo mi na neki cudan nacin skuzi da se radi o slobodnom kolu
+                j = 1;
+                brojKola = Integer.valueOf(privremena);
+                if (brojKola > odredivanjeSlobodnogKola + 1) {
+                    matches.add(new Kolo(
+                            brojKola-1, "E", "E", "E", "E", "E"));
+                }
+                odredivanjeSlobodnogKola = brojKola;
+                mojipodatci[0] = tekstPodatka;
+                pronasaoPodatke = true;
+            }
+            privremena = tekstPodatka;
         }
     }
 
-    public int getResId(String variableName) {
+    public String dohvatiLinkZaRaspored(Elements podatci) {
+        for (Element podatak : podatci) {
+            String tekstPodatka = podatak.text();
+            tekstPodatka = tekstPodatka.replaceAll("\\s+$", "");
 
-        try {
-            Class res = R.drawable.class;
-            Field idField = res.getDeclaredField(variableName);
-            return idField.getInt(idField);
-        } catch (Exception e) {
-            e.printStackTrace();
-            return -1;
+            if (tekstPodatka.equals(imeKluba)) {
+                int brojac = 0;
+                Elements links = podatak.select("a[href]");
+                for (Element link : links) {
+                    if (brojac < 2)
+                        brojac++;
+                    else {
+                        rasporedURL = link.attr("href");
+                        break;
+                    }
+                }
+            }
         }
+        return rasporedURL;
     }
 
-
-
-    @Override
-    protected void onPause() {
-        super.onPause();
-        progress.dismiss();
-    }
-
-    public void neuspjesanDohvatAlertDialog(){
+    public void neuspjesanDohvatAlertDialog() {
         try {
             AlertDialog alert = new AlertDialog.Builder(RasporedUtakmica.this).create();
             alert.setCancelable(false);
@@ -179,67 +196,32 @@ public class RasporedUtakmica extends Activity {
 
 
             alert.show();
-        }
-        catch(Exception e){
-        }
-    }
-
-    public void obradiPodatke(Elements podatciRaspored){
-
-        for (Element podatakRaspored: podatciRaspored){
-            String tekstPodatka = podatakRaspored.text();
-            //makni višak praznih znakova sa kraja
-            tekstPodatka = tekstPodatka.replaceAll("\\s+$", "");
-            //kada nađeš datum, tada znaš da slijede podatci
-            if (pronasaoPodatke){
-                if (j<6) {
-                    mojipodatci[j] = tekstPodatka;
-                    j++;
-                }
-                else {
-                    j = 0;
-                    pronasaoPodatke = false;
-                    konacanRaspored[brojKola-1] = new Kolo(
-                            brojKola, mojipodatci[2], mojipodatci[4],
-                            mojipodatci[5], mojipodatci[0], mojipodatci[1]
-                    );
-                }
-            }
-
-            if( tekstPodatka.length()>5 && (tekstPodatka.charAt(2) == '.' && tekstPodatka.charAt(5) == '.')){
-                j = 1;
-                brojKola = Integer.valueOf(privremena);
-                if (brojKola > odredivanjeSlobodnogKola + 1){
-                    konacanRaspored[odredivanjeSlobodnogKola] = new Kolo(
-                            brojKola-1, "E", "E","E", "E", "E");
-                }
-                odredivanjeSlobodnogKola = brojKola;
-                mojipodatci[0] = tekstPodatka;
-                pronasaoPodatke = true;
-            }
-            privremena = tekstPodatka;
+        } catch (Exception e) {
         }
     }
 
-    public String dohvatiLinkZaRaspored(Elements podatci){
-        for (Element podatak : podatci) {
-            String tekstPodatka = podatak.text();
-            tekstPodatka = tekstPodatka.replaceAll("\\s+$", "");
+    public void postaviSliku() {
+        String imeResursaZaGrb = PostavljanjeGrbova.postaviGrbove(imeKluba);
 
-            if (tekstPodatka.equals(imeKluba)){
-                int brojac = 0;
-                Elements links = podatak.select("a[href]");
-                for (Element link : links) {
-                    if (brojac < 2)
-                        brojac++;
-                    else {
-                        rasporedURL = link.attr("href");
-                        break;
-                    }
-                }
-            }
+        if (!imeResursaZaGrb.equals("-")) {
+            byte[] decodedString = Base64.decode(imeResursaZaGrb, Base64.DEFAULT);
+            Bitmap decodedByte = BitmapFactory.decodeByteArray(decodedString, 0, decodedString.length);
+            slikaKluba.setImageBitmap(decodedByte);
         }
-        return rasporedURL;
+    }
+
+    private void setUpAd() {
+        AdView adView = (AdView) this.findViewById(R.id.adView4);
+        AdRequest adRequest = new AdRequest.Builder()
+                .addTestDevice("705A531EF2DFC7439759DDD27F57A110")
+                .build();
+        adView.loadAd(adRequest);
+    }
+
+    @Override
+    protected void onPause() {
+        super.onPause();
+        progress.dismiss();
     }
 
 }

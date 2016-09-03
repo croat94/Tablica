@@ -9,15 +9,6 @@ public class Kolo {
     private String datum;
     private String vrijeme;
 
-    public Kolo(){
-        kolo = 0;
-        domacin = "E";
-        gost = "E";
-        rezultat = "E";
-        datum = "E";
-        vrijeme = "E";
-    }
-
     public Kolo(int num, String home, String away, String score, String date, String time) {
         kolo = num;
         domacin = home;

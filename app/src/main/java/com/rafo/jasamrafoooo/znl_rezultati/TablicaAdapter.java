@@ -12,21 +12,15 @@ import android.widget.ImageView;
 import android.widget.TextView;
 
 import java.lang.reflect.Field;
+import java.util.List;
 
-public class CustomAdapter extends ArrayAdapter<Momcad>{
+public class TablicaAdapter extends ArrayAdapter<Momcad>{
 
     protected Context mContext;
-    public int ukupanBrojKlubova;
 
-    public CustomAdapter(Context context, Momcad[] values, int num) {
-        super(context, R.layout.predlozak, values);
+    public TablicaAdapter(Context context, List<Momcad> values) {
+        super(context, R.layout.predlozak_tablica_redak, values);
         mContext = context;
-        ukupanBrojKlubova = num;
-    }
-
-    @Override
-    public int getCount() {
-        return ukupanBrojKlubova;
     }
 
     @Override
@@ -34,7 +28,7 @@ public class CustomAdapter extends ArrayAdapter<Momcad>{
 
         ViewHolder holder;
         if (convertView == null){
-            convertView = LayoutInflater.from(mContext).inflate(R.layout.predlozak, null);
+            convertView = LayoutInflater.from(mContext).inflate(R.layout.predlozak_tablica_redak, null);
             holder = new ViewHolder();
             holder.imeMomcadi = (TextView) convertView.findViewById(R.id.momcad);
             holder.pozicija = (TextView) convertView.findViewById(R.id.kolo);

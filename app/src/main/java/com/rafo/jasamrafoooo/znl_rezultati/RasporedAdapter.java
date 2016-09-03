@@ -13,22 +13,16 @@ import android.widget.TextView;
 
 
 import java.lang.reflect.Field;
+import java.util.List;
 
-class AdapterRaspored extends ArrayAdapter<Kolo> {
+class RasporedAdapter extends ArrayAdapter<Kolo> {
 
     protected Context mContext;
-    public int ukupanBrojKlubova;
 
     //constructor
-    AdapterRaspored(Context context, Kolo[] foods, int num) {
-        super(context, R.layout.predlozak_za_raspored, foods);
+    RasporedAdapter(Context context, List<Kolo> values) {
+        super(context, R.layout.predlozak_za_raspored, values);
         mContext = context;
-        ukupanBrojKlubova = num;
-    }
-
-    @Override
-    public int getCount() {
-        return ukupanBrojKlubova;
     }
 
     @Override
@@ -46,7 +40,6 @@ class AdapterRaspored extends ArrayAdapter<Kolo> {
             holder.vrijeme = (TextView) convertView.findViewById(R.id.vrijeme);
             holder.slikaDomacin = (ImageView) convertView.findViewById(R.id.domacinSlika);
             holder.slikaGost = (ImageView) convertView.findViewById(R.id.gostSlika);
-            holder.slobodnoKolo = (TextView) convertView.findViewById(R.id.slobodnoKolo);
             convertView.setTag(holder);
         }
         else{
@@ -70,7 +63,6 @@ class AdapterRaspored extends ArrayAdapter<Kolo> {
             holder.rezultat.setText(score);
             holder.datum.setText(date + '.');
             holder.vrijeme.setText(time);
-            holder.slobodnoKolo.setText("");
 
             String imeResursaZaGrbDomacina = PostavljanjeGrbova.postaviGrbove(home);
             String imeResursaZaGrbGosta = PostavljanjeGrbova.postaviGrbove(away);
@@ -92,11 +84,10 @@ class AdapterRaspored extends ArrayAdapter<Kolo> {
             }
         }
         else{
-            holder.slobodnoKolo.setText("   Slobodno kolo");
             holder.kolo.setText(String.valueOf(num));
             holder.domacin.setText("");
             holder.gost.setText("");
-            holder.rezultat.setText("");
+            holder.rezultat.setText("Slobodno kolo");
             holder.datum.setText("");
             holder.vrijeme.setText("");
             holder.slikaDomacin.setImageBitmap(null);
@@ -113,7 +104,6 @@ class AdapterRaspored extends ArrayAdapter<Kolo> {
         TextView gost;
         TextView datum;
         TextView vrijeme;
-        TextView slobodnoKolo;
         ImageView slikaDomacin;
         ImageView slikaGost;
     }
