@@ -19,6 +19,7 @@ import android.widget.TextView;
 
 import com.google.android.gms.ads.AdRequest;
 import com.google.android.gms.ads.AdView;
+import com.rafo.jasamrafoooo.znl_rezultati.util.ContextSettings;
 
 import org.jsoup.Jsoup;
 import org.jsoup.nodes.Document;
@@ -34,17 +35,16 @@ public class SplashScreen extends Activity {
 
     public static final String linkNaURLove = "http://znlrezultati.simplesite.com/";
     public boolean readLinks = false;
-
-    public String URLM = "http://www.nk-sokol.hr/component/option,com_joomleague/func,showResultsRank/p,87%20/Itemid,529/";
-    public String URLP = "http://www.nk-sokol.hr/component/option,com_joomleague/func,showResultsRank/p,91%20/Itemid,574/";
-    public String URLD = "http://www.nk-sokol.hr/component/option,com_joomleague/func,showResultsRank/p,89%20/Itemid,578/";
-    public String URLT = "http://www.nk-sokol.hr/component/option,com_joomleague/func,showResultsRank/p,90%20/Itemid,582/";
+    public static String URLM;
+    public static String URLP;
+    public static String URLD;
+    public static String URLT;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_splash_screen);
-        Typeface manifestTypeface= Typeface.createFromAsset(this.getAssets(), "fonts/track.ttf");
+        Typeface manifestTypeface= Typeface.createFromAsset(this.getAssets(), "fonts/asimov.otf");
         AdView adView = (AdView)this.findViewById(R.id.adView);
         AdRequest adRequest = new AdRequest.Builder()
                 .addTestDevice("705A531EF2DFC7439759DDD27F57A110")
@@ -61,6 +61,11 @@ public class SplashScreen extends Activity {
         buttonPznl.setTypeface(manifestTypeface);
         buttonMznl.setTypeface(manifestTypeface);
 
+        URLM = ContextSettings.getURLM();
+        URLP = ContextSettings.getURLP();
+        URLD = ContextSettings.getURLD();
+        URLT = ContextSettings.getURLT();
+
         if (!imeResursaZaGrb.equals("-")) {
             byte[] decodedString = Base64.decode(imeResursaZaGrb, Base64.DEFAULT);
             Bitmap decodedByte = BitmapFactory.decodeByteArray(decodedString, 0, decodedString.length);
@@ -70,22 +75,22 @@ public class SplashScreen extends Activity {
 
     public void clickedMznl(View view){
         Intent i = new Intent(SplashScreen.this, Tablica.class);
-        i.putExtra("newUrl",URLM);
+        i.putExtra("newUrl", URLM);
         startActivity(i);
     }
     public void clickedPznl(View view){
         Intent i = new Intent(SplashScreen.this, Tablica.class);
-        i.putExtra("newUrl",URLP);
+        i.putExtra("newUrl", URLP);
         startActivity(i);
     }
     public void clickedDznl(View view){
         Intent i = new Intent(SplashScreen.this, Tablica.class);
-        i.putExtra("newUrl",URLD);
+        i.putExtra("newUrl", URLD);
         startActivity(i);
     }
     public void clickedTznl(View view){
         Intent i = new Intent(SplashScreen.this, Tablica.class);
-        i.putExtra("newUrl",URLT);
+        i.putExtra("newUrl", URLT);
         startActivity(i);
     }
 

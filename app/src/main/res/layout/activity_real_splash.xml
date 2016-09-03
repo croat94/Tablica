@@ -8,28 +8,21 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:textAppearance="?android:attr/textAppearanceSmall"
-        android:text="\u00A9 Copyright by Rafo"
+        android:text="\u00A9 Rafo"
         android:id="@+id/textView2"
         android:layout_alignParentBottom="true"
         android:layout_centerHorizontal="true"
         android:textColor="#ffffff"
         android:typeface="serif" />
 
-    <ImageView
-        android:layout_width="wrap_content"
-        android:layout_height="120dp"
-        android:id="@+id/slikaSponzor"
-        android:layout_above="@+id/textView2"
-        android:layout_centerHorizontal="true" />
-
-    <TextView
+    <ProgressBar
+        style="?android:attr/progressBarStyleLarge"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:textAppearance="?android:attr/textAppearanceLarge"
-        android:id="@+id/textViewLoading"
+        android:id="@+id/progressBar"
+        android:indeterminateDrawable="@drawable/progressbar_custom"
         android:layout_centerVertical="true"
-        android:layout_centerHorizontal="true"
-        android:textSize="100sp" />
+        android:layout_centerHorizontal="true" />
 
 
 </RelativeLayout>

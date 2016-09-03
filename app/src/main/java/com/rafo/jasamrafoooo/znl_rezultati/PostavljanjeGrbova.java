@@ -1,8 +1,16 @@
 package com.rafo.jasamrafoooo.znl_rezultati;
 
+import android.app.Activity;
 import android.database.Cursor;
 import android.os.AsyncTask;
 import android.util.Log;
+import android.view.View;
+import android.widget.AdapterView;
+import android.widget.ListView;
+import android.widget.TextView;
+import android.widget.Toast;
+
+import com.rafo.jasamrafoooo.znl_rezultati.util.ContextSettings;
 
 import org.jsoup.Jsoup;
 import org.jsoup.nodes.Document;
@@ -18,9 +26,11 @@ public class PostavljanjeGrbova{
     public static String nista = "-";
     public static List<String[]> grboviKlubova = new ArrayList<String[]>();
     private static boolean prikaziGrbove = false;
+    private Activity activity;
 
-    public PostavljanjeGrbova(){
+    public PostavljanjeGrbova(Activity activity){
         prikaziGrbove = false;
+        this.activity = activity;
         new FetchWebsiteData().execute();
     }
 
@@ -236,11 +246,12 @@ public class PostavljanjeGrbova{
         @Override
         protected List<String[]> doInBackground(Void... params) {
             try {
-                Document document = Jsoup.connect("http://justpaste.it/o1o2").get();
+                Document document = Jsoup.connect("https://justpaste.it/xywg").get();
                 Element podatak = document.select("div#articleContent").first();
                 try {
                     grboviKlubova.clear();
                     String tekst = podatak.toString();
+                    Log.i("PORUKA", tekst);
                     tekst = tekst.replace("<span id=\"\"></span>", "");
                     String[] podatciOKlubovima = tekst.split("!!!!!!!!!!");
                     for (String podatakOKlubu : podatciOKlubovima) {
@@ -249,7 +260,16 @@ public class PostavljanjeGrbova{
                             if (vrijednostiZaJedanKlub[1].equals("da")) {
                                 prikaziGrbove = true;
                             }
+                        }else if (vrijednostiZaJedanKlub[0].equals("MZNL")){
+                            ContextSettings.setURLM(vrijednostiZaJedanKlub[1]);
+                        }else if (vrijednostiZaJedanKlub[0].equals("PZNL")){
+                            ContextSettings.setURLP(vrijednostiZaJedanKlub[1]);
+                        }else if (vrijednostiZaJedanKlub[0].equals("DZNL")){
+                            ContextSettings.setURLD(vrijednostiZaJedanKlub[1]);
+                        }else if (vrijednostiZaJedanKlub[0].equals("TZNL")){
+                            ContextSettings.setURLT(vrijednostiZaJedanKlub[1]);
                         }
+                        Log.i("PORUKA", vrijednostiZaJedanKlub[0] + " -> " + vrijednostiZaJedanKlub[1]);
                     }
                 }catch (Exception e){
                 }
@@ -257,6 +277,13 @@ public class PostavljanjeGrbova{
                 e.printStackTrace();
             }
             return grboviKlubova;
+        }
+
+        @Override
+        protected void onPostExecute(List<String[]> strings) {
+            super.onPostExecute(strings);
+            RealSplash rs = (RealSplash) activity;
+            rs.dataLoaded();
         }
     }
 

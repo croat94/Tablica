@@ -14,12 +14,15 @@ import android.os.Handler;
 import android.os.Bundle;
 import android.util.Base64;
 import android.widget.ImageView;
+import android.widget.ProgressBar;
 import android.widget.TextView;
 
 
 public class RealSplash extends Activity {
 
     private TextView textViewLoading;
+    private ProgressBar progressBar;
+
     private int mProgressStatus = 0;
     public int i = 0;
 
@@ -33,18 +36,19 @@ public class RealSplash extends Activity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_real_splash);
-        Typeface oJuiceTypeFace= Typeface.createFromAsset(this.getAssets(), "fonts/orangejuice.ttf");
-        textViewLoading = (TextView) findViewById(R.id.textViewLoading);
-        textViewLoading.setTypeface(oJuiceTypeFace);
+        //Typeface oJuiceTypeFace= Typeface.createFromAsset(this.getAssets(), "fonts/orangejuice.ttf");
+//        textViewLoading = (TextView) findViewById(R.id.textViewLoading);
+        progressBar = (ProgressBar) findViewById(R.id.progressBar);
+        //textViewLoading.setTypeface(oJuiceTypeFace);
 
-        ImageView slikaSponzor = (ImageView) findViewById(R.id.slikaSponzor);
-        String imeResursaZaSponzor = PostavljanjeGrbova.postaviGrbove("sponzor");
+//        ImageView slikaSponzor = (ImageView) findViewById(R.id.slikaSponzor);
+//        String imeResursaZaSponzor = PostavljanjeGrbova.postaviGrbove("sponzor");
 
-        if (!imeResursaZaSponzor.equals("-")) {
-            byte[] decodedString = Base64.decode(imeResursaZaSponzor, Base64.DEFAULT);
-            Bitmap decodedByte = BitmapFactory.decodeByteArray(decodedString, 0, decodedString.length);
-            slikaSponzor.setImageBitmap(decodedByte);
-        }
+//        if (!imeResursaZaSponzor.equals("-")) {
+//            byte[] decodedString = Base64.decode(imeResursaZaSponzor, Base64.DEFAULT);
+//            Bitmap decodedByte = BitmapFactory.decodeByteArray(decodedString, 0, decodedString.length);
+//            slikaSponzor.setImageBitmap(decodedByte);
+//        }
 
         boolean spojen = isNetworkAvailable();
         if (!spojen){
@@ -67,36 +71,36 @@ public class RealSplash extends Activity {
         }
 
         else {
-            new PostavljanjeGrbova();
-            Thread thread = new Thread() {
-                @Override
-                public void run() {
-                    while (mProgressStatus < 100) {
-                        mProgressStatus = doWork();
-                        mHandler.post(new Runnable() {
-                            public void run() {
-                                textViewLoading.setText(mProgressStatus + "%");
-                            }
-                        });
-                    }
-                    Intent i = new Intent(RealSplash.this, SplashScreen.class);
-                    startActivity(i);
-                    finish();
-                }
-
-                public int doWork() {
-                    try {
-                        synchronized (this) {
-                            wait(25);
-                            i++;
-                        }
-                    } catch (InterruptedException ex) {
-                    }
-                    return i;
-                }
-            };
-
-            thread.start();
+            new PostavljanjeGrbova(this);
+//            Thread thread = new Thread() {
+//                @Override
+//                public void run() {
+//                    while (mProgressStatus < 100) {
+//                        mProgressStatus = doWork();
+//                        mHandler.post(new Runnable() {
+//                            public void run() {
+//                                textViewLoading.setText(mProgressStatus + "%");
+//                            }
+//                        });
+//                    }
+//                    Intent i = new Intent(RealSplash.this, SplashScreen.class);
+//                    startActivity(i);
+//                    finish();
+//                }
+//
+//                public int doWork() {
+//                    try {
+//                        synchronized (this) {
+//                            wait(20);
+//                            i++;
+//                        }
+//                    } catch (InterruptedException ex) {
+//                    }
+//                    return i;
+//                }
+//            };
+//
+//            thread.start();
 
         }
 
@@ -109,5 +113,11 @@ public class RealSplash extends Activity {
                 = (ConnectivityManager) getSystemService(Context.CONNECTIVITY_SERVICE);
         NetworkInfo activeNetworkInfo = connectivityManager.getActiveNetworkInfo();
         return activeNetworkInfo != null && activeNetworkInfo.isConnected();
+    }
+
+    public void dataLoaded(){
+        Intent i = new Intent(RealSplash.this, SplashScreen.class);
+        startActivity(i);
+        finish();
     }
 }
