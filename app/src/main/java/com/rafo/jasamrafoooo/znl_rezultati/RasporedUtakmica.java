@@ -33,14 +33,8 @@ public class RasporedUtakmica extends Activity {
     public String URL;
     public ListAdapter mojAdapter;
     public String rasporedURL;
-    public String[] mojipodatci = new String[6];
-    public int j = 0;
-    public int brojKola = 0;
-    public boolean pronasaoPodatke = false;
     ProgressDialog progress;
-    public String privremena = " ";
     public ImageView slikaKluba;
-    public int odredivanjeSlobodnogKola = 0;
     private List<Kolo> matches = new ArrayList<Kolo>();
 
     @Override
@@ -64,7 +58,6 @@ public class RasporedUtakmica extends Activity {
     public void pokreni() {
         progress = ProgressDialog.show(this, "Dohvaćanje podataka",
                 "Pričekajte...", true);
-        // omogući prekidanje progress dialoga
         progress.setCancelable(true);
         progress.setCanceledOnTouchOutside(false);
         progress.setOnCancelListener(new DialogInterface.OnCancelListener() {
@@ -82,15 +75,11 @@ public class RasporedUtakmica extends Activity {
         @Override
         protected Void doInBackground(Void... params) {
             try {
-                // Connect to website
                 Document document = Jsoup.connect(URL).get();
-                //pronađi link na kojem se nalazi raspored utakmica
                 Elements podatci = document.select("td[valign=top]");
-                rasporedURL = dohvatiLinkZaRaspored(podatci);
-                //spoji se na novi link i preuzmi podatke
+                String rasporedURL = dohvatiLinkZaRaspored(podatci);
                 Document docRaspored = Jsoup.connect(rasporedURL).get();
-                Elements podatciRaspored = docRaspored.select("td[align]");
-                obradiPodatke(podatciRaspored);
+                matches = WebDataManipulator.sokolRaspored(docRaspored);
             } catch (IOException e) {
                 e.printStackTrace();
             }
@@ -112,43 +101,6 @@ public class RasporedUtakmica extends Activity {
                     }
                 });
             }
-        }
-    }
-
-    public void obradiPodatke(Elements podatciRaspored) {
-
-        for (Element podatakRaspored : podatciRaspored) {
-            String tekstPodatka = podatakRaspored.text();
-            //makni višak praznih znakova sa kraja
-            tekstPodatka = tekstPodatka.replaceAll("\\s+$", "");
-            //kada nađeš datum, tada znaš da slijede podatci
-            if (pronasaoPodatke) {
-                if (j < 6) {
-                    mojipodatci[j] = tekstPodatka;
-                    j++;
-                } else {
-                    j = 0;
-                    pronasaoPodatke = false;
-                    matches.add(new Kolo(
-                            brojKola, mojipodatci[2], mojipodatci[4],
-                            mojipodatci[5], mojipodatci[0], mojipodatci[1]
-                    ));
-                }
-            }
-
-            if (tekstPodatka.length() > 5 && (tekstPodatka.charAt(2) == '.' && tekstPodatka.charAt(5) == '.')) {
-                //ovo mi na neki cudan nacin skuzi da se radi o slobodnom kolu
-                j = 1;
-                brojKola = Integer.valueOf(privremena);
-                if (brojKola > odredivanjeSlobodnogKola + 1) {
-                    matches.add(new Kolo(
-                            brojKola-1, "E", "E", "E", "E", "E"));
-                }
-                odredivanjeSlobodnogKola = brojKola;
-                mojipodatci[0] = tekstPodatka;
-                pronasaoPodatke = true;
-            }
-            privremena = tekstPodatka;
         }
     }
 

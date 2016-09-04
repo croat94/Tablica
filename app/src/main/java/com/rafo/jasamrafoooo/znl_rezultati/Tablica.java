@@ -1,10 +1,5 @@
 package com.rafo.jasamrafoooo.znl_rezultati;
 
-import org.jsoup.Jsoup;
-import org.jsoup.nodes.Document;
-import org.jsoup.nodes.Element;
-import org.jsoup.select.Elements;
-
 import android.app.AlertDialog;
 import android.app.ProgressDialog;
 import android.content.Context;
@@ -25,6 +20,9 @@ import android.widget.TextView;
 import com.google.android.gms.ads.AdRequest;
 import com.google.android.gms.ads.AdView;
 
+import org.jsoup.Jsoup;
+import org.jsoup.nodes.Document;
+
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
@@ -32,16 +30,11 @@ import java.util.List;
 
 public class Tablica extends FragmentActivity {
 
-    public String URL;
-    ProgressDialog progress;
-    public ListAdapter mojAdapter;
-    public String[] teamData = new String[9];
-    public int i = 0;
-    public int j;
-    public boolean flag = false;
-    public boolean prvi = true;
-    TextView txtView;
-    public boolean prethodnoPozvanPosljednje = false;
+    private String URL;
+    private ProgressDialog progress;
+    private ListAdapter mojAdapter;
+    public TextView txtView;
+    private boolean prethodnoPozvanPosljednje = false;
     private List<Momcad> teamOrderList = new ArrayList<>();
 
     @Override
@@ -118,16 +111,7 @@ public class Tablica extends FragmentActivity {
             try {
                 // Connect to website
                 Document document = Jsoup.connect(URL).get();
-                Elements podatci = document.select("td[valign=top]");
-                for (Element podatak : podatci) {
-                    if (!flag) {
-                        String tekstPodatka = podatak.text();
-                        //makni višak praznih znakova sa kraja
-                        tekstPodatka = tekstPodatka.replaceAll("\\s+$", "");
-                        obradiPodatke(tekstPodatka);
-                    } else
-                        flag = false;
-                }
+                teamOrderList = WebDataManipulator.sokolTable(document);
             } catch (IOException e) {
                 e.printStackTrace();
             }
@@ -158,31 +142,6 @@ public class Tablica extends FragmentActivity {
                         neuspjesanDohvatAlertDialog();
                     }
                 });
-            }
-        }
-    }
-
-    public void obradiPodatke(String tekstPodatka) {
-        if ((tekstPodatka.indexOf('(')) == 0 && ((tekstPodatka.indexOf(')')) == 2
-                || (tekstPodatka.indexOf(')')) == 3)) {
-            flag = true;
-            j = 1;
-            i++;
-            teamData[0] = String.valueOf(i);
-        } else if (j != 9) {
-            //ubaci podatke o momcadi u polje
-            teamData[j] = tekstPodatka;
-            j++;
-            //kada doznaš sve podatke, dodaj momcad u listu
-            if (j == 9) {
-                if (prvi)
-                    prvi = false;
-                else
-                    teamOrderList.add(new Momcad(
-                            teamData[0], teamData[1], teamData[2],
-                            teamData[3], teamData[4], teamData[5],
-                            teamData[6], teamData[7], teamData[8]
-                    ));
             }
         }
     }

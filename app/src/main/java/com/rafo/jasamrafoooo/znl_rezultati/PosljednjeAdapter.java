@@ -12,6 +12,7 @@ import android.widget.ImageView;
 import android.widget.TextView;
 
 import java.lang.reflect.Field;
+import java.util.List;
 
 class PosljednjeAdapter extends ArrayAdapter<Posljednje> {
 
@@ -19,15 +20,9 @@ class PosljednjeAdapter extends ArrayAdapter<Posljednje> {
     public int ukupanBrojKlubova;
 
     //constructor
-    PosljednjeAdapter(Context context, Posljednje[] foods, int num) {
-        super(context, R.layout.predlozak_za_posljednje_kolo, foods);
+    PosljednjeAdapter(Context context, List<Posljednje> values) {
+        super(context, R.layout.predlozak_za_posljednje_kolo, values);
         mContext = context;
-        ukupanBrojKlubova = num;
-    }
-
-    @Override
-    public int getCount() {
-        return ukupanBrojKlubova;
     }
 
     @Override
@@ -90,17 +85,5 @@ class PosljednjeAdapter extends ArrayAdapter<Posljednje> {
         TextView gost;
         ImageView domacinSlika;
         ImageView gostSlika;
-    }
-
-    public int getResId(String variableName) {
-
-        try {
-            Class res = R.drawable.class;
-            Field idField = res.getDeclaredField(variableName);
-            return idField.getInt(idField);
-        } catch (Exception e) {
-            e.printStackTrace();
-            return -1;
-        }
     }
 }

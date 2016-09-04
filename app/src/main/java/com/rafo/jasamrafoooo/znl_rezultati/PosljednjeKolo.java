@@ -5,7 +5,6 @@ import android.app.AlertDialog;
 import android.app.ProgressDialog;
 import android.content.DialogInterface;
 import android.content.Intent;
-import android.graphics.Color;
 import android.os.AsyncTask;
 import android.os.Bundle;
 import android.util.Log;
@@ -22,12 +21,9 @@ import com.google.android.gms.ads.AdView;
 
 import org.jsoup.Jsoup;
 import org.jsoup.nodes.Document;
-import org.jsoup.nodes.Element;
-import org.jsoup.select.Elements;
 
 import java.io.IOException;
 import java.util.ArrayList;
-import java.util.Arrays;
 import java.util.List;
 
 
@@ -35,18 +31,15 @@ public class PosljednjeKolo extends Activity {
 
     private static String originalURL;
     public String URL;
-    public Posljednje[] konacanRaspored;
     ProgressDialog progress;
     public ListAdapter mojAdapter;
-    public boolean pronasaoPodatke = false;
-    public String[] mojipodatci = new String[6];
-    public int j=0;
-    public int i=0;
+    public int i = 0;
     public int brojPrikazanogKola;
     public int brojPosljednjegKola;
     public Spinner spinnerKolo;
     public Button buttonProsloKolo;
     public Button buttonSljedeceKolo;
+    public List<Posljednje> posljednjeList = new ArrayList<>();
 
     @Override
     public void onBackPressed() {
@@ -60,10 +53,21 @@ public class PosljednjeKolo extends Activity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_posljednje_kolo);
-
+        Bundle extras = getIntent().getExtras();
+        if (extras != null) {
+            originalURL = extras.getString("newUrl");
+            URL = originalURL;
+        }
         System.setProperty("http.keepAlive", "false");
-
+        Button buttonTablica2 = (Button) findViewById(R.id.buttonTablica2);
+        Button buttonPosljednje2 = (Button) findViewById(R.id.buttonPosljednje2);
+        buttonTablica2.setBackgroundResource(R.drawable.not_active);
+        buttonTablica2.setEnabled(true);
+        buttonPosljednje2.setBackgroundResource(R.drawable.active);
+        buttonProsloKolo = (Button) findViewById(R.id.buttonProsloKolo);
+        buttonSljedeceKolo = (Button) findViewById(R.id.buttonSljedeceKolo);
         spinnerKolo = (Spinner) findViewById(R.id.spinnerKolo);
+        ListView predlozak_za_posljednje_kolo = (ListView) findViewById(R.id.predlozak_za_posljednje_kolo);
         spinnerKolo.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
             @Override
             public void onItemSelected(AdapterView<?> parentView, View selectedItemView, int position, long id) {
@@ -75,36 +79,10 @@ public class PosljednjeKolo extends Activity {
 
             @Override
             public void onNothingSelected(AdapterView<?> parentView) {
-                // your code here
             }
 
         });
-
-        Button buttonTablica2 = (Button) findViewById(R.id.buttonTablica2);
-        Button buttonPosljednje2 = (Button) findViewById(R.id.buttonPosljednje2);
-        buttonProsloKolo = (Button) findViewById(R.id.buttonProsloKolo);
-        buttonSljedeceKolo = (Button) findViewById(R.id.buttonSljedeceKolo);
-
-        ListView predlozak_za_posljednje_kolo = (ListView) findViewById(R.id.predlozak_za_posljednje_kolo);
-
-        AdView adView = (AdView)this.findViewById(R.id.adView3);
-        AdRequest adRequest = new AdRequest.Builder()
-                .addTestDevice("705A531EF2DFC7439759DDD27F57A110")
-                .build();
-        adView.loadAd(adRequest);
-
-        Bundle extras = getIntent().getExtras();
-        if (extras != null) {
-            originalURL = extras.getString("newUrl");
-            URL = originalURL;
-        }
-
-        buttonTablica2.setBackgroundResource(R.drawable.not_active);
-        buttonTablica2.setEnabled(true);
-        buttonPosljednje2.setBackgroundResource(R.drawable.active);
-       // buttonPosljednje2.setEnabled(false);
-
-        predlozak_za_posljednje_kolo.setOnTouchListener(new OnSwipeTouchListener(PosljednjeKolo.this){
+        predlozak_za_posljednje_kolo.setOnTouchListener(new OnSwipeTouchListener(PosljednjeKolo.this) {
 
             public void onSwipeRight() {
                 Intent i = new Intent(getApplicationContext(), Tablica.class);
@@ -113,149 +91,57 @@ public class PosljednjeKolo extends Activity {
             }
 
         });
-
-        //konacanRaspored = new Posljednje[15];
-
-        //inicijalizacija svih objekata
-        //for (int k = 0;k<15;k++)
-          //  konacanRaspored[k] = new Posljednje();
-
+        setUpAd();
         pokreni();
-
     }
 
-    public void pokreni(){
+    public void pokreni() {
         progress = ProgressDialog.show(this, "Dohvaćanje podataka",
                 "Pričekajte...", true);
-        // omogući prekidanje progress dialoga
         progress.setCancelable(true);
         progress.setCanceledOnTouchOutside(false);
-        progress.setOnCancelListener(new DialogInterface.OnCancelListener(){
+        progress.setOnCancelListener(new DialogInterface.OnCancelListener() {
             @Override
-            public void onCancel(DialogInterface dialog){
+            public void onCancel(DialogInterface dialog) {
                 finish();
-            }});
-        konacanRaspored = null;
-        konacanRaspored = new Posljednje[15];
-
+            }
+        });
         buttonProsloKolo.setEnabled(true);
         buttonSljedeceKolo.setEnabled(true);
-        //inicijalizacija svih objekata
-        for (int k = 0;k<15;k++)
-            konacanRaspored[k] = new Posljednje();
         i = 0;
         new FetchWebsiteData().execute();
     }
-    private class FetchWebsiteData extends AsyncTask<Void, Void, BrojacKlubova> {
+
+    private class FetchWebsiteData extends AsyncTask<Void, Void, Void> {
 
         @Override
-        protected BrojacKlubova doInBackground(Void... params) {
-            BrojacKlubova brojacKlubova = new BrojacKlubova();
+        protected Void doInBackground(Void... params) {
             try {
                 // Connect to website
                 Document document = Jsoup.connect(URL).get();
-
-                Elements podatciOKolu = document.select("option");
-                for (Element podatakOKolu: podatciOKolu){
-                    String pomText = podatakOKolu.text();
-                    pomText = pomText.replaceAll("\\s+$", "");
-                    if (pomText.substring(0,1).matches("0"))
-                        pomText = pomText.substring(1,2);
-                    Log.i("MOJ TAG 2", "---------" + pomText + "---------");
-                    brojPosljednjegKola = Integer.parseInt(pomText);
-                }
-
-                podatciOKolu = document.select("td[class=contentheading]");
-                int pomocnaVarijabla = 0;
-                for (Element podatakOKolu: podatciOKolu){
-                    if (pomocnaVarijabla == 0){
-                        String pomText = podatakOKolu.text();
-                        pomText = pomText.substring(10,12);
-                        if (pomText.contains("."))
-                            pomText = pomText.substring(0,1);
-                        Log.i("MOJ TAG", "---------" + pomText + "---------");
-                        brojPrikazanogKola = Integer.parseInt(pomText);
-                    }
-                    pomocnaVarijabla = 1;
-                }
-
-
-
-                Elements podatciRaspored = document.select("td[nowrap=nowrap]");
-                for (Element podatakRaspored: podatciRaspored){
-                    String tekstPodatka = podatakRaspored.text();
-                    //makni višak praznih znakova sa kraja
-                    tekstPodatka = tekstPodatka.replaceAll("\\s+$", "");
-                    if (pronasaoPodatke){
-                        if (j<6) {
-                            mojipodatci[j] = tekstPodatka;
-                            j++;
-                        }
-                        else {
-                            j = 0;
-                            pronasaoPodatke = false;
-                            konacanRaspored[i-1] = new Posljednje(
-                                    mojipodatci[1], mojipodatci[4], mojipodatci[5]
-                            );
-                        }
-                    }
-
-                    else if( tekstPodatka.length() > 2 &&tekstPodatka.charAt(2) == ':'){
-                        j = 0;
-                        i++;
-                        pronasaoPodatke = true;
-                    }
-
-                }
-                brojacKlubova.brojKlubova = i;
+                brojPosljednjegKola = WebDataManipulator.sokolPosljednjeKoloBroj(document);
+                brojPrikazanogKola = WebDataManipulator.sokolPosljednjeKoloPrikazano(document);
+                posljednjeList = WebDataManipulator.sokolPosljednjeKolo(document);
             } catch (IOException e) {
                 e.printStackTrace();
             }
-            return brojacKlubova;
+            return null;
         }
 
         @Override
-        protected void onPostExecute(BrojacKlubova brojacKlubova) {
+        protected void onPostExecute(Void aVoid) {
             progress.dismiss();
-            mojAdapter = new PosljednjeAdapter(getApplicationContext(), konacanRaspored, brojacKlubova.brojKlubova);
+            mojAdapter = new PosljednjeAdapter(getApplicationContext(), posljednjeList);
             ListView lista = (ListView) findViewById(R.id.predlozak_za_posljednje_kolo);
             lista.setAdapter(mojAdapter);
             dodajSvaKolaUListu(brojPosljednjegKola);
             provjeriJeLiPrvoIliZadnje();
 
-            if(konacanRaspored[0].getDomacin().equals("E")){
-
+            if (posljednjeList.get(0).getDomacin().equals("E")) {
                 runOnUiThread(new Runnable() {
                     @Override
                     public void run() {
-
-                        try {
-                            AlertDialog alert = new AlertDialog.Builder(PosljednjeKolo.this).create();
-                            alert.setCancelable(false);
-
-
-                            alert.setTitle("Problem pri dohvaćanju podataka");
-                            alert.setMessage("Provjerite Internet vezu i pokušajte ponovno!");
-                            alert.setIcon(android.R.drawable.ic_dialog_alert);
-                            alert.setButton2("Pokušaj ponovno", new DialogInterface.OnClickListener() {
-                                        public void onClick(DialogInterface dialog, int which) {
-                                            pokreni();
-                                        }
-                                    }
-                            );
-                            alert.setButton("Izađi", new DialogInterface.OnClickListener() {
-                                        public void onClick(DialogInterface dialog, int which) {
-                                            finish();
-                                        }
-                                    }
-                            );
-
-
-                            alert.show();
-                        }
-                        catch(Exception e){
-                        }
-
+                        neuspjesanDohvatAlertDialog();
                     }
                 });
             }
@@ -269,36 +155,70 @@ public class PosljednjeKolo extends Activity {
         startActivity(i);
     }
 
-    public void dodajSvaKolaUListu (int maxBrojKola){
+    public void dodajSvaKolaUListu(int maxBrojKola) {
         ArrayList<Integer> lista = new ArrayList<Integer>(maxBrojKola);
-        for (int brojac = 0; brojac < maxBrojKola; brojac++){
-            lista.add(brojac+1);
+        for (int brojac = 0; brojac < maxBrojKola; brojac++) {
+            lista.add(brojac + 1);
         }
-        ArrayAdapter<Integer> adapter = new ArrayAdapter<Integer>(this,android.R.layout.simple_spinner_item, lista);
+        ArrayAdapter<Integer> adapter = new ArrayAdapter<Integer>(this, android.R.layout.simple_spinner_item, lista);
         spinnerKolo.setAdapter(adapter);
         spinnerKolo.setSelection(brojPrikazanogKola - 1);
     }
 
-    public void onClickButtonProsloKolo(View view){
+    public void onClickButtonProsloKolo(View view) {
         spinnerKolo.setSelection(brojPrikazanogKola - 1 - 1);
     }
 
-    public void onClickButtonSljedeceKolo(View view){
+    public void onClickButtonSljedeceKolo(View view) {
         spinnerKolo.setSelection(brojPrikazanogKola - 1 + 1);
     }
 
-    public void clickedButtonPosljednje (View view){
+    public void clickedButtonPosljednje(View view) {
         URL = originalURL;
         pokreni();
     }
 
-    public void provjeriJeLiPrvoIliZadnje(){
-        if (spinnerKolo.getSelectedItem() == 1){
+    public void provjeriJeLiPrvoIliZadnje() {
+        if (spinnerKolo.getSelectedItem() == 1) {
             buttonProsloKolo.setEnabled(false);
-        }
-        else if (spinnerKolo.getSelectedItem() == brojPosljednjegKola){
+        } else if (spinnerKolo.getSelectedItem() == brojPosljednjegKola) {
             buttonSljedeceKolo.setEnabled(false);
         }
+    }
+
+    public void neuspjesanDohvatAlertDialog() {
+        try {
+            AlertDialog alert = new AlertDialog.Builder(PosljednjeKolo.this).create();
+            alert.setCancelable(false);
+
+            alert.setTitle("Problem pri dohvaćanju podataka");
+            alert.setMessage("Provjerite Internet vezu i pokušajte ponovno!");
+            alert.setIcon(android.R.drawable.ic_dialog_alert);
+            alert.setButton2("Pokušaj ponovno", new DialogInterface.OnClickListener() {
+                        public void onClick(DialogInterface dialog, int which) {
+                            pokreni();
+                        }
+                    }
+            );
+            alert.setButton("Izađi", new DialogInterface.OnClickListener() {
+                        public void onClick(DialogInterface dialog, int which) {
+                            finish();
+                        }
+                    }
+            );
+
+
+            alert.show();
+        } catch (Exception e) {
+        }
+    }
+
+    private void setUpAd() {
+        AdView adView = (AdView) this.findViewById(R.id.adView3);
+        AdRequest adRequest = new AdRequest.Builder()
+                .addTestDevice("705A531EF2DFC7439759DDD27F57A110")
+                .build();
+        adView.loadAd(adRequest);
     }
 
     @Override
