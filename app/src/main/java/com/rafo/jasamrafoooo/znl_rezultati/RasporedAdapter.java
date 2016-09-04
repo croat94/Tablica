@@ -64,8 +64,8 @@ class RasporedAdapter extends ArrayAdapter<Kolo> {
             holder.datum.setText(date + '.');
             holder.vrijeme.setText(time);
 
-            String imeResursaZaGrbDomacina = PostavljanjeGrbova.postaviGrbove(home);
-            String imeResursaZaGrbGosta = PostavljanjeGrbova.postaviGrbove(away);
+            String imeResursaZaGrbDomacina = FetchStartData.postaviGrbove(home);
+            String imeResursaZaGrbGosta = FetchStartData.postaviGrbove(away);
 
             if (!imeResursaZaGrbDomacina.equals("-")) {
                 byte[] decodedString = Base64.decode(imeResursaZaGrbDomacina, Base64.DEFAULT);

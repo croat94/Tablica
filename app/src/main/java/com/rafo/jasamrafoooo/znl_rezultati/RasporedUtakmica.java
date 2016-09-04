@@ -153,7 +153,7 @@ public class RasporedUtakmica extends Activity {
     }
 
     public void postaviSliku() {
-        String imeResursaZaGrb = PostavljanjeGrbova.postaviGrbove(imeKluba);
+        String imeResursaZaGrb = FetchStartData.postaviGrbove(imeKluba);
 
         if (!imeResursaZaGrb.equals("-")) {
             byte[] decodedString = Base64.decode(imeResursaZaGrb, Base64.DEFAULT);

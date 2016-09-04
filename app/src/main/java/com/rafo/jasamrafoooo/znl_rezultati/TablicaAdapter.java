@@ -57,7 +57,7 @@ public class TablicaAdapter extends ArrayAdapter<Momcad>{
         holder.golRazlika.setText(momcad.getGolRazlika());
         holder.bodovi.setText(momcad.getBodovi());
 
-        String imeResursaZaGrb = PostavljanjeGrbova.postaviGrbove(momcad.getImeMomcadi());
+        String imeResursaZaGrb = FetchStartData.postaviGrbove(momcad.getImeMomcadi());
 
         if (!imeResursaZaGrb.equals("-")) {
             /*int id = getResId(imeResursaZaGrb);

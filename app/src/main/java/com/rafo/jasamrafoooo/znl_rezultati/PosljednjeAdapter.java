@@ -11,7 +11,6 @@ import android.widget.ArrayAdapter;
 import android.widget.ImageView;
 import android.widget.TextView;
 
-import java.lang.reflect.Field;
 import java.util.List;
 
 class PosljednjeAdapter extends ArrayAdapter<Posljednje> {
@@ -57,8 +56,8 @@ class PosljednjeAdapter extends ArrayAdapter<Posljednje> {
         holder.gost.setText(away);
         holder.rezultat.setText(score);
 
-        String imeResursaZaGrbDomacina = PostavljanjeGrbova.postaviGrbove(home);
-        String imeResursaZaGrbGosta = PostavljanjeGrbova.postaviGrbove(away);
+        String imeResursaZaGrbDomacina = FetchStartData.postaviGrbove(home);
+        String imeResursaZaGrbGosta = FetchStartData.postaviGrbove(away);
 
         if (!imeResursaZaGrbDomacina.equals("-")) {
             byte[] decodedString = Base64.decode(imeResursaZaGrbDomacina, Base64.DEFAULT);
