@@ -6,28 +6,17 @@ import android.content.Intent;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 import android.graphics.Typeface;
-import android.os.AsyncTask;
 import android.os.Bundle;
 import android.util.Base64;
-import android.util.Log;
 import android.view.View;
-import android.widget.AdapterView;
 import android.widget.Button;
 import android.widget.ImageView;
-import android.widget.ListView;
-import android.widget.TextView;
 
 import com.google.android.gms.ads.AdRequest;
 import com.google.android.gms.ads.AdView;
 import com.rafo.jasamrafoooo.znl_rezultati.util.ContextSettings;
 
-import org.jsoup.Jsoup;
-import org.jsoup.nodes.Document;
-import org.jsoup.nodes.Element;
-import org.jsoup.select.Elements;
-
 import java.io.File;
-import java.io.IOException;
 
 
 public class SplashScreen extends Activity {
@@ -39,6 +28,7 @@ public class SplashScreen extends Activity {
     public static String URLP;
     public static String URLD;
     public static String URLT;
+    public static String URLJ;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -51,20 +41,22 @@ public class SplashScreen extends Activity {
                 .build();
         adView.loadAd(adRequest);
         ImageView logoSlika = (ImageView) findViewById(R.id.logoSlika);
-        String imeResursaZaGrb = PostavljanjeGrbova.postaviGrbove("logo");
+        String imeResursaZaGrb = FetchStartData.postaviGrbove("logo");
         Button buttonTznl = (Button) findViewById(R.id.buttonTznl);
         Button buttonDznl = (Button) findViewById(R.id.buttonDznl);
         Button buttonPznl = (Button) findViewById(R.id.buttonMznl);
         Button buttonMznl = (Button) findViewById(R.id.buttonPznl);
+        Button buttonJuni = (Button) findViewById(R.id.buttonJuni);
         buttonTznl.setTypeface(manifestTypeface);
         buttonDznl.setTypeface(manifestTypeface);
         buttonPznl.setTypeface(manifestTypeface);
         buttonMznl.setTypeface(manifestTypeface);
-
+        buttonJuni.setTypeface(manifestTypeface);
         URLM = ContextSettings.getURLM();
         URLP = ContextSettings.getURLP();
         URLD = ContextSettings.getURLD();
         URLT = ContextSettings.getURLT();
+        URLJ = ContextSettings.getURLJ();
 
         if (!imeResursaZaGrb.equals("-")) {
             byte[] decodedString = Base64.decode(imeResursaZaGrb, Base64.DEFAULT);
@@ -91,6 +83,11 @@ public class SplashScreen extends Activity {
     public void clickedTznl(View view){
         Intent i = new Intent(SplashScreen.this, Tablica.class);
         i.putExtra("newUrl", URLT);
+        startActivity(i);
+    }
+    public void clickedJuni(View view){
+        Intent i = new Intent(SplashScreen.this, Tablica.class);
+        i.putExtra("newUrl", URLJ);
         startActivity(i);
     }
 

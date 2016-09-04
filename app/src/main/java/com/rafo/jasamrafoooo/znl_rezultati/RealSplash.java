@@ -5,15 +5,10 @@ import android.app.AlertDialog;
 import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
-import android.graphics.Bitmap;
-import android.graphics.BitmapFactory;
-import android.graphics.Typeface;
 import android.net.ConnectivityManager;
 import android.net.NetworkInfo;
 import android.os.Handler;
 import android.os.Bundle;
-import android.util.Base64;
-import android.widget.ImageView;
 import android.widget.ProgressBar;
 import android.widget.TextView;
 
@@ -42,7 +37,7 @@ public class RealSplash extends Activity {
         //textViewLoading.setTypeface(oJuiceTypeFace);
 
 //        ImageView slikaSponzor = (ImageView) findViewById(R.id.slikaSponzor);
-//        String imeResursaZaSponzor = PostavljanjeGrbova.postaviGrbove("sponzor");
+//        String imeResursaZaSponzor = FetchStartData.postaviGrbove("sponzor");
 
 //        if (!imeResursaZaSponzor.equals("-")) {
 //            byte[] decodedString = Base64.decode(imeResursaZaSponzor, Base64.DEFAULT);
@@ -71,37 +66,7 @@ public class RealSplash extends Activity {
         }
 
         else {
-            new PostavljanjeGrbova(this);
-//            Thread thread = new Thread() {
-//                @Override
-//                public void run() {
-//                    while (mProgressStatus < 100) {
-//                        mProgressStatus = doWork();
-//                        mHandler.post(new Runnable() {
-//                            public void run() {
-//                                textViewLoading.setText(mProgressStatus + "%");
-//                            }
-//                        });
-//                    }
-//                    Intent i = new Intent(RealSplash.this, SplashScreen.class);
-//                    startActivity(i);
-//                    finish();
-//                }
-//
-//                public int doWork() {
-//                    try {
-//                        synchronized (this) {
-//                            wait(20);
-//                            i++;
-//                        }
-//                    } catch (InterruptedException ex) {
-//                    }
-//                    return i;
-//                }
-//            };
-//
-//            thread.start();
-
+            new FetchStartData(this);
         }
 
 

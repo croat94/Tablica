@@ -131,13 +131,13 @@ public class PosljednjeKolo extends Activity {
         @Override
         protected void onPostExecute(Void aVoid) {
             progress.dismiss();
-            mojAdapter = new PosljednjeAdapter(getApplicationContext(), posljednjeList);
-            ListView lista = (ListView) findViewById(R.id.predlozak_za_posljednje_kolo);
-            lista.setAdapter(mojAdapter);
-            dodajSvaKolaUListu(brojPosljednjegKola);
-            provjeriJeLiPrvoIliZadnje();
-
-            if (posljednjeList.get(0).getDomacin().equals("E")) {
+            if (posljednjeList.size() > 0) {
+                mojAdapter = new PosljednjeAdapter(getApplicationContext(), posljednjeList);
+                ListView lista = (ListView) findViewById(R.id.predlozak_za_posljednje_kolo);
+                lista.setAdapter(mojAdapter);
+                dodajSvaKolaUListu(brojPosljednjegKola);
+                provjeriJeLiPrvoIliZadnje();
+            }else{
                 runOnUiThread(new Runnable() {
                     @Override
                     public void run() {
@@ -192,7 +192,7 @@ public class PosljednjeKolo extends Activity {
             alert.setCancelable(false);
 
             alert.setTitle("Problem pri dohvaćanju podataka");
-            alert.setMessage("Provjerite Internet vezu i pokušajte ponovno!");
+            alert.setMessage("Dohvat podataka nije uspio!");
             alert.setIcon(android.R.drawable.ic_dialog_alert);
             alert.setButton2("Pokušaj ponovno", new DialogInterface.OnClickListener() {
                         public void onClick(DialogInterface dialog, int which) {

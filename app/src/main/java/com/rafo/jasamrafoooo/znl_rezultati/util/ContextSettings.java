@@ -9,6 +9,7 @@ public class ContextSettings {
     public static String URLP = "";// = "http://www.nk-sokol.hr/component/option,com_joomleague/func,showResultsRank/p,99%20/Itemid,582/";
     public static String URLD = "";// = "http://www.nk-sokol.hr/component/option,com_joomleague/func,showResultsRank/p,89%20/Itemid,578/";
     public static String URLT = "";// = "http://www.nk-sokol.hr/component/option,com_joomleague/func,showResultsRank/p,100%20/Itemid,582/";
+    public static String URLJ = "";
 
     public static String getURLM() {
         return URLM;
@@ -44,5 +45,13 @@ public class ContextSettings {
     public static void setURLT(String URLT) {
         if (ContextSettings.URLT.equals(""))
             ContextSettings.URLT = URLT;
+    }
+
+    public static String getURLJ() {
+        return URLJ;
+    }
+
+    public static void setURLJ(String URLJ) {
+        ContextSettings.URLJ = URLJ;
     }
 }
