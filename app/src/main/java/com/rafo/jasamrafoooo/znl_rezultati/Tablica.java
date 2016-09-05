@@ -19,6 +19,7 @@ import android.widget.TextView;
 
 import com.google.android.gms.ads.AdRequest;
 import com.google.android.gms.ads.AdView;
+import com.rafo.jasamrafoooo.znl_rezultati.util.ContextSettings;
 
 import org.jsoup.Jsoup;
 import org.jsoup.nodes.Document;
@@ -61,8 +62,6 @@ public class Tablica extends FragmentActivity {
             Button buttonTablica1 = (Button) findViewById(R.id.buttonTablica1);
             Button buttonPosljednje1 = (Button) findViewById(R.id.buttonPosljednje1);
             ListView predlozak = (ListView) findViewById(R.id.predlozak_tablica_redak);
-            //postavi reklamu
-            setUpAd();
             buttonTablica1.setBackgroundResource(R.drawable.active);
             buttonTablica1.setEnabled(false);
             buttonPosljednje1.setBackgroundResource(R.drawable.not_active);
@@ -72,13 +71,15 @@ public class Tablica extends FragmentActivity {
                 public void onSwipeLeft() {
                     Intent i = new Intent(getApplicationContext(), PosljednjeKolo.class);
                     i.putExtra("newUrl", URL);
-                    if (prethodnoPozvanPosljednje)
+                    if (prethodnoPozvanPosljednje) {
                         i.setFlags(Intent.FLAG_ACTIVITY_REORDER_TO_FRONT);
-                    else
+                    }else {
                         prethodnoPozvanPosljednje = true;
+                    }
                     startActivity(i);
                 }
             });
+            ContextSettings.setUpAd(this, R.id.adView2);
             glavniPosao();
         }
     }
@@ -223,12 +224,9 @@ public class Tablica extends FragmentActivity {
         }
     }
 
-    private void setUpAd() {
-        AdView adView = (AdView) this.findViewById(R.id.adView2);
-        AdRequest adRequest = new AdRequest.Builder()
-                .addTestDevice("705A531EF2DFC7439759DDD27F57A110")
-                .build();
-        adView.loadAd(adRequest);
+    @Override
+    protected void onNewIntent(Intent intent) {
+        super.onNewIntent(intent);
+        overridePendingTransition(0,0);
     }
-
 }

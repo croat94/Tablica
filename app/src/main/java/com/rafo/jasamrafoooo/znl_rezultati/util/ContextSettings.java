@@ -1,14 +1,21 @@
 package com.rafo.jasamrafoooo.znl_rezultati.util;
 
+import android.app.Activity;
+import android.content.Context;
+
+import com.google.android.gms.ads.AdRequest;
+import com.google.android.gms.ads.AdView;
+import com.rafo.jasamrafoooo.znl_rezultati.R;
+
 /**
  * Created by Rafo on 2.9.2016..
  */
 public class ContextSettings {
 
-    public static String URLM = "";// = "http://www.nk-sokol.hr/component/option,com_joomleague/func,showResultsRank/p,87%20/Itemid,529/";
-    public static String URLP = "";// = "http://www.nk-sokol.hr/component/option,com_joomleague/func,showResultsRank/p,99%20/Itemid,582/";
-    public static String URLD = "";// = "http://www.nk-sokol.hr/component/option,com_joomleague/func,showResultsRank/p,89%20/Itemid,578/";
-    public static String URLT = "";// = "http://www.nk-sokol.hr/component/option,com_joomleague/func,showResultsRank/p,100%20/Itemid,582/";
+    public static String URLM = "";
+    public static String URLP = "";
+    public static String URLD = "";
+    public static String URLT = "";
     public static String URLJ = "";
 
     public static String getURLM() {
@@ -53,5 +60,13 @@ public class ContextSettings {
 
     public static void setURLJ(String URLJ) {
         ContextSettings.URLJ = URLJ;
+    }
+
+    public static void setUpAd(Activity activity, int id){
+        AdView adView = (AdView)activity.findViewById(id);
+        AdRequest adRequest = new AdRequest.Builder()
+                .addTestDevice("AF8BE4CB49854EC57FD72F2C4B84859") //dodati id svih uredaja na kojima se testira
+                .build();
+        adView.loadAd(adRequest);
     }
 }

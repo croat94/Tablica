@@ -5,76 +5,6 @@
     android:background="#006699"
     tools:context="com.rafo.jasamrafoooo.znl_rezultati.SplashScreen">
 
-
-    <Button
-        android:id="@+id/buttonTznl"
-        android:layout_width="wrap_content"
-        android:layout_height="70dp"
-        android:layout_below="@+id/buttonDznl"
-        android:layout_centerHorizontal="true"
-        android:onClick="clickedTznl"
-        android:text="3. ŽNL - NS Kutina"
-        android:textSize="30sp"
-        android:background="#00000000"
-        android:textColor="#ffffff" />
-
-    <Button
-        android:id="@+id/buttonDznl"
-        android:layout_width="wrap_content"
-        android:layout_height="70dp"
-        android:layout_below="@+id/buttonPznl"
-        android:layout_centerHorizontal="true"
-        android:onClick="clickedDznl"
-        android:text="2. ŽNL - NSSMŽ"
-        android:textSize="30sp"
-        android:background="#00000000"
-        android:textColor="#ffffff" />
-
-    <Button
-        android:id="@+id/buttonPznl"
-        android:layout_width="wrap_content"
-        android:layout_height="70dp"
-        android:layout_below="@+id/buttonMznl"
-        android:layout_centerHorizontal="true"
-        android:onClick="clickedPznl"
-        android:text="1. ŽNL - NSSMŽ"
-        android:textSize="30sp"
-        android:background="#00000000"
-        android:textColor="#ffffff" />
-
-    <Button
-        android:id="@+id/buttonMznl"
-        android:layout_width="wrap_content"
-        android:layout_height="70dp"
-        android:layout_below="@+id/logoSlika"
-        android:layout_centerHorizontal="true"
-        android:layout_marginTop="10dp"
-        android:onClick="clickedMznl"
-        android:text="MŽNL - Središte Zagreb"
-        android:textSize="30sp"
-        android:background="#00000000"
-        android:textColor="#ffffff" />
-
-    <Button
-        android:id="@+id/buttonJuni"
-        android:layout_width="wrap_content"
-        android:layout_height="70dp"
-        android:layout_below="@+id/buttonTznl"
-        android:layout_centerHorizontal="true"
-        android:onClick="clickedJuni"
-        android:text="Juniori - NS Kutina"
-        android:textSize="30sp"
-        android:background="#00000000"
-        android:textColor="#ffffff" />
-
-    <com.google.android.gms.ads.AdView xmlns:ads="http://schemas.android.com/apk/res-auto"
-        android:id="@+id/adView"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_alignParentBottom="true"
-        ads:adSize="BANNER"
-        ads:adUnitId="ca-app-pub-2920422408168999/7064213263" />
-
     <ImageView
         android:id="@+id/logoSlika"
         android:layout_width="wrap_content"
@@ -83,5 +13,83 @@
         android:layout_centerHorizontal="true"
         android:layout_marginTop="10dp" />
 
+    <ScrollView
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:layout_below="@+id/logoSlika">
+
+        <RelativeLayout
+            android:layout_width="match_parent"
+            android:layout_height="fill_parent">
+
+            <Button
+                android:id="@+id/buttonTznl"
+                android:layout_width="wrap_content"
+                android:layout_height="70dp"
+                android:layout_below="@+id/buttonDznl"
+                android:layout_centerHorizontal="true"
+                android:background="#00000000"
+                android:onClick="clickedTznl"
+                android:text="3. ŽNL - NS Kutina"
+                android:textColor="#ffffff"
+                android:textSize="30sp" />
+
+            <Button
+                android:id="@+id/buttonDznl"
+                android:layout_width="wrap_content"
+                android:layout_height="70dp"
+                android:layout_below="@+id/buttonPznl"
+                android:layout_centerHorizontal="true"
+                android:background="#00000000"
+                android:onClick="clickedDznl"
+                android:text="2. ŽNL - NSSMŽ"
+                android:textColor="#ffffff"
+                android:textSize="30sp" />
+
+            <Button
+                android:id="@+id/buttonPznl"
+                android:layout_width="wrap_content"
+                android:layout_height="70dp"
+                android:layout_below="@+id/buttonMznl"
+                android:layout_centerHorizontal="true"
+                android:background="#00000000"
+                android:onClick="clickedPznl"
+                android:text="1. ŽNL - NSSMŽ"
+                android:textColor="#ffffff"
+                android:textSize="30sp" />
+
+            <Button
+                android:id="@+id/buttonMznl"
+                android:layout_width="wrap_content"
+                android:layout_height="70dp"
+                android:layout_centerHorizontal="true"
+                android:layout_marginTop="10dp"
+                android:background="#00000000"
+                android:onClick="clickedMznl"
+                android:text="MŽNL - Središte Zagreb"
+                android:textColor="#ffffff"
+                android:textSize="30sp" />
+
+            <Button
+                android:id="@+id/buttonJuni"
+                android:layout_width="wrap_content"
+                android:layout_height="70dp"
+                android:layout_below="@+id/buttonTznl"
+                android:layout_centerHorizontal="true"
+                android:background="#00000000"
+                android:onClick="clickedJuni"
+                android:text="Juniori - NS Kutina"
+                android:textColor="#ffffff"
+                android:textSize="30sp" />
+        </RelativeLayout>
+    </ScrollView>
+
+    <com.google.android.gms.ads.AdView xmlns:ads="http://schemas.android.com/apk/res-auto"
+        android:id="@+id/adView"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_alignParentBottom="true"
+        ads:adSize="BANNER"
+        ads:adUnitId="ca-app-pub-2920422408168999/7064213263" />
 
 </RelativeLayout>

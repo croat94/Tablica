@@ -3,6 +3,7 @@ package com.rafo.jasamrafoooo.znl_rezultati;
 import android.app.Activity;
 import android.app.AlertDialog;
 import android.app.ProgressDialog;
+import android.content.Context;
 import android.content.DialogInterface;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
@@ -16,6 +17,7 @@ import android.widget.TextView;
 
 import com.google.android.gms.ads.AdRequest;
 import com.google.android.gms.ads.AdView;
+import com.rafo.jasamrafoooo.znl_rezultati.util.ContextSettings;
 
 import org.jsoup.Jsoup;
 import org.jsoup.nodes.Document;
@@ -49,7 +51,7 @@ public class RasporedUtakmica extends Activity {
         System.setProperty("http.keepAlive", "false");
         TextView imeEkipe = (TextView) findViewById(R.id.imeEkipe);
         slikaKluba = (ImageView) findViewById(R.id.slikaKluba);
-        setUpAd();
+        ContextSettings.setUpAd(this, R.id.adView4);
         imeEkipe.setText(imeKluba);
         postaviSliku();
         pokreni();
@@ -160,14 +162,6 @@ public class RasporedUtakmica extends Activity {
             Bitmap decodedByte = BitmapFactory.decodeByteArray(decodedString, 0, decodedString.length);
             slikaKluba.setImageBitmap(decodedByte);
         }
-    }
-
-    private void setUpAd() {
-        AdView adView = (AdView) this.findViewById(R.id.adView4);
-        AdRequest adRequest = new AdRequest.Builder()
-                .addTestDevice("705A531EF2DFC7439759DDD27F57A110")
-                .build();
-        adView.loadAd(adRequest);
     }
 
     @Override

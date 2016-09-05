@@ -18,6 +18,7 @@ import android.widget.Spinner;
 
 import com.google.android.gms.ads.AdRequest;
 import com.google.android.gms.ads.AdView;
+import com.rafo.jasamrafoooo.znl_rezultati.util.ContextSettings;
 
 import org.jsoup.Jsoup;
 import org.jsoup.nodes.Document;
@@ -91,7 +92,7 @@ public class PosljednjeKolo extends Activity {
             }
 
         });
-        setUpAd();
+        ContextSettings.setUpAd(this, R.id.adView3);
         pokreni();
     }
 
@@ -213,17 +214,15 @@ public class PosljednjeKolo extends Activity {
         }
     }
 
-    private void setUpAd() {
-        AdView adView = (AdView) this.findViewById(R.id.adView3);
-        AdRequest adRequest = new AdRequest.Builder()
-                .addTestDevice("705A531EF2DFC7439759DDD27F57A110")
-                .build();
-        adView.loadAd(adRequest);
-    }
-
     @Override
     protected void onPause() {
         super.onPause();
         progress.dismiss();
+    }
+
+    @Override
+    protected void onNewIntent(Intent intent) {
+        super.onNewIntent(intent);
+        overridePendingTransition(0,0);
     }
 }

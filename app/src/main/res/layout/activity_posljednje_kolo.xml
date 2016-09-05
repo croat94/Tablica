@@ -17,6 +17,7 @@
             android:layout_alignParentLeft="true"
             android:layout_alignParentStart="true"
             android:textColor="#ffffff"
+            android:background="@drawable/not_active"
             android:onClick="clickedButtonTablica"
             android:layout_weight="1"
             android:textSize="18dp" />
@@ -27,6 +28,7 @@
             android:text="Posljednje kolo"
             android:id="@+id/buttonPosljednje2"
             android:textColor="#ffffff"
+            android:background="@drawable/active"
             android:onClick="clickedButtonPosljednje"
             android:layout_alignParentTop="true"
             android:layout_alignParentRight="true"
@@ -53,28 +55,32 @@
         <Button
             android:layout_width="50dp"
             android:layout_height="wrap_content"
-            android:text="-"
+            android:text="&lt;"
             android:id="@+id/buttonProsloKolo"
             android:textSize="25sp"
             android:onClick="onClickButtonProsloKolo"
-            android:layout_gravity="center" />
+            android:layout_gravity="center"
+            android:textColor="#ffffff"
+            android:background="#006699"/>
 
         <Spinner
             android:layout_width="fill_parent"
             android:layout_height="match_parent"
             android:id="@+id/spinnerKolo"
             android:layout_weight="1"
-            android:spinnerMode="dialog"
-            android:textColor="#000000"/>
+            android:spinnerMode="dropdown"
+            android:background="#006699"/>
 
         <Button
             android:layout_width="50dp"
             android:layout_height="wrap_content"
-            android:text="+"
+            android:text="&gt;"
             android:id="@+id/buttonSljedeceKolo"
             android:textSize="25sp"
             android:onClick="onClickButtonSljedeceKolo"
-            android:layout_gravity="center" />
+            android:layout_gravity="center"
+            android:textColor="#ffffff"
+            android:background="#006699"/>
     </LinearLayout>
 
     <com.google.android.gms.ads.AdView
