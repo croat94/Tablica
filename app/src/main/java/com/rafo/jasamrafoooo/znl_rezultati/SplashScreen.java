@@ -29,9 +29,9 @@ public class SplashScreen extends Activity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_splash_screen);
-        Typeface manifestTypeface= Typeface.createFromAsset(this.getAssets(), "fonts/asimov.otf");
+        Typeface manifestTypeface = Typeface.createFromAsset(this.getAssets(), "fonts/asimov.otf");
         ContextSettings.setUpAd(this, R.id.adView);
-        ImageView logoSlika = (ImageView) findViewById(R.id.logoSlika);
+
         Button buttonTznl = (Button) findViewById(R.id.buttonTznl);
         Button buttonDznl = (Button) findViewById(R.id.buttonDznl);
         Button buttonPznl = (Button) findViewById(R.id.buttonPznl);
@@ -42,32 +42,38 @@ public class SplashScreen extends Activity {
         buttonPznl.setTypeface(manifestTypeface);
         buttonMznl.setTypeface(manifestTypeface);
         buttonJuni.setTypeface(manifestTypeface);
+
+        //provjera id-ja zbog reklama -- samo za test
         String android_id = Settings.Secure.getString(this.getContentResolver(), Settings.Secure.ANDROID_ID);
         String deviceId = md5(android_id).toUpperCase();
         Log.i("device id=", deviceId);
     }
 
-    public void clickedMznl(View view){
+    public void clickedMznl(View view) {
         Intent i = new Intent(SplashScreen.this, Tablica.class);
         i.putExtra("newUrl", ContextSettings.getURLM());
         startActivity(i);
     }
-    public void clickedPznl(View view){
+
+    public void clickedPznl(View view) {
         Intent i = new Intent(SplashScreen.this, Tablica.class);
         i.putExtra("newUrl", ContextSettings.getURLP());
         startActivity(i);
     }
-    public void clickedDznl(View view){
+
+    public void clickedDznl(View view) {
         Intent i = new Intent(SplashScreen.this, Tablica.class);
         i.putExtra("newUrl", ContextSettings.getURLD());
         startActivity(i);
     }
-    public void clickedTznl(View view){
+
+    public void clickedTznl(View view) {
         Intent i = new Intent(SplashScreen.this, Tablica.class);
         i.putExtra("newUrl", ContextSettings.getURLT());
         startActivity(i);
     }
-    public void clickedJuni(View view){
+
+    public void clickedJuni(View view) {
         Intent i = new Intent(SplashScreen.this, Tablica.class);
         i.putExtra("newUrl", ContextSettings.getURLJ());
         startActivity(i);
@@ -118,7 +124,7 @@ public class SplashScreen extends Activity {
 
             // Create Hex String
             StringBuffer hexString = new StringBuffer();
-            for (int i=0; i<messageDigest.length; i++)
+            for (int i = 0; i < messageDigest.length; i++)
                 hexString.append(Integer.toHexString(0xFF & messageDigest[i]));
             return hexString.toString();
 

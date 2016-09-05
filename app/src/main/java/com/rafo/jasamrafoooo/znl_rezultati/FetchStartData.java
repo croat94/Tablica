@@ -21,7 +21,7 @@ public class FetchStartData {
     private static boolean prikaziGrbove = false;
     private Activity activity;
 
-    public FetchStartData(Activity activity){
+    public FetchStartData(Activity activity) {
         prikaziGrbove = false;
         this.activity = activity;
         new FetchWebsiteData().execute();
@@ -32,7 +32,7 @@ public class FetchStartData {
         if (!prikaziGrbove)
             return nista;
         switch (imeKluba) {
-                 //-------------MŽNL---------------------------
+            //-------------MŽNL---------------------------
 
             case "Banovac":
                 return "\n" +
@@ -242,24 +242,24 @@ public class FetchStartData {
                     String[] podatciOKlubovima = tekst.split("!!!!!!!!!!");
                     for (String podatakOKlubu : podatciOKlubovima) {
                         String[] vrijednostiZaJedanKlub = podatakOKlubu.split("##########");
-                        if (vrijednostiZaJedanKlub[0].equals("dozvola")){
+                        if (vrijednostiZaJedanKlub[0].equals("dozvola")) {
                             if (vrijednostiZaJedanKlub[1].equals("da")) {
                                 prikaziGrbove = true;
                             }
-                        }else if (vrijednostiZaJedanKlub[0].equals("MZNL")){
+                        } else if (vrijednostiZaJedanKlub[0].equals("MZNL")) {
                             ContextSettings.setURLM(vrijednostiZaJedanKlub[1]);
-                        }else if (vrijednostiZaJedanKlub[0].equals("PZNL")){
+                        } else if (vrijednostiZaJedanKlub[0].equals("PZNL")) {
                             ContextSettings.setURLP(vrijednostiZaJedanKlub[1]);
-                        }else if (vrijednostiZaJedanKlub[0].equals("DZNL")){
+                        } else if (vrijednostiZaJedanKlub[0].equals("DZNL")) {
                             ContextSettings.setURLD(vrijednostiZaJedanKlub[1]);
-                        }else if (vrijednostiZaJedanKlub[0].equals("TZNL")){
+                        } else if (vrijednostiZaJedanKlub[0].equals("TZNL")) {
                             ContextSettings.setURLT(vrijednostiZaJedanKlub[1]);
-                        }else if (vrijednostiZaJedanKlub[0].equals("JUNI")){
+                        } else if (vrijednostiZaJedanKlub[0].equals("JUNI")) {
                             ContextSettings.setURLJ(vrijednostiZaJedanKlub[1]);
                         }
                         Log.i("PORUKA", vrijednostiZaJedanKlub[0] + " -> " + vrijednostiZaJedanKlub[1]);
                     }
-                }catch (Exception e){
+                } catch (Exception e) {
                 }
             } catch (IOException e) {
                 e.printStackTrace();

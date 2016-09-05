@@ -14,11 +14,11 @@ import java.util.List;
  */
 public class WebDataManipulator {
 
-    public static List<Momcad> sokolTable(Document document){
+    public static List<Momcad> sokolTable(Document document) {
         List<Momcad> teamOrderList = new ArrayList<>();
-        boolean flag = false, prvi=true;
+        boolean flag = false, prvi = true;
         String[] teamData = new String[9];
-        int i=0,j=0;
+        int i = 0, j = 0;
 
         Elements podatci = document.select("td[valign=top]");
         for (Element podatak : podatci) {
@@ -54,9 +54,9 @@ public class WebDataManipulator {
         return teamOrderList;
     }
 
-    public static List<Kolo> sokolRaspored(Document document){
+    public static List<Kolo> sokolRaspored(Document document) {
         boolean pronasaoPodatke = false;
-        String[] mojipodatci = new String[6];
+        String[] data = new String[6];
         List<Kolo> matches = new ArrayList<Kolo>();
         int brojKola = 0;
         String privremena = " ";
@@ -71,14 +71,14 @@ public class WebDataManipulator {
             //kada nađeš datum, tada znaš da slijede podatci
             if (pronasaoPodatke) {
                 if (j < 6) {
-                    mojipodatci[j] = tekstPodatka;
+                    data[j] = tekstPodatka;
                     j++;
                 } else {
                     j = 0;
                     pronasaoPodatke = false;
                     matches.add(new Kolo(
-                            brojKola, mojipodatci[2], mojipodatci[4],
-                            mojipodatci[5], mojipodatci[0], mojipodatci[1]
+                            brojKola, data[2], data[4],
+                            data[5], data[0], data[1]
                     ));
                 }
             }
@@ -89,10 +89,10 @@ public class WebDataManipulator {
                 brojKola = Integer.valueOf(privremena);
                 if (brojKola > odredivanjeSlobodnogKola + 1) {
                     matches.add(new Kolo(
-                            brojKola-1, "E", "E", "E", "E", "E"));
+                            brojKola - 1, "E", "E", "E", "E", "E"));
                 }
                 odredivanjeSlobodnogKola = brojKola;
-                mojipodatci[0] = tekstPodatka;
+                data[0] = tekstPodatka;
                 pronasaoPodatke = true;
             }
             privremena = tekstPodatka;
@@ -100,10 +100,10 @@ public class WebDataManipulator {
         return matches;
     }
 
-    public static List<Posljednje> sokolPosljednjeKolo(Document document){
+    public static List<Posljednje> sokolPosljednjeKolo(Document document) {
         int j = 0;
         boolean pronasaoPodatke = false;
-        String[] mojipodatci = new String[6];
+        String[] data = new String[6];
         List<Posljednje> posljednjeList = new ArrayList<>();
 
         Elements podatciRaspored = document.select("td[nowrap=nowrap]");
@@ -113,13 +113,13 @@ public class WebDataManipulator {
             tekstPodatka = tekstPodatka.replaceAll("\\s+$", "");
             if (pronasaoPodatke) {
                 if (j < 6) {
-                    mojipodatci[j] = tekstPodatka;
+                    data[j] = tekstPodatka;
                     j++;
                 } else {
                     j = 0;
                     pronasaoPodatke = false;
                     posljednjeList.add(new Posljednje(
-                            mojipodatci[1], mojipodatci[4], mojipodatci[5]
+                            data[1], data[4], data[5]
                     ));
                 }
             } else if (tekstPodatka.length() > 2 && tekstPodatka.charAt(2) == ':') {
@@ -130,7 +130,8 @@ public class WebDataManipulator {
         }
         return posljednjeList;
     }
-    public static int sokolPosljednjeKoloBroj(Document document){
+
+    public static int sokolPosljednjeKoloBroj(Document document) {
         int brojPosljednjegKola = 0;
         Elements podatciOKolu = document.select("option");
         for (Element podatakOKolu : podatciOKolu) {
@@ -142,6 +143,7 @@ public class WebDataManipulator {
         }
         return brojPosljednjegKola;
     }
+
     public static int sokolPosljednjeKoloPrikazano(Document document) {
         int brojPrikazanogKola = 0;
         Elements podatciOKolu = document.select("option");

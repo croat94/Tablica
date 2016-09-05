@@ -17,8 +17,6 @@ import android.widget.ListAdapter;
 import android.widget.ListView;
 import android.widget.TextView;
 
-import com.google.android.gms.ads.AdRequest;
-import com.google.android.gms.ads.AdView;
 import com.rafo.jasamrafoooo.znl_rezultati.util.ContextSettings;
 
 import org.jsoup.Jsoup;
@@ -73,7 +71,7 @@ public class Tablica extends FragmentActivity {
                     i.putExtra("newUrl", URL);
                     if (prethodnoPozvanPosljednje) {
                         i.setFlags(Intent.FLAG_ACTIVITY_REORDER_TO_FRONT);
-                    }else {
+                    } else {
                         prethodnoPozvanPosljednje = true;
                     }
                     startActivity(i);
@@ -121,7 +119,7 @@ public class Tablica extends FragmentActivity {
 
         @Override
         protected void onPostExecute(Void aVoid) {
-            if (teamOrderList.size()>0) {
+            if (teamOrderList.size() > 0) {
                 mojAdapter = new TablicaAdapter(getApplicationContext(),
                         teamOrderList);
                 txtView = (TextView) findViewById(R.id.momcad);
@@ -136,7 +134,7 @@ public class Tablica extends FragmentActivity {
                             }
                         }
                 );
-            }else {
+            } else {
                 runOnUiThread(new Runnable() {
                     @Override
                     public void run() {
@@ -227,6 +225,6 @@ public class Tablica extends FragmentActivity {
     @Override
     protected void onNewIntent(Intent intent) {
         super.onNewIntent(intent);
-        overridePendingTransition(0,0);
+        overridePendingTransition(0, 0);
     }
 }

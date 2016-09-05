@@ -59,6 +59,7 @@ public class PosljednjeKolo extends Activity {
             originalURL = extras.getString("newUrl");
             URL = originalURL;
         }
+
         System.setProperty("http.keepAlive", "false");
         Button buttonTablica2 = (Button) findViewById(R.id.buttonTablica2);
         Button buttonPosljednje2 = (Button) findViewById(R.id.buttonPosljednje2);
@@ -69,6 +70,7 @@ public class PosljednjeKolo extends Activity {
         buttonSljedeceKolo = (Button) findViewById(R.id.buttonSljedeceKolo);
         spinnerKolo = (Spinner) findViewById(R.id.spinnerKolo);
         ListView predlozak_za_posljednje_kolo = (ListView) findViewById(R.id.predlozak_za_posljednje_kolo);
+
         spinnerKolo.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
             @Override
             public void onItemSelected(AdapterView<?> parentView, View selectedItemView, int position, long id) {
@@ -92,6 +94,7 @@ public class PosljednjeKolo extends Activity {
             }
 
         });
+
         ContextSettings.setUpAd(this, R.id.adView3);
         pokreni();
     }
@@ -138,7 +141,7 @@ public class PosljednjeKolo extends Activity {
                 lista.setAdapter(mojAdapter);
                 dodajSvaKolaUListu(brojPosljednjegKola);
                 provjeriJeLiPrvoIliZadnje();
-            }else{
+            } else {
                 runOnUiThread(new Runnable() {
                     @Override
                     public void run() {
@@ -149,13 +152,6 @@ public class PosljednjeKolo extends Activity {
         }
     }
 
-    public void clickedButtonTablica(View view) {
-        Intent i = new Intent(getApplicationContext(), Tablica.class);
-        //i.putExtra("newUrl", URL);
-        i.setFlags(Intent.FLAG_ACTIVITY_REORDER_TO_FRONT);
-        startActivity(i);
-    }
-
     public void dodajSvaKolaUListu(int maxBrojKola) {
         ArrayList<Integer> lista = new ArrayList<Integer>(maxBrojKola);
         for (int brojac = 0; brojac < maxBrojKola; brojac++) {
@@ -164,6 +160,13 @@ public class PosljednjeKolo extends Activity {
         ArrayAdapter<Integer> adapter = new ArrayAdapter<Integer>(this, android.R.layout.simple_spinner_item, lista);
         spinnerKolo.setAdapter(adapter);
         spinnerKolo.setSelection(brojPrikazanogKola - 1);
+    }
+
+    public void clickedButtonTablica(View view) {
+        Intent i = new Intent(getApplicationContext(), Tablica.class);
+        //i.putExtra("newUrl", URL);
+        i.setFlags(Intent.FLAG_ACTIVITY_REORDER_TO_FRONT);
+        startActivity(i);
     }
 
     public void onClickButtonProsloKolo(View view) {
@@ -223,6 +226,6 @@ public class PosljednjeKolo extends Activity {
     @Override
     protected void onNewIntent(Intent intent) {
         super.onNewIntent(intent);
-        overridePendingTransition(0,0);
+        overridePendingTransition(0, 0);
     }
 }
