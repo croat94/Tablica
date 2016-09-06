@@ -2,6 +2,8 @@ package com.rafo.jasamrafoooo.znl_rezultati.util;
 
 import android.app.Activity;
 import android.content.Context;
+import android.graphics.drawable.AnimationDrawable;
+import android.widget.ImageView;
 
 import com.google.android.gms.ads.AdRequest;
 import com.google.android.gms.ads.AdView;
@@ -17,6 +19,7 @@ public class ContextSettings {
     public static String URLD = "";
     public static String URLT = "";
     public static String URLJ = "";
+    private static AnimationDrawable animation;
 
     public static String getURLM() {
         return URLM;
@@ -68,5 +71,20 @@ public class ContextSettings {
                 .addTestDevice("AF8BE4CB49854EC57FD72F2C4B84859") //dodati id svih uredaja na kojima se testira
                 .build();
         adView.loadAd(adRequest);
+    }
+
+    public static void showLoader(Activity activity, int id){
+        ImageView image;
+        image = (ImageView) activity.findViewById(id);
+        image.setBackgroundResource(R.drawable.animation);
+        animation = (AnimationDrawable) image.getBackground();
+        animation.start();
+    }
+
+    public static void hideLoader(Activity activity, int id){
+        ImageView image;
+        image = (ImageView) activity.findViewById(id);
+        animation.stop();
+        image.setBackgroundResource(0);
     }
 }

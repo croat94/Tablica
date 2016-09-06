@@ -25,12 +25,12 @@
         android:layout_centerHorizontal="true"/>
 
     <ImageView
-        android:layout_width="27dp"
-        android:layout_height="50dp"
+        android:layout_width="100dp"
+        android:layout_height="100dp"
         android:id="@+id/imageView2"
         android:layout_above="@+id/textView2"
-        android:layout_centerHorizontal="true"
-        android:layout_marginBottom="44dp" />
+        android:layout_alignRight="@+id/textView2"
+        android:layout_alignEnd="@+id/textView2" />
 
 
 </RelativeLayout>

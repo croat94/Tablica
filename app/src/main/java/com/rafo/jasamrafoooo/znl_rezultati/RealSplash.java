@@ -60,8 +60,8 @@ public class RealSplash extends Activity {
     }
 
     public void dataLoaded() {
-//        Intent i = new Intent(RealSplash.this, SplashScreen.class);
-//        startActivity(i);
-//        finish();
+        Intent i = new Intent(RealSplash.this, SplashScreen.class);
+        startActivity(i);
+        finish();
     }
 }
