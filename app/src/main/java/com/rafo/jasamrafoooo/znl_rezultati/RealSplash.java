@@ -5,24 +5,31 @@ import android.app.AlertDialog;
 import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
+import android.graphics.drawable.AnimationDrawable;
 import android.net.ConnectivityManager;
 import android.net.NetworkInfo;
 import android.os.Bundle;
-import android.widget.ProgressBar;
+import android.widget.ImageView;
 
 
 public class RealSplash extends Activity {
+
+    AnimationDrawable animation;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_real_splash);
+        ImageView rocketImage = (ImageView) findViewById(R.id.imageView2);
+        rocketImage.setBackgroundResource(R.drawable.animation);
+        animation = (AnimationDrawable) rocketImage.getBackground();
+        animation.start();
 
         boolean spojen = isNetworkAvailable();
-        if (!spojen) {
-            showAlertDialog();
-        } else {
+        if (spojen) {
             new FetchStartData(this);
+        } else {
+            showAlertDialog();
         }
     }
 
@@ -53,8 +60,8 @@ public class RealSplash extends Activity {
     }
 
     public void dataLoaded() {
-        Intent i = new Intent(RealSplash.this, SplashScreen.class);
-        startActivity(i);
-        finish();
+//        Intent i = new Intent(RealSplash.this, SplashScreen.class);
+//        startActivity(i);
+//        finish();
     }
 }
