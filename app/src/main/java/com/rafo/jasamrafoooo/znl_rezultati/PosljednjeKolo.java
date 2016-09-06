@@ -16,8 +16,6 @@ import android.widget.ListAdapter;
 import android.widget.ListView;
 import android.widget.Spinner;
 
-import com.google.android.gms.ads.AdRequest;
-import com.google.android.gms.ads.AdView;
 import com.rafo.jasamrafoooo.znl_rezultati.util.ContextSettings;
 
 import org.jsoup.Jsoup;
@@ -74,9 +72,9 @@ public class PosljednjeKolo extends Activity {
         spinnerKolo.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
             @Override
             public void onItemSelected(AdapterView<?> parentView, View selectedItemView, int position, long id) {
-                URL = originalURL + "/r," + spinnerKolo.getSelectedItem().toString();
+                URL = originalURL + "/r," + spinnerKolo.getSelectedItem().toString().replace(". kolo","");
                 Log.i("MOJ TAG URL", URL);
-                if (brojPrikazanogKola != spinnerKolo.getSelectedItem())
+                if (!String.valueOf(brojPrikazanogKola).equals(spinnerKolo.getSelectedItem().toString().replace(". kolo","")))
                     pokreni();
             }
 
@@ -153,11 +151,12 @@ public class PosljednjeKolo extends Activity {
     }
 
     public void dodajSvaKolaUListu(int maxBrojKola) {
-        ArrayList<Integer> lista = new ArrayList<Integer>(maxBrojKola);
+        ArrayList<String> lista = new ArrayList<String>(maxBrojKola);
         for (int brojac = 0; brojac < maxBrojKola; brojac++) {
-            lista.add(brojac + 1);
+            lista.add(brojac + 1 + ". kolo");
         }
-        ArrayAdapter<Integer> adapter = new ArrayAdapter<Integer>(this, android.R.layout.simple_spinner_item, lista);
+        ArrayAdapter<String> adapter = new ArrayAdapter<String>(this, android.R.layout.simple_spinner_item, lista);
+        adapter.setDropDownViewResource(android.R.layout.select_dialog_item);
         spinnerKolo.setAdapter(adapter);
         spinnerKolo.setSelection(brojPrikazanogKola - 1);
     }

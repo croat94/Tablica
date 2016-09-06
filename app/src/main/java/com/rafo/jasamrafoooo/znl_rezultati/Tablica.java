@@ -84,26 +84,34 @@ public class Tablica extends FragmentActivity {
 
     public void glavniPosao() {
 
-        progress = ProgressDialog.show(this, "Dohvaćanje podataka",
-                "Pričekajte...", true);
-        progress.setCancelable(true);
-        progress.setCanceledOnTouchOutside(false);
-        progress.setOnCancelListener(new DialogInterface.OnCancelListener() {
-            @Override
-            public void onCancel(DialogInterface dialog) {
-                finish();
-            }
-        });
+//        progress = ProgressDialog.show(this, "Dohvaćanje podataka",
+//                "Pričekajte...", true);
+//        progress.setCancelable(true);
+//        progress.setCanceledOnTouchOutside(false);
+//        progress.setOnCancelListener(new DialogInterface.OnCancelListener() {
+//            @Override
+//            public void onCancel(DialogInterface dialog) {
+//                finish();
+//            }
+//        });
+        ContextSettings.showLoader(this, R.id.imageView3);
 
         boolean spojen = isNetworkAvailable();
         if (!spojen) {
             internetNeRadiAlertDialog();
         } else {
-            new FetchWebsiteData().execute();
+            new FetchWebsiteData(this).execute();
         }
     }
 
     private class FetchWebsiteData extends AsyncTask<Void, Void, Void> {
+
+        public Tablica activity;
+
+        public FetchWebsiteData(Tablica a)
+        {
+            this.activity = a;
+        }
 
         @Override
         protected Void doInBackground(Void... params) {
@@ -123,7 +131,7 @@ public class Tablica extends FragmentActivity {
                 mojAdapter = new TablicaAdapter(getApplicationContext(),
                         teamOrderList);
                 txtView = (TextView) findViewById(R.id.momcad);
-                progress.dismiss();
+                ContextSettings.hideLoader(activity, R.id.imageView3);
                 ListView lista = (ListView) findViewById(R.id.predlozak_tablica_redak);
                 lista.setAdapter(mojAdapter);
                 lista.setOnItemClickListener(
