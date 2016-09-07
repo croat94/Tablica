@@ -30,7 +30,6 @@ public class PosljednjeKolo extends Activity {
 
     private static String originalURL;
     public String URL;
-    ProgressDialog progress;
     public ListAdapter mojAdapter;
     public int i = 0;
     public int brojPrikazanogKola;
@@ -98,23 +97,21 @@ public class PosljednjeKolo extends Activity {
     }
 
     public void pokreni() {
-        progress = ProgressDialog.show(this, "Dohvaćanje podataka",
-                "Pričekajte...", true);
-        progress.setCancelable(true);
-        progress.setCanceledOnTouchOutside(false);
-        progress.setOnCancelListener(new DialogInterface.OnCancelListener() {
-            @Override
-            public void onCancel(DialogInterface dialog) {
-                finish();
-            }
-        });
+        ContextSettings.showLoader(this, R.id.imageView6);
         buttonProsloKolo.setEnabled(true);
         buttonSljedeceKolo.setEnabled(true);
         i = 0;
-        new FetchWebsiteData().execute();
+        new FetchWebsiteData(this).execute();
     }
 
     private class FetchWebsiteData extends AsyncTask<Void, Void, Void> {
+
+        public PosljednjeKolo activity;
+
+        public FetchWebsiteData(PosljednjeKolo a)
+        {
+            this.activity = a;
+        }
 
         @Override
         protected Void doInBackground(Void... params) {
@@ -132,7 +129,7 @@ public class PosljednjeKolo extends Activity {
 
         @Override
         protected void onPostExecute(Void aVoid) {
-            progress.dismiss();
+            ContextSettings.hideLoader(activity, R.id.imageView6);
             if (posljednjeList.size() > 0) {
                 mojAdapter = new PosljednjeAdapter(getApplicationContext(), posljednjeList);
                 ListView lista = (ListView) findViewById(R.id.predlozak_za_posljednje_kolo);
@@ -219,7 +216,7 @@ public class PosljednjeKolo extends Activity {
     @Override
     protected void onPause() {
         super.onPause();
-        progress.dismiss();
+        ContextSettings.hideLoader(this, R.id.imageView6);
     }
 
     @Override

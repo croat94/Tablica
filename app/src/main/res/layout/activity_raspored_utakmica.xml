@@ -43,8 +43,20 @@
         android:layout_weight="1"
         android:id="@+id/predlozak_za_raspored"
         android:divider="#006699"
-        android:dividerHeight="1px">
+        android:dividerHeight="1px"
+        android:background="@drawable/list_border"
+        android:paddingBottom="2dp"
+        android:paddingTop="1dp"
+        >
     </ListView>
+
+    <ImageView
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:id="@+id/imageView7"
+        android:scaleType="fitCenter"
+        android:adjustViewBounds="true"
+        />
 
     <com.google.android.gms.ads.AdView
         xmlns:ads="http://schemas.android.com/apk/res-auto"

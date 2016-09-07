@@ -35,7 +35,6 @@ public class RasporedUtakmica extends Activity {
     public String URL;
     public ListAdapter mojAdapter;
     public String rasporedURL;
-    ProgressDialog progress;
     public ImageView slikaKluba;
     private List<Kolo> matches = new ArrayList<Kolo>();
 
@@ -58,21 +57,18 @@ public class RasporedUtakmica extends Activity {
     }
 
     public void pokreni() {
-        progress = ProgressDialog.show(this, "Dohvaćanje podataka",
-                "Pričekajte...", true);
-        progress.setCancelable(true);
-        progress.setCanceledOnTouchOutside(false);
-        progress.setOnCancelListener(new DialogInterface.OnCancelListener() {
-            @Override
-            public void onCancel(DialogInterface dialog) {
-                finish();
-            }
-        });
-
-        new FetchWebsiteData().execute();
+        ContextSettings.showLoader(this, R.id.imageView7);
+        new FetchWebsiteData(this).execute();
     }
 
     private class FetchWebsiteData extends AsyncTask<Void, Void, Void> {
+
+        public RasporedUtakmica activity;
+
+        public FetchWebsiteData(RasporedUtakmica a)
+        {
+            this.activity = a;
+        }
 
         @Override
         protected Void doInBackground(Void... params) {
@@ -90,7 +86,7 @@ public class RasporedUtakmica extends Activity {
 
         @Override
         protected void onPostExecute(Void aVoid) {
-            progress.dismiss();
+            ContextSettings.hideLoader(activity, R.id.imageView7);
             if (matches.size() > 0) {
                 mojAdapter = new RasporedAdapter(getApplicationContext(), matches);
                 ListView lista = (ListView) findViewById(R.id.predlozak_za_raspored);
@@ -167,7 +163,7 @@ public class RasporedUtakmica extends Activity {
     @Override
     protected void onPause() {
         super.onPause();
-        progress.dismiss();
+        ContextSettings.hideLoader(this, R.id.imageView7);
     }
 
 }

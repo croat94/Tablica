@@ -3,6 +3,7 @@ package com.rafo.jasamrafoooo.znl_rezultati.util;
 import android.app.Activity;
 import android.content.Context;
 import android.graphics.drawable.AnimationDrawable;
+import android.graphics.drawable.Drawable;
 import android.widget.ImageView;
 
 import com.google.android.gms.ads.AdRequest;
@@ -76,8 +77,8 @@ public class ContextSettings {
     public static void showLoader(Activity activity, int id){
         ImageView image;
         image = (ImageView) activity.findViewById(id);
-        image.setBackgroundResource(R.drawable.animation);
-        animation = (AnimationDrawable) image.getBackground();
+        image.setImageDrawable(activity.getResources().getDrawable(R.drawable.animation));
+        animation = (AnimationDrawable) image.getDrawable();
         animation.start();
     }
 
@@ -85,6 +86,6 @@ public class ContextSettings {
         ImageView image;
         image = (ImageView) activity.findViewById(id);
         animation.stop();
-        image.setBackgroundResource(0);
+        image.setImageDrawable(null);
     }
 }

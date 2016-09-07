@@ -32,7 +32,6 @@ import java.util.List;
 public class Tablica extends FragmentActivity {
 
     private String URL;
-    private ProgressDialog progress;
     private ListAdapter mojAdapter;
     public TextView txtView;
     private boolean prethodnoPozvanPosljednje = false;
@@ -87,16 +86,6 @@ public class Tablica extends FragmentActivity {
 
     public void glavniPosao() {
 
-//        progress = ProgressDialog.show(this, "Dohvaćanje podataka",
-//                "Pričekajte...", true);
-//        progress.setCancelable(true);
-//        progress.setCanceledOnTouchOutside(false);
-//        progress.setOnCancelListener(new DialogInterface.OnCancelListener() {
-//            @Override
-//            public void onCancel(DialogInterface dialog) {
-//                finish();
-//            }
-//        });
         ContextSettings.showLoader(this, R.id.imageView3);
 
         boolean spojen = isNetworkAvailable();
@@ -130,11 +119,11 @@ public class Tablica extends FragmentActivity {
 
         @Override
         protected void onPostExecute(Void aVoid) {
+            ContextSettings.hideLoader(activity, R.id.imageView3);
             if (teamOrderList.size() > 0) {
                 mojAdapter = new TablicaAdapter(getApplicationContext(),
                         teamOrderList);
                 txtView = (TextView) findViewById(R.id.momcad);
-                ContextSettings.hideLoader(activity, R.id.imageView3);
                 ListView lista = (ListView) findViewById(R.id.predlozak_tablica_redak);
                 lista.setAdapter(mojAdapter);
                 lista.setOnItemClickListener(

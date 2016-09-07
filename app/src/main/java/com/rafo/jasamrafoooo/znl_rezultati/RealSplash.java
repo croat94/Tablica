@@ -11,6 +11,8 @@ import android.net.NetworkInfo;
 import android.os.Bundle;
 import android.widget.ImageView;
 
+import com.rafo.jasamrafoooo.znl_rezultati.util.ContextSettings;
+
 
 public class RealSplash extends Activity {
 
@@ -20,6 +22,7 @@ public class RealSplash extends Activity {
         setContentView(R.layout.activity_real_splash);
         boolean spojen = isNetworkAvailable();
         if (spojen) {
+            ContextSettings.showLoader(this, R.id.imageView2);
             new FetchStartData(this);
         } else {
             showAlertDialog();
